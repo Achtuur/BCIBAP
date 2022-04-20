@@ -28,3 +28,27 @@ The sections after that detail the other state-of-the-art approaches, the system
 Important conclusions:
 The SVM approach provides way better performance for the smaller time windows(2, 3, 4 seconds), compared to the other approaches.
 pretraining the ML model on evolutionary algorithm is a well performing choice
+
+
+A Study of Evoked Potentials From Ear-EEG
+This paper is very similair to the "Dry-Contact_Electrode_Ear-EEG" paper and also drawes the same conclusion that for most applications the ear-electrodes are useful.
+
+Words and pseudowords elicit distinct patterns of 30-Hz EEG responses in humans
+The title is basically the summary. this might be useful for authentication by letting the subject remember a series of nonsense and normal words in a order that only he knows. It can be quite easily picked up from temporal information what the order of the words is, which can act as a password.
+
+Individual Classification of Emotions Using EEG
+Classification between 4 different emotions that are elicited using video's is obtained with an accuracy of 97%. This is done by using signal processing and machine learning on signals from an EEG.
+
+Rapid Memory Reactivation Revealed by Osicllatory Entrainment
+The article is about an experiment in which researchers tagged certain memories of subjects. This was done by making the subjects look at words with a flickering background that has a certain frequency. When the words are later shown to them without the flickering, the same activation that was caused by the frequency is still visible in an EEG.
+This could be really useful by calibrating the device by tagging a word or other memory and showing this word again when trying to log in somewhere. I have not yet found many papers supporting this paper.
+
+Assessing the utility of frequency tagging for tracking memory-based reactivation of word representations
+Quite like the "Rapid Memory Reactivation Revealed by Osicllatory Entrainment" paper, so extra evidence that frequency tagging might be a viable option.
+
+Probing cortical excitability using rapid frequency tagging
+This paper provides prove that frequency tagging is also possible at higher frequencies. 
+
+Brain EEG signal processing for controlling a robotic arm
+T is 10 voor 5 dus ga hier morgen uitgebreider naar kijken, maar dit was even een hersenspinseltje. Voor nu lijkt het me wel cool dat als je iemand kan aanleren een derde arm te besturen op basis van een EEG je dit mss ook met een virtuele arm kan doen oid die een beweging moet maken oid als wachtwoord. Het hoeft natuurlijk ook niet om een arm te gaan per se, maar wel cool bewijs dat je het brein iets aan kan leren dus wij zouden ook een brein aan kunnen leren om met hersenen een wachtwoord in te vullen.
+

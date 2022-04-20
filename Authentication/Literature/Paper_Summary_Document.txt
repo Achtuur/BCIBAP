@@ -25,3 +25,11 @@ For the mismatch paradigm, the within-ear electrodes did not deliver statistical
 For the alpha band paradigm, both the ear-scalp and the within-ear configurations. The ear-scalp had a clearer result.
 General conclusion:
 "We believe that the prototyped dry-contact ear-EEG platform represents an important technological advancement in user-friendliness, because it eliminates the need for gel in the electrode-skin interface"
+
+Paper on classifying EEG single channel SSVEP-based BCI through SVM:
+This paper compares using optimized support vector machine(SVM) ML model to other state of the art models for classication.
+The Introduction explains EEG on a basic level, which makes it very understandable
+The sections after that detail the other state-of-the-art approaches, the system & experiment setup, and results & conclusions.
+Important conclusions:
+The SVM approach provides way better performance for the smaller time windows(2, 3, 4 seconds), compared to the other approaches.
+pretraining the ML model on evolutionary algorithm is a well performing choice

@@ -9,3 +9,7 @@ https://www.frontiersin.org/articles/10.3389/fninf.2015.00016/full
 
 - This video discusses fundamentals of wavelet transform
 https://www.youtube.com/watch?v=y7KLbd7n75g&ab_channel=SteveBrunton
+
+- This website explains how figures of EEG typically look, and explains how to draw conclusions from such a figure, (and gives medical context to it)
+https://www.ncbi.nlm.nih.gov/books/NBK390346/#:~:text=EEG%20uses%20the%20principle%20of,neighboring%20or%20distant%20reference%20electrode.
+

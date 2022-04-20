@@ -6,3 +6,6 @@ https://mne.tools/dev/index.html
 
 - This website discusses a pipeline for standardized preprocessing of EEG's
 https://www.frontiersin.org/articles/10.3389/fninf.2015.00016/full
+
+- This video discusses fundamentals of wavelet transform
+https://www.youtube.com/watch?v=y7KLbd7n75g&ab_channel=SteveBrunton

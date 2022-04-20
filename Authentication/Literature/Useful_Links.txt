@@ -1,0 +1,8 @@
+- This website discusses pre-processing steps for EEG data and links a lot of articles:
+https://www.researchgate.net/post/What-are-the-preprocessing-methods-to-enhance-EEG-data-for-general-purpose
+
+- Open-source Python package for exploring, visualizing, and analyzing human neurophysiological data: MEG, EEG, sEEG, ECoG, NIRS, and more
+https://mne.tools/dev/index.html
+
+- This website discusses a pipeline for standardized preprocessing of EEG's
+https://www.frontiersin.org/articles/10.3389/fninf.2015.00016/full

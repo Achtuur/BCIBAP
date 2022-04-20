@@ -1,0 +1,3 @@
+- paper_on_preprocessing_eeg.pdf
+This paper discusses a standardized pipeline for preprocessing of EEG signals. It discusses why standardized data is important and types of noise which occur in the measurements:
+1. Line Noise: gamma band 50-60 Hz

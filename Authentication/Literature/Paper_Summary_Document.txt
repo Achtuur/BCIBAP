@@ -6,6 +6,11 @@ Conclusion:
 Approach is able to preprocess data and detect problems with dataset that can cause downstream issues. There is also something about
 classification but this is discussed briefly.
 
+- paper_comparision_wavelet_fft.pdf
+This paper discusses an alternative to the Fast Fourier Transform, the Wavelet Transform, which is a tradeoff between showing the frequency components somewhat accurately, while keeping information about when these frequencies occur in the time domain.
+Conclusion: 
+The wavelet transform works better for detecting abnormal brain activity (seizures)
+
 
 Dry-Contact_Electrode_Ear-EEG
 This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.

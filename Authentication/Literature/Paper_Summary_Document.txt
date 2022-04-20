@@ -1,3 +1,17 @@
 - paper_on_preprocessing_eeg.pdf
 This paper discusses a standardized pipeline for preprocessing of EEG signals. It discusses why standardized data is important and types of noise which occur in the measurements:
 1. Line Noise: gamma band 50-60 Hz
+
+Dry-Contact_Electrode_Ear-EEG
+This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.
+It has four parts:
+1. Describes the dry-contact ear-EEG platform
+2. Describes experimental set up
+3. Describes experimental paradigms and signal processing methods
+4. Describes evaluation methods for skin impedance
+Important conclusions:
+Both auditory and visual steady-state responses are visible and statistically relevant using within-ear EEG.
+For the mismatch paradigm, the within-ear electrodes did not deliver statistically significant results. The between ears set-up did provide a image of the first 2 negative and first positive potential differences that where also seen in the normal EEG.
+For the alpha band paradigm, both the ear-scalp and the within-ear configurations. The ear-scalp had a clearer result.
+General conclusion:
+"We believe that the prototyped dry-contact ear-EEG platform represents an important technological advancement in user-friendliness, because it eliminates the need for gel in the electrode-skin interface"

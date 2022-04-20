@@ -1,6 +1,11 @@
 - paper_on_preprocessing_eeg.pdf
 This paper discusses a standardized pipeline for preprocessing of EEG signals. It discusses why standardized data is important and types of noise which occur in the measurements:
-1. Line Noise: gamma band 50-60 Hz
+1. Line Noise: This is noise caused by the interference of Power Lines on the gamma band in the 50-60 Hz range;
+2. Bad/outlier channels: Sometimes, a recorded is simply useless for whatever reason, but this can be detected and disregarded;
+Conclusion:
+Approach is able to preprocess data and detect problems with dataset that can cause downstream issues. There is also something about
+classification but this is discussed briefly.
+
 
 Dry-Contact_Electrode_Ear-EEG
 This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.

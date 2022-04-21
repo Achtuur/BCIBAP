@@ -1,3 +1,4 @@
+PREPROCESSING:
 - paper_on_preprocessing_eeg.pdf
 This paper discusses a standardized pipeline for preprocessing of EEG signals. It discusses why standardized data is important and types of noise which occur in the measurements:
 1. Line Noise: This is noise caused by the interference of Power Lines on the gamma band in the 50-60 Hz range;
@@ -11,7 +12,7 @@ This paper discusses an alternative to the Fast Fourier Transform, the Wavelet T
 Conclusion: 
 The wavelet transform works better for detecting abnormal brain activity (seizures)
 
-
+IN-EAR VS SCALP:
 Dry-Contact_Electrode_Ear-EEG
 This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.
 It has four parts:
@@ -26,17 +27,10 @@ For the alpha band paradigm, both the ear-scalp and the within-ear configuration
 General conclusion:
 "We believe that the prototyped dry-contact ear-EEG platform represents an important technological advancement in user-friendliness, because it eliminates the need for gel in the electrode-skin interface"
 
-Paper on classifying EEG single channel SSVEP-based BCI through SVM:
-This paper compares using optimized support vector machine(SVM) ML model to other state of the art models for classication.
-The Introduction explains EEG on a basic level, which makes it very understandable
-The sections after that detail the other state-of-the-art approaches, the system & experiment setup, and results & conclusions.
-Important conclusions:
-The SVM approach provides way better performance for the smaller time windows(2, 3, 4 seconds), compared to the other approaches.
-pretraining the ML model on evolutionary algorithm is a well performing choice
-
-
 A Study of Evoked Potentials From Ear-EEG
 This paper is very similair to the "Dry-Contact_Electrode_Ear-EEG" paper and also drawes the same conclusion that for most applications the ear-electrodes are useful.
+
+REACTION PER STIMULANCE:
 
 Words and pseudowords elicit distinct patterns of 30-Hz EEG responses in humans
 The title is basically the summary. this might be useful for authentication by letting the subject remember a series of nonsense and normal words in a order that only he knows. It can be quite easily picked up from temporal information what the order of the words is, which can act as a password.
@@ -55,5 +49,25 @@ Probing cortical excitability using rapid frequency tagging
 This paper provides prove that frequency tagging is also possible at higher frequencies. 
 
 Brain EEG signal processing for controlling a robotic arm
-T is 10 voor 5 dus ga hier morgen uitgebreider naar kijken, maar dit was even een hersenspinseltje. Voor nu lijkt het me wel cool dat als je iemand kan aanleren een derde arm te besturen op basis van een EEG je dit mss ook met een virtuele arm kan doen oid die een beweging moet maken oid als wachtwoord. Het hoeft natuurlijk ook niet om een arm te gaan per se, maar wel cool bewijs dat je het brein iets aan kan leren dus wij zouden ook een brein aan kunnen leren om met hersenen een wachtwoord in te vullen.
+This 10 voor 5 dus ga hier morgen uitgebreider naar kijken, maar dit was even een hersenspinseltje. Voor nu lijkt het me wel cool dat als je iemand kan aanleren een derde arm te besturen op basis van een EEG je dit mss ook met een virtuele arm kan doen oid die een beweging moet maken oid als wachtwoord. Het hoeft natuurlijk ook niet om een arm te gaan per se, maar wel cool bewijs dat je het brein iets aan kan leren dus wij zouden ook een brein aan kunnen leren om met hersenen een wachtwoord in te vullen.
+
+
+IDENTIFICATION:
+Paper on classifying EEG single channel SSVEP-based BCI through SVM:
+This paper compares using optimized support vector machine(SVM) ML model to other state of the art models for classication.
+The Introduction explains EEG on a basic level, which makes it very understandable
+The sections after that detail the other state-of-the-art approaches, the system & experiment setup, and results & conclusions.
+Important conclusions:
+The SVM approach provides way better performance for the smaller time windows(2, 3, 4 seconds), compared to the other approaches.
+pretraining the ML model on evolutionary algorithm is a well performing choice
+
+
+
+
+
+
+
+
+
+
 

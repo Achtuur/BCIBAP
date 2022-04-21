@@ -7,10 +7,24 @@ Conclusion:
 Approach is able to preprocess data and detect problems with dataset that can cause downstream issues. There is also something about
 classification but this is discussed briefly.
 
+Classification_of_Mental_Task_From_EEG_Signals_Using_Immune_Feature_Weighted_Support_Vector_Machines
+This paper describes an addition to regular SVM. The idea is to determine weights for each feature using something called the immune algorithm. This concept is called immune feature weight SVM or IFWSVM.
+This method is especially useful on EEG signals due to the onstationary and nonlinear features found in these signals.
+Conclusion: IFWSVM works better for EEG signals than regular SVM.
+
 - paper_comparision_wavelet_fft.pdf
 This paper discusses an alternative to the Fast Fourier Transform, the Wavelet Transform, which is a tradeoff between showing the frequency components somewhat accurately, while keeping information about when these frequencies occur in the time domain.
 Conclusion: 
 The wavelet transform works better for detecting abnormal brain activity (seizures)
+
+Motor_Imagery_EEG_Signals_Classification_Based_on_Mode_Amplitude_and_Frequency_Components_Using_Empirical_Wavelet_Transform
+This paper compares 7 classification methods for EEG signals used for an BCI based on motor imagery.
+The accuracy for these methods is quite high for motor signals. might be useful to look into using these classification methods also on other types of signals that can be used for an BCI.  
+
+Rapid Brain Responses to Familiar vs. Unfamiliar Music – an EEG and Pupillometry study
+This paper describes an experiment. In the experiment the subjects passively listened to 750 ms long music snippets from music that they were familair with or not. In the EEG the difference in perception if it was familiar or not became visible after 350 ms. 
+This paper could be relevant for is if the device could be integrated in earphones.
+Verifying the user could be done in just over a second, which is quite fast. Due to the fact that the listening can be passive (for this experiment all listening was passive), this verification could be done at random intervals in which the device is used.
 
 IN-EAR VS SCALP:
 Dry-Contact_Electrode_Ear-EEG
@@ -48,8 +62,20 @@ Quite like the "Rapid Memory Reactivation Revealed by Osicllatory Entrainment" p
 Probing cortical excitability using rapid frequency tagging
 This paper provides prove that frequency tagging is also possible at higher frequencies. 
 
-Brain EEG signal processing for controlling a robotic arm
-This 10 voor 5 dus ga hier morgen uitgebreider naar kijken, maar dit was even een hersenspinseltje. Voor nu lijkt het me wel cool dat als je iemand kan aanleren een derde arm te besturen op basis van een EEG je dit mss ook met een virtuele arm kan doen oid die een beweging moet maken oid als wachtwoord. Het hoeft natuurlijk ook niet om een arm te gaan per se, maar wel cool bewijs dat je het brein iets aan kan leren dus wij zouden ook een brein aan kunnen leren om met hersenen een wachtwoord in te vullen.
+EEG-Based_Synchronized_Brain-Computer_Interfaces_A_Model_for_Optimizing_the_Number_of_Mental_Tasks
+This paper researchers the optimal number of mental tasks that can be distinquished using an EEG-base BCI. The mental tasks that were used are: simple calculation, imagining finger movement, mentally turning an object and imaginging a song.
+Conclusions that are important for us:
+- 3 or 4 is for most people the optimal number of mental tasks
+- The optimal number of tasks vary per person
+- The signal processing also varies per person; of the 4 participants there were 3 that could use SVM the best and the fourth person responded best to LDA.
+- The average optimal bit rate that was achieved was 0.19 bit/s
+
+NIPS-2003-increase-information-transfer-rates-in-bci-by-csp-extension-to-multi-class-Paper
+Quite an old paper, so not relevant for discovering new techniques. It does however give a nice overview of calculating and optimizing the information transfer rate (ITR) for BCI.
+conclusions that are important for us:
+- 3 or 4 is for most people the optimal number of mental tasks
+- Letting subjects choose their own tasks from a larger number of optional tasks may improve the accuray, because what tasks work best differs between subjects.
+- Training can improve ITR, but this can take up to 300 hours.
 
 
 IDENTIFICATION:

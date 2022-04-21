@@ -12,6 +12,12 @@ This paper discusses an alternative to the Fast Fourier Transform, the Wavelet T
 Conclusion: 
 The wavelet transform works better for detecting abnormal brain activity (seizures)
 
+- paper_that_compares_preprocessing_methods.pdf
+This is a great paper which discusses the techniques to remove artifacts from EEG. This included:
+ - independent component analysis, which means splitting op the components into subcomponents which consist of only one non gausian signal
+ - wavelet analysis (see other papers)
+ - machine learning methods
+
 IN-EAR VS SCALP:
 Dry-Contact_Electrode_Ear-EEG
 This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.

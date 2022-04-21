@@ -62,7 +62,18 @@ The SVM approach provides way better performance for the smaller time windows(2,
 pretraining the ML model on evolutionary algorithm is a well performing choice
 
 
-
+Paper on three-factor passthought identification:
+This paper discusses three factor identification in one step: 
+with inherence(unique features of your person(fingerprint e.g.)): your brain waves
+with possesion(having something): the earpiece
+with knowledge(knowing something): a certain secret thought
+It is done with data from wet electrode earpieces, custom made to a person.
+Section 2 discusses other papers that already explored eeg for authentication. which is interesting later on for us.
+The paper discusses the performance of authentication through accuracy and False Acceptance Rate(FAR) across 9 different mental tasks(all tasks without external stimuli).
+Most important conclusions: 
+99.82% authentication accuracy, with 0 FAR. Imposter attack was explored, but superficially.
+Further research:
+Dry electrodes, imposter attacks, not person specific but more generic earpods.
 
 
 

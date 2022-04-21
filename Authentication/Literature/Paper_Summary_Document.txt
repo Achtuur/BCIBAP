@@ -75,6 +75,17 @@ Most important conclusions:
 Further research:
 Dry electrodes, imposter attacks, not person specific but more generic earpods.
 
+Paper on in-ear eeg biometrics for feasible and readily collectable real-world person authentication:
+This paper discusses a design for an in-ear eeg capable of authentication, based on 4 main pillars:
+1) Collectability (easy to set up in-ear dry electrode eeg)
+2) Uniqueness & permanence (subject dependent eeg features)
+3) Reproducibility (measurements with different subjects over different and multiple days)
+4) Fast response (classification is performed by fast non-parametric/paramteric approaches(cosine distance, LDA, SVM)
+Important conclusions:
+This paper provides proof-of-concept for feasible, collectable and reproducible eeg biometrics.
+Accuracy of 95.7% was achieved in the experiment setups(albeit binary classification setups, and 60s time window).
+Further investigation suggestions: 
+evoked responses, sub ideal measurement conditions (fatigue, sleepiness, alcohol)
 
 
 

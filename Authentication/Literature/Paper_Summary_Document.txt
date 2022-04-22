@@ -121,8 +121,10 @@ Further investigation suggestions:
 evoked responses, sub ideal measurement conditions (fatigue, sleepiness, alcohol)
 
 
+Paper on Mental Task Recognition by EEG Signals: A Novel Approach with ROC Analysis:
+This paper describes a different way of feature extraction for building the EEG classifier. They make reference to and use of benchmarked datasets from colorado state university, which might be good data for us to resort to in case collecting data ourselves goes sideways. They also report on the entire process of building this classifier, which might prove useful for us as well. 
 
-
-
+A Review of Processing Methods and Classification Algorithm for EEG Signal:
+This paper discusses different methods of preprocessing, feature selection and classification qualitatively, by giving an oversight of the advantages and disadvantages of each technique in tabular form.
 
 

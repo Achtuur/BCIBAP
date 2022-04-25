@@ -1,0 +1,6 @@
+--This document is used to provide readable links to overleaf projects--
+1. Literature Study:
+https://www.overleaf.com/read/jjxsgxvghtwj
+
+2. Project Plan:
+https://www.overleaf.com/read/zrwfwpsbyxkg

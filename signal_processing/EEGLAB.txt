@@ -1,0 +1,6 @@
+pop_export.m
+    -change it to always use comma separation instead of a tab
+
+attempt to make the use automatic.
+
+find a way to generate .set files

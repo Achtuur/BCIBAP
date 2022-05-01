@@ -15,3 +15,5 @@ PyWavelets
 scipy
 setuptools
 six
+mne
+scikit-learn

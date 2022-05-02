@@ -6,8 +6,6 @@ numpy
 packaging
 pandas
 Pillow
-pip
-pkg-resources
 pyparsing
 python-dateutil
 pytz
@@ -15,5 +13,9 @@ PyWavelets
 scipy
 setuptools
 six
+<<<<<<< Updated upstream
 mne
 scikit-learn
+=======
+mne
+>>>>>>> Stashed changes

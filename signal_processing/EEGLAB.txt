@@ -3,4 +3,11 @@ pop_export.m
 
 attempt to make the use automatic.
 
-find a way to generate .set files
+find a way to generate .set files`
+
+
+
+interesting functions:
+
+pop_loadset() for loading existing set
+pop_eegfiltnew()  to filter data

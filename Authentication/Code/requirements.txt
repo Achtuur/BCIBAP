@@ -14,3 +14,4 @@ scipy
 setuptools
 six
 scikit-learn
+sklearn

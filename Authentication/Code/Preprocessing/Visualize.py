@@ -22,6 +22,31 @@ class DataPlot():
 
         plt.show(block=True)
 
+    @staticmethod
+    def plot_difference(data: np.ndarray, filtered_data: np.ndarray):
+        # If the shape is not the same, it can't be guaranteed that the same channels are used
+        # if data.shape != filtered_data.shape:
+        #     raise ValueError
+
+        try:
+            num_col = data.shape[1]
+        except IndexError:
+            num_col = 1
+
+        try:
+            fix, axs = plt.subplots(num_col,1)
+            for i in range(num_col):
+                axs[i].plot(data[:,i])
+                axs[i].plot(filtered_data[:,i])
+                plt.legend(['Original', 'Filtered'])
+        except TypeError:
+            plt.plot(data[:])
+            plt.plot(filtered_data[:])
+            plt.legend(['Original', 'Filtered'])
+
+        plt.show(block=True)
+        
+
     # @staticmethod
     # def eeg_combined_channels_plot(data: np.ndarray):
     #     try:

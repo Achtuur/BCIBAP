@@ -13,6 +13,11 @@ PyWavelets
 scipy
 setuptools
 six
+<<<<<<< HEAD
 mne
 scikit-learn
 mne
+=======
+scikit-learn
+sklearn
+>>>>>>> Authentication_Branch

@@ -5,7 +5,7 @@ import numpy as np
 #Information for tagging
 password = 'Octopus' #Fill in your password here
 time = 30 #Fill in the duration of the tagging in seconds
-frequency = 2 #Fill in the frequency of the flashing background in Hz
+frequency = 6 #Fill in the frequency of the flashing background in Hz
 
 root = tk.Tk()
 root.title('Password')

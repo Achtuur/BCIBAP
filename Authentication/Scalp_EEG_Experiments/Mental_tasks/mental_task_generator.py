@@ -23,7 +23,7 @@ data[0] = data[0].replace(" ", "_")
 data[0] = data[0].replace(":", "-")
 
 filename = f'.\\tasklists\\tasklist_{str(data[0])}.txt'
-print(filename)
+#print(filename)
 fo = open(filename, "w")
 fo.close()
 data_tekst = ''.join(data)

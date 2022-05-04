@@ -7,6 +7,7 @@ import random
 import os
 import os.path
 import time
+from datetime import datetime
 
 #change parameters of experiment
 songs = 5 #amount of songs in the songs folder
@@ -37,11 +38,20 @@ for i in amount:
     songs[j].export(newname, format="mp3")
     j = j + 1
 
+data = [0] * 6
+
+data[0] = datetime.now()
+data[0] = data[0].strftime("%d/%m/%Y %H:%M:%S")
+data[0] = data[0].replace("/", "-")
+data[0] = data[0].replace(" ", "_")
+data[0] = data[0].replace(":", "-")
+
+j = 1
 random.shuffle(amount)
 for i in amount:
     filename = ['song', str(i), '.mp3']
     filename = ''.join(filename)
-    print(filename)
+    data[j] = filename
     print('3')
     time.sleep(1)
     print('2')
@@ -49,8 +59,14 @@ for i in amount:
     print('1')
     playsound(filename)
     time.sleep(pause)
+    j = j + 1 
 
+filename = f'.\song_lists\songlist_{str(data[0])}.txt'
+data_tekst = ''.join(data)
+data_tekst = data_tekst.replace(' ', '\n')
 
+with open(filename, 'w', newline ='') as f:
+    f.write(data_tekst)
 # p = vlc.MediaPlayer(songs[j])
 #     p.play()
 #     time.sleep(5)

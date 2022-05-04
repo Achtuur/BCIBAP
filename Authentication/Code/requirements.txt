@@ -13,9 +13,6 @@ PyWavelets
 scipy
 setuptools
 six
-<<<<<<< Updated upstream
 mne
 scikit-learn
-=======
 mne
->>>>>>> Stashed changes

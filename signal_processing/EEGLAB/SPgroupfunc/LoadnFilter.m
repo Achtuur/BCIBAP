@@ -6,8 +6,9 @@
 % INPUTS:
 %       - path2edf: Path to edf file
 %  OPTIONAL:
-%       - locutoff: bottom cutoff frequency for filter on eeg data
-%       - hicutoff: top cutoff frequency for filter on eeg data
+%       - locutoff: [number], bottom cutoff frequency (Hz) for filter on eeg data, default 0.5
+%       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 25
+%       - showplots: [true/false], show plots of before/after filtering, default 'off'
 
 % OUTPUTS:
 %       - filtered_data: MATLAB matrix with a size of nChannels x
@@ -28,10 +29,12 @@ function filtered_data = LoadnFilter(path2edf, varargin)
     if nargin < 3
        g.locutoff = 0.5; %default values for locutoff and hicutoff
        g.hicutoff = 25;
+       g.showplots = 0;
     else
         g = finputcheck( varargin, { ...
             'locutoff' 'integer' [0 Inf] [];
-            'hicutoff' 'integer' [0 Inf] [] %take lo/hi cutoff from function argument input
+            'hicutoff' 'integer' [0 Inf] []; %take lo/hi cutoff from function argument input
+            'showplots' 'integer' [0 inf] 0
             }, 'LoadnFilter');
     end
     
@@ -41,9 +44,19 @@ function filtered_data = LoadnFilter(path2edf, varargin)
     %create EEGLAB set
     [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfread', 'overwrite', 'on');
     
+    %Plot raw EEG data
+    if(g.showplots)
+        pop_eegplot( EEG, 1, 1, 1);
+    end
+    
     %filter EEG data
     [EEG, com, filter_coeff] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff);
-
+    
+    %Plot filtered EEG data
+    if(g.showplots)
+        pop_eegplot( EEG, 1, 1, 1);
+    end
+    
     %create new EEGLAB set with filtered data
     [ALLEEG, EEG, CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET, 'setname', 'filtered', 'overwrite', 'on');
 

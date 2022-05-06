@@ -1,6 +1,6 @@
 % Extract the seizure times and output them based on Epoch length
 
-clear var;
+clearvars;
 
 
 % [RegexOut,SmplRate,LabelOut] = LabelOld('chb01-summary.txt');

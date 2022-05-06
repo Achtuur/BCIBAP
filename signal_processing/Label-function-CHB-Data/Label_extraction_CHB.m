@@ -1,6 +1,9 @@
-% Extract the seizure times and output them based
+% Extract the seizure times and output them based on Epoch length
 
-clear global;
+clear var;
 
 
-[a,b,out] = Label_extraction('chb01-summary.txt');
+% [RegexOut,SmplRate,LabelOut] = LabelOld('chb01-summary.txt');
+
+EpochLength = 1; % Length of epoch in seconds
+[SmplRate,LabelOut] = Label_extract('chb04-summary.txt',EpochLength);

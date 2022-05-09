@@ -2,7 +2,7 @@
 
 Fs = 256;            % Sampling frequency                    
 T = 1/Fs;             % Sampling period  
-filtered_data = LoadnFilter('C:\Users\auror\Documents\BAP_EAR_EEG\BCIBAP\signal_processing\FeatExtract\chb10_01.edf', 2 , 40 );
+filtered_data = LoadnFilter('C:\Users\auror\Documents\BAP_EAR_EEG\BCIBAP\signal_processing\FeatExtract\chb10_01.edf');
 EarData= filtered_data(1,:);
 %L = 768;             % Length of signal
 %t = (0:L-1)*T;        % Time vector
@@ -57,12 +57,12 @@ spectrogram(epochs(2,:),hanning(L/3),L/6,f,Fs,'MinThreshold',-20,'yaxis');
 
 %% POWER SPECTRAL DENSITY
 figure(4)
-psd2 = pwelch(epochs(2,:),hanning(nnft),nnft/2,nfft,Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
-pwelch(epochs(2,:),hanning(nnft),nnft/2,nfft,Fs, 'psd');
+psd2 = pwelch(epochs(2,:),hanning(L/3),nfft/2,nfft,Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
+pwelch(epochs(2,:),hanning(L/3), nfft/2,nfft,Fs,'psd');
 PdB_Hz= 10*log10(pxx);                  % dBW/Hz
 figure(5)
-power= pwelch(epochs(2,:),hanning(nnft),nnft/2,nfft, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
-welch(epochs(2,:),hanning(nnft),nnft/2,nfft, Fs,'power'); 
+power= pwelch(epochs(2,:),hanning(L/3),nfft/2,nfft, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
+welch(epochs(2,:),hanning(L/3),nfft/2,nfft, Fs,'power'); 
 
 %% AVERAGE BAND POWER FOR EEG EPOCHS
 %compute average band power for each EEG channel

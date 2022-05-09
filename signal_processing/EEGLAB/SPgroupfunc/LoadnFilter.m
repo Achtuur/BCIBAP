@@ -28,7 +28,7 @@ function filtered_data = LoadnFilter(path2edf, varargin)
 
     if nargin < 3
        g.locutoff = 0.5; %default values for locutoff and hicutoff
-       g.hicutoff = 25;
+       g.hicutoff = 40;
        g.showplots = 0;
     else
         g = finputcheck( varargin, { ...

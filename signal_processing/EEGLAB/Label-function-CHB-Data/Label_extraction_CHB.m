@@ -2,7 +2,6 @@
 
 clearvars;
 
+EpochLength = 2; % Length of epoch in seconds
+[SmplRate,LabelOut] = Label_extract('chb10-summary.txt',EpochLength);
 
-
-EpochLength = 1; % Length of epoch in seconds
-[SmplRate,LabelOut] = Label_extract('chb04-summary.txt',EpochLength);

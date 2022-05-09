@@ -1,3 +1,5 @@
+% Extracts classification labels from CHB summary file and returns labels
+% based on epoch length in seconds
 function [SmplRate, Out] = Label_extract(TxtLoc, EpochLength)
 %LABEL_EXTRACTION Summary of this function goes here
 % Label_extraction extracts the seizure and sample data from CHB EEG,

@@ -60,34 +60,40 @@ spectrogram(epochs(2,:),hanning(L/3),L/6,f,Fs,'MinThreshold',-20,'yaxis');
 %% POWER SPECTRAL DENSITY
 figure(4)
 nfftWelch= 2^nextpow2(L/3); 
-[psdWelch,fWelch] = pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
+[psd2,fwelch] = pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
 pwelch(epochs(2,:),hanning(L/3), L/6,nfftWelch,Fs,'psd');
 figure(5)
 power= pwelch(epochs(2,:),hanning(L/3),L/6, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
-pwelch(epochs(2,:),hanning(L/3),L/6, nfftWelch,Fs,'power'); 
+pwelch(epochs(2,:),hanning(L/3),L/6, Fs,'power'); 
 
 %% AVERAGE BAND POWER FOR EEG EPOCHS
-%compute average band power for each EEG channel using 3 different methods
+%compute average band power for each EEG channel with different methods
  
 %using the time series input 
-deltaTime = bandpower(epochs(2,:),Fs,[0.5,4]);
-thetaTime= bandpower(epochs(2,:),Fs,[4,8]);
-alphaTime= bandpower(epochs(2,:),Fs,[8,12]);
-betaTime= bandpower(epochs(2,:),Fs,[12,30]);
+deltaPower = bandpower(epochs(2,:),Fs,[0.5,4]);
+thetaPower= bandpower(epochs(2,:),Fs,[4,8]);
+alphaPower= bandpower(epochs(2,:),Fs,[8,12]);
+betaPower= bandpower(epochs(2,:),Fs,[12,30]);
 
 %using Pwelch algorithm
-deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd');
-thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd');
-alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd');
-betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd');
+
+figure(6)
+pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs); 
+
+[psd2,fwelch] = pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs,'psd'); 
+pwelchdelta = bandpower(psd2,fwelch,[0.5,4],'psd');
+pwelchtheta = bandpower(psd2,fwelch,[4,8],'psd');
+pwelchalpha = bandpower(psd2,fwelch,[8,12],'psd');
+pwelchbeta = bandpower(psd2,fwelch,[12,30],'psd');
 
 %using Periodogram algorithm
-figure(6)
+
+figure(7)
 periodogram(epochs(2,:),hanning(L),nfft,Fs);
-[psdPerio,fPerio] = periodogram(epochs(2,:),hanning(L),nfft,Fs);
-deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd');
-thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd');
-alphaPerio= bandpower(psdPerio,fPerio,[8,12],'psd');
-betaPerio= bandpower(psdPerio,fPerio,[12,30],'psd');
+[pxx,fPerio] = periodogram(epochs(2,:),hanning(L),nfft,Fs);
+pperiodelta = bandpower(pxx,fPerio,[0.5,4],'psd');
+pperiotheta = bandpower(pxx,fPerio,[4,8],'psd');
+pperioalpha= bandpower(pxx,fPerio,[8,12],'psd');
+pperiobeta= bandpower(pxx,fPerio,[12,30],'psd');
 
 

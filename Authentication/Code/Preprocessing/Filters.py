@@ -2,8 +2,11 @@ from matplotlib import pyplot as plt
 from scipy import signal
 from scipy.signal import find_peaks
 import numpy as np
+from pathlib import Path
 
-from ICA import ICA
+from meegkit.asr import ASR
+from meegkit.utils.matrix import sliding_window
+
 
 class Filter():
     @staticmethod
@@ -19,59 +22,36 @@ class Filter():
         return high_pas_filtered_data
 
     @staticmethod
-    def filter_ecg(data: np.ndarray, plot: bool):
-        ica_mean, mixing_matrix, sources = ICA.construct_ic_sources(data, 7)
-        
-        # Keep track of which components to drop
-        drop: list = []
+    def filter_artifacts(data: np.ndarray, cal_data: np.ndarray):
+        # This value is hardcoded for now
+        f_sampling = 250
 
-        # Process each source individually
-        for index, source in enumerate(sources.T):
-            # 1. Emphasize spikes
-            # Filter IC from 8 Hz
-            b, a = signal.butter(1, 8, 'high', fs=250)
-            filtered_source = signal.filtfilt(b, a, source)
+        # The data is transposed, because that is the required format for the ASR package
+        data = data.T
+        cal_data = cal_data.T
 
-            # Calculate energy according to Teager-Kaiser
-            energy: list = []
-            for i in range(1, len(filtered_source) - 1):
-                E = filtered_source[i]**2 - filtered_source[i+1]*filtered_source[i-1]
-                energy.append(E)
+        asr = ASR(method='euclid')
+        train_idx = np.arange(0, data.shape[1], dtype=int)
+        _, sample_mask = asr.fit(cal_data)
+    
+        X = sliding_window(data, window=int(f_sampling), step=int(f_sampling))
+        Y = np.zeros_like(X)
+        for i in range(X.shape[1]):
+            Y[:, i, :] = asr.transform(X[:, i, :])
 
-            # Add 0 at beginning and end so size is equal
-            energy.insert(0,0)
-            energy.append(0)
+        clean = Y.reshape(-1, 8)
 
-            # Determine Threshold
-            q3, q1 = np.percentile(energy, [75, 25])
-            iqr = q3 - q1
-            threshold = 5.8*iqr + q3
+        return clean
 
-            peaks, _ = find_peaks(energy, height=threshold, distance=220)
-            
-            # Determine frequency of peaks
-            frequencies: list = []
-            for i in range(1, len(peaks)):
-                if len(peaks) > 1:
-                    frequencies.append((peaks[i] - peaks[i-1])/ 250)
-            
-            # If frequency of peaks is within 1-2 Hz range, the component
-            # Can be dropped
-            freq = 0
-            if len(frequencies) != 0:
-                freq = np.median(frequencies)
-
-            if freq != 0 and 1 <= freq <= 2:
-                if plot:
-                    print('IC to remove')
-                    plt.plot(filtered_source)
-                    plt.show(block=True)
-                drop.append(index)
-
-        # If ECG sources are detected, the component can be set to 0
-        for i in drop:
-            sources[:, i] = 0
-        
-        print(f'{len(drop)} IC components removed')
-        return np.dot(sources, mixing_matrix.T) + ica_mean
-        
+    
+if __name__ == '__main__':
+    data_path = Path('../Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-06_15-40-45.npy')
+    f_sampling = 250
+    t_window = 10
+    data = np.load(data_path)
+    cropped_data = crop(data, t_window, f_sampling)
+    
+    # ASR method
+    asr = ASR(method='euclid')
+    
+    

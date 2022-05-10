@@ -76,5 +76,5 @@ if __name__ == '__main__':
     data = np.load(data_path)
     cropped_data = crop(data, t_window, f_sampling)
     raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
-    eeg_data = Pipeline(raw, cal_eeg_data).start(plot=True)
+    eeg_data = Pipeline(raw, cal_eeg_data).start()
     

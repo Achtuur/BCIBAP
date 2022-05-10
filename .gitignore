@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 signal_processing/EEGLAB/MLModel/loadeddata/
 *.asv
+signal_processing/EEGLAB/sample_data/**/.edf

@@ -1,6 +1,6 @@
 % Extracts classification labels from CHB summary file and returns labels
 % based on epoch length in seconds
-function [SmplRate, Out] = Label_extract2(TxtLoc, EpochLength)
+function [SmplRate, Out] = Label_extract(TxtLoc, EpochLength, nFiles)
 %LABEL_EXTRACTION Summary of this function goes here
 % Label_extraction extracts the seizure and sample data from CHB EEG,
 % the outputs are a matrix of size M x N, with M the amount of recordings
@@ -13,7 +13,7 @@ function [SmplRate, Out] = Label_extract2(TxtLoc, EpochLength)
 
 Txt = fileread(TxtLoc);
 
-SmpleExpr = '\d* Hz';  % Helps find the sampling rate in the txt file
+SmpleExpr = '\d+ Hz';  % Helps find the sampling rate in the txt file
 SmplMatch = regexp(Txt,SmpleExpr,'match');
 SmplRate = str2double(SmplMatch{1}(1:length(SmplMatch{1})-3));
 
@@ -31,11 +31,12 @@ SessMatch(length(SessMatch)+1) = length(Txt);
 
 NameExpr = 'chb\S*.edf';
 HMSExpr = '(\d+):(\d+):(\d+)';
-AmountExpr = ' \d* ';
+AmountExpr = ' \d+ ';
 NameMatch = regexp(Txt,NameExpr,'match');
 HMSMatch = regexp(Txt,HMSExpr,'tokens');
 
-for i=1:(length(SessMatch)-1)
+maxLoop = min(nFiles, length(SessMatch)-1); %take first n Files
+for i=1:maxLoop
     % Findname of recording + amount of seizures + duration of recording
     % which is turned into epochs
     AmountMatch = regexp(Txt(SessMatch(i):SessMatch(i+1)),AmountExpr,'match');
@@ -46,6 +47,7 @@ for i=1:(length(SessMatch)-1)
     SessLength = SessLength + (str2double(HMSMatch{2*i}{3}) - str2double(HMSMatch{2*i-1}{3}));
     Epoch = zeros(1,floor(SessLength/EpochLength));
     
+    disp(Txt(SessMatch(i) + 1))
     if Txt(SessMatch(i)+1) == '1' % Check if seizure happened in session
         begin = ceil(str2double(AmountMatch{1})/EpochLength);
         finish = ceil(str2double(AmountMatch{2})/EpochLength);

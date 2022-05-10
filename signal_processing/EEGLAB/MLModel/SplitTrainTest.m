@@ -1,3 +1,13 @@
+%% Get indices for training and testing data based on classes in Y
+%   Note these indices are randomly selected
+
+%% Inputs
+%   Y: vector containing labels for classes
+%   percent_train_split: percentage of data that becomes training data (range is [0, 1]
+
+%% Outputs
+%   train_id, test_id: indices of Y that can be used for training data and testing data
+
 function [train_id,test_id]=SplitTrainTest(Y,percent_train_split)
 
     train_id=[];

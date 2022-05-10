@@ -1,4 +1,14 @@
-%should to the same as label_extract but does it by separating between blank lines
+%% Creates labels for seizures based on summary file
+%   Seizures are labelled as '1' and no seizure is labelled as 0
+
+%% Inputs
+%   path: path to "chbxx-summary.txt"
+%   EpochDurationSeconds: duration of an epoch in seconds
+%   nFiles: first n files in summary.txt to be labeled
+
+%% Outputs
+%   Fs: sampling frequency contained in summary.txt file
+%   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 
 function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, nFiles)
 %% testvalues

@@ -1,0 +1,82 @@
+%% SIGNAL PARAMETERS 
+% addpath('./SPgroupfunc')
+% path2edf = './sample_data/chb10_01.edf';
+% 
+% Fs = 256;            % Sampling frequency                    
+ 
+% filtered_data = LoadnFilter(path2edf, 'locutoff', 0.5, 'hicutoff', 40, 'showplots', 0);
+% EarData= filtered_data(1,:);
+% %L = 768;             % Length of signal
+% %t = (0:L-1)*T;        % Time vector
+
+%Note that in most of the extraction paths 'epochs' is transposed because then the return value is per epoch instead of per sample of epoch
+
+function [features, labels] = FeatExtractFunc(EarData, Fs, EpochLengthSec)
+
+    T = 1/Fs;             % Sampling period 
+    
+    %% MAKE EPOCHS
+    
+    L = Fs*EpochLengthSec; %sample length of epoch
+
+    rowsEpoch= floor(length(EarData)/L);
+
+    epochs= zeros(rowsEpoch,L);
+    x=0;
+    for i=1:rowsEpoch
+        epochs(i,:)= EarData(1, (x*L+1) : L*(x+1));
+        x=x+1;
+    end
+
+    
+    %% FOURIER TRANSFORM
+    nfft = 2^nextpow2(L); %zero padding
+    Y= fft(epochs', L);  % compute fft of each epoch , zero padding is an option in second argument
+    %Pxx = abs(fft(x,nfft)).^2/length(x)/Fs;
+
+    P2 = abs(Y/L); %normalize fft with length of signal
+    P1 = P2(1 : L/2+1);  %take frequencies up until nyquist rate (L/2)
+    P1(2:end-1) = 2*P1(2:end-1); %times 2 because negative frequencies need to add up with positive ones
+                                       %exclude DC folding frequency
+    psd=P1.^2; %(divide by Fs)?
+
+
+    f = Fs*(0:(L/2))/L;
+
+    %% POWER SPECTRAL DENSITY
+    nfftWelch= 2^nextpow2(L/3); 
+    [psdWelch,fWelch] = pwelch(epochs',hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
+
+    power= pwelch(epochs',hanning(L/3),L/6, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
+
+    %% AVERAGE BAND POWER FOR EEG EPOCHS
+    %compute average band power for each EEG channel using 3 different methods
+
+    %using the time series input 
+    deltaTime = bandpower(epochs',Fs,[0.5,4])';
+    thetaTime= bandpower(epochs',Fs,[4,8])';
+    alphaTime= bandpower(epochs',Fs,[8,12])';
+    betaTime= bandpower(epochs',Fs,[12,30])';
+
+    %using Pwelch algorithm
+    deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd')';
+    thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd')';
+    alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd')';
+    betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd')';
+
+    %using Periodogram algorithm
+    [psdPerio,fPerio] = periodogram(epochs',hanning(L),nfft,Fs);
+    deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd')';
+    thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd')';
+    alphaPerio= bandpower(psdPerio,fPerio,[8,12],'psd')';
+    betaPerio= bandpower(psdPerio,fPerio,[12,30],'psd')';
+    
+    
+    [features, labels] = FeatureLabelsPerEpoch(...
+        deltaTime, 'deltaTime', thetaTime, 'thetaTime', alphaTime, 'alphaTime', betaTime, 'betaTime', ...
+        deltaPwelch, 'deltaPwelch', thetaPwelch, 'thetaPwelch', alphaPwelch, 'alphaPwelch', betaPwelch, 'betaPwelch', ...
+        deltaPerio, 'deltaPerio', thetaPerio, 'thetaPerio', alphaPerio, 'alphaPerio', betaPerio, 'betaPerio');
+        
+end
+
+

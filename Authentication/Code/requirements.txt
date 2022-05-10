@@ -1,3 +1,33 @@
+<<<<<<< HEAD
+cycler
+fonttools
+kiwisolver
+matplotlib
+numpy
+packaging
+pandas
+Pillow
+pyparsing
+python-dateutil
+pytz
+PyWavelets
+scipy
+setuptools
+six
+<<<<<<< HEAD
+<<<<<<< HEAD
+mne
+scikit-learn
+mne
+=======
+scikit-learn
+sklearn
+>>>>>>> Authentication_Branch
+=======
+scikit-learn
+sklearn
+>>>>>>> Authentication_Branch
+=======
 appdirs==1.4.4
 certifi==2021.10.8
 charset-normalizer==2.0.12
@@ -32,3 +62,4 @@ statsmodels==0.13.2
 threadpoolctl==3.1.0
 tqdm==4.64.0
 urllib3==1.26.9
+>>>>>>> Authentication_Branch

@@ -1,11 +1,6 @@
 import numpy as np
 from pathlib import Path
-<<<<<<< HEAD
-=======
-import scipy.signal
-import matplotlib.pyplot as plt
 
->>>>>>> Authentication_Branch
 from prepare_data import crop
 from Filters import Filter
 from Visualize import DataPlot

@@ -351,3 +351,4 @@ MigrationBackup/
 
 # Contains big files which dont have to be pushed
 signal_processing/EEGLAB/MLModel/loadeddata/
+*.asv

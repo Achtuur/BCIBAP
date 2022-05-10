@@ -66,4 +66,4 @@ if __name__ == '__main__':
 
     data = np.load(data_path)
     cropped_data = crop(data, t_window, f_sampling)
-    DataPlot.eeg_channels_plot(cropped_data[8])
+    DataPlot.eeg_channels_plot(cropped_data[1])

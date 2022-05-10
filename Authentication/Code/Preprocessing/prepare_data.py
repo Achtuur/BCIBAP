@@ -10,6 +10,7 @@ def crop(data: np.ndarray, t_window: int, f_sampling: float) -> list:
     cropped_data = np.array_split(data, groups)
     return cropped_data
 
+
 if __name__ == '__main__':
     data_path = Path('../Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-02_15-07-38.npy')
     f_sampling = 250

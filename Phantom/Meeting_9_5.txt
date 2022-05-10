@@ -1,0 +1,35 @@
+Upcoming deadlines: 
+Business plan 20th of May
+Green light assessment May 19th (4 sessions)
+Monday 16th hand in papers
+
+Green light:
+Group paper 1 or 2 papers (because we are twice as large) 
+
+TO DO Bonne:
+Should we write 1 or 2 papers, Green light assessment May 19th (4 sessions) and inform Lager
+
+Stim:
+Almost finished the requirements (is important for green light) but its still without precise values.
+Still looking into circuits and how these work. Looking into safety, DC currents on the electrodes.
+Still not did decide what circuit they are going to make.
+
+Phantom:
+Lab needed to do experiments, but Tiago was on vacation. 
+Research pressure. Mold is finished but needs to be printed.
+
+Signal:
+Finishing up the pipeline. Main goal: make pipeline exist. Setup things for greenligth assessment.
+No trouble thus far. Classification is already big part. They have two different subsets with data. 
+Enough data to compare and check with. 
+
+Authentication:
+Figuring out what kind of features they want to use. 
+Started on finishing the preprocessing pipeline. 
+Try to dummy model to have a reference. 
+Start 10th of May with experiments to have something to show during greenlight meeting.
+They have already thought about the experiments. 
+
+
+
+

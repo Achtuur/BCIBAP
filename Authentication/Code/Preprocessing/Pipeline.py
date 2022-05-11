@@ -64,15 +64,6 @@ class Pipeline():
 if __name__ == '__main__':
     # Initialise config variables
     f_sampling = 250
-<<<<<<< HEAD
-    t_window = 5
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling)
-
-    # Prepare and start pipeline
-    pipeline = Pipeline(cropped_data[10])
-    filtered_data = pipeline.start()
-=======
     t_window = 10
 
     # Calibration Data
@@ -81,7 +72,7 @@ if __name__ == '__main__':
     cropped_cal_data = crop(cal_data, t_window, f_sampling)
     raw_cal = np.concatenate((cropped_cal_data[10], cropped_cal_data[11], cropped_cal_data[12], cropped_cal_data[13]))
     cal_eeg_data = Pipeline(raw_cal).start()
->>>>>>> Authentication_Branch
+
 
 
     # Regular data

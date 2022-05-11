@@ -52,10 +52,10 @@ ylabel('|P1(f)|')
 
 %short time fourier transform
 figure(3)
-%s= spectrogram(epochs(2,:),hanning(L/3),L/6,nfft,'onesided','MinThreshold',-20,'yaxis');
-s= spectrogram(epochs(2,:),hanning(L/3),L/6, f,Fs,'MinThreshold',-20,'yaxis');
-spectrogram(epochs(2,:),hanning(L/3),L/6,f,Fs,'MinThreshold',-20,'yaxis');
-%spectrogram(epochs(2,:),hanning(L/3),L/6,nfft,'onesided','MinThreshold',-20,'yaxis');
+s= spectrogram(epochs(2,:),hanning(L/3),L/6,2^nextpow2(L/3),Fs,'MinThreshold',-20,'yaxis');
+spectrogram(epochs(2,:),hanning(L/3),L/6,2^nextpow2(L/3),Fs,'MinThreshold',-20,'yaxis');
+[S,F,T] = stft(epochs(2,:),Fs,'Window',hanning(L/3),'OverlapLength',L/6,'FFTLength',2^nextpow2(L/3));
+
 
 %% POWER SPECTRAL DENSITY
 figure(4)
@@ -63,7 +63,7 @@ nfftWelch= 2^nextpow2(L/3);
 [psdWelch,fWelch] = pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
 pwelch(epochs(2,:),hanning(L/3), L/6,nfftWelch,Fs,'psd');
 figure(5)
-power= pwelch(epochs(2,:),hanning(L/3),L/6, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
+power= pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs,'power');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) 
 pwelch(epochs(2,:),hanning(L/3),L/6, nfftWelch,Fs,'power'); 
 
 %% AVERAGE BAND POWER FOR EEG EPOCHS
@@ -80,6 +80,7 @@ deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd');
 thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd');
 alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd');
 betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd');
+totalPwelch= bandpower(psdWelch,fWelch,'psd');
 
 %using Periodogram algorithm
 figure(6)
@@ -89,5 +90,48 @@ deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd');
 thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd');
 alphaPerio= bandpower(psdPerio,fPerio,[8,12],'psd');
 betaPerio= bandpower(psdPerio,fPerio,[12,30],'psd');
+
+
+%% FEATURES
+%TIME DOMAIN
+%mean value
+mean= sum(transpose(epochs))./length(epochs(1,:));
+
+%maximum value
+posEpoch=epochs;
+posEpoch(posEpoch < 0) = 0; %take rid of negative values
+maxValue= max(transpose(posEpoch)); 
+
+%minimum value
+negEpoch=epochs;
+negEpoch(negEpoch>0)=0; %take rid of positive values
+minValue = min(transpose(abs(negEpoch)));
+
+%energy
+energy= sum(abs(transpose(epochs).^2));
+%variance
+variance= var(transpose(epochs));
+
+
+%FREQUENCY DOMAIN
+%mean frequency(MNF)
+powerSpectrum= power(1:40);
+MNF=(sum(powerSpectrum.*(1:40)))/sum(powerSpectrum);
+%relative powers
+Pdelta= deltaPwelch/totalPwelch;
+Ptheta= thetaPwelch/totalPwelch;
+Palpha= alphaPwelch/totalPwelch;
+Pbeta= betaPwelch/totalPwelch;
+
+%power ratios
+delta_theta= Pdelta/Ptheta;
+delta_alpha=Pdelta/Palpha;
+delta_beta=Pdelta/Pbeta;
+theta_alpha=Ptheta/Palpha;
+theta_beta=Ptheta/Pbeta;
+alpha_beta= Palpha/Pbeta;
+
+
+
 
 

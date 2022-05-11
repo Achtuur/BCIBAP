@@ -37,7 +37,9 @@ function filtered_data = LoadnFilter(path2edf, varargin)
             'showplots' 'integer' [0 inf] 0
             }, 'LoadnFilter');
     end
-    
+    if ~isfile(path2edf)
+       error(path2edf + " not found"); 
+    end
     %read file using biosig
     EEG = pop_biosig(path2edf);
         

@@ -40,7 +40,7 @@ for k = 1 : size(filtered_data, 1) %loop through channels
 end
 
 disp('Extracting features...');
-[features, featurelabels] = FeatExtractFunc(filtered_data, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractFunc(filtered_data(1,:), Fs, EpochLengthSec);
 disp('Done extracting features!');
 
 %% Below follows some shameless copy paste stuff from EPO 4

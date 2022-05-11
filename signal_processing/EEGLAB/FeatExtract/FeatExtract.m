@@ -1,6 +1,6 @@
 %% SIGNAL PARAMETERS 
-addpath('./SPgroupfunc')
-path2edf = './sample_data/chb10_01.edf';
+AddPath();
+path2edf = '\FeatExtract\chb10_01.edf';
 
 Fs = 256;            % Sampling frequency                    
 T = 1/Fs;             % Sampling period  

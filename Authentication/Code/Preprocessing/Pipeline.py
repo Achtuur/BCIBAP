@@ -1,11 +1,6 @@
 import numpy as np
 from pathlib import Path
-<<<<<<< HEAD
-=======
-import scipy.signal
-import matplotlib.pyplot as plt
 
->>>>>>> Authentication_Branch
 from prepare_data import crop
 from Filters import Filter
 from Visualize import DataPlot
@@ -80,5 +75,4 @@ if __name__ == '__main__':
     data = np.load(data_path)
     cropped_data = crop(data, t_window, f_sampling)
     raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
-    eeg_data = Pipeline(raw, cal_eeg_data).start(plot=True)
-    
+    eeg_data = Pipeline(raw, cal_eeg_data).start()

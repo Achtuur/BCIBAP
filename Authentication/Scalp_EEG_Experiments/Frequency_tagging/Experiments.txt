@@ -1,9 +1,0 @@
-Subject 1: male, 23
-tagged at: 10/05/2022
-duration: 15 seconds
-passwords: frapant at 6Hz, conclusie at 12Hz
-
-Subject 2: male, 19
-tagged at: 2022-05-10 11:48:46.609497, 2022-05-10 11:49:43.575832
-duration: 15 seconds
-passwords: schoenveter at 6Hz, 

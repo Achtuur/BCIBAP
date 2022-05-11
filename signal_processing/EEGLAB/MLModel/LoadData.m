@@ -16,11 +16,20 @@ path = convertStringsToChars(path); % make char array so that path can be indexe
 path = strrep(path,'/', filesep); %make sure every dash in path works for os
 path = strrep(path, '\', filesep);
 
+if nargin > 2
+   g = finputcheck( varargin, { ...
+            'overwrite' 'integer' [0 Inf] 0;
+            }, 'LoadData'); 
+else
+    g.overwrite = false;
+end
+
 scriptpath = mfilename('fullpath'); %get path to current script
 scriptpath = strrep(scriptpath, mfilename, ''); %remove filename to obtain path to folder where script is run
 datapath = scriptpath + "loadeddata\";
 datafilepath = datapath + "nFiles" + string(nFiles) + "filtered_data.mat";
-if isfile(datafilepath)
+
+if ~g.overwrite && isfile(datafilepath)
     disp ("LoadData(): Data already saved as " + "nFiles" + string(nFiles) + "filtered_data.mat!")
     disp('Loading .mat file...');
     filtered_data = load(datafilepath);
@@ -44,7 +53,7 @@ for i = 1 : nFiles
     end
     file = sprintf('%s%s_%s.edf',path, chb, istr); %path to file of recording
     if isfile(file)
-        filtered_data = [filtered_data, LoadnFilter(file)];
+        filtered_data = [filtered_data, LoadnFilter(file, 'locutoff', 0.5, 'hicutoff', 70)];
         datafilepath = datapath + "nFiles" + string(i) + "filtered_data.mat";
 
         disp("Saving " + "nFiles" + string(i) + "filtered_data.mat"); %saves files up to now to reduce later load time

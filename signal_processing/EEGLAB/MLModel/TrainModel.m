@@ -14,10 +14,10 @@ function TrainModel(dataset, path, nFiles)
 %% test vars
 % dataset = 'chb04';
 % path = "C:\Users\Arthur\Desktop\Programming\BCIBAP\signal_processing\EEGLAB\sample_data\" + dataset + "\";
-% nFiles = 5;
+% nFiles = 1;
 %% get filtered data
 
-filtered_data = LoadData(path, nFiles);
+filtered_data = LoadData(path, nFiles, 'overwrite', 1);
 
 %% Get labels of data
 EpochLengthSec = 3;
@@ -39,9 +39,7 @@ for k = 1 : size(filtered_data, 1) %loop through channels
     filtered_data(:,k) = (filtered_data(:,k) - mean(filtered_data(:,k))) / max(filtered_data(:,k));
 end
 
-disp('Extracting features...');
 [features, featurelabels] = FeatExtractFunc(filtered_data(1,:), Fs, EpochLengthSec);
-disp('Done extracting features!');
 
 %% Below follows some shameless copy paste stuff from EPO 4
 percent_train_split = 70/100;
@@ -60,9 +58,11 @@ fig = figure(1);
 [idx,scores] = fscmrmr(Xtrain,Ytrain); % mRMR feature selection (selects most useful features)
 bar(idx,scores(idx))%Create bar graph
 xlabel('Feature')
-set(gca,'TickLabelInterpreter','latex');
+% set(gca,'TickLabelInterpreter','latex');
 ylabel('Predictor Score'); hold off;
+xticks(1:1:length(featurelabels));
 xticklabels(featurelabels);
+
 
 % This makes sure we get the same results every time we run the code.
 rng default

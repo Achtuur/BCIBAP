@@ -22,7 +22,7 @@ function [features, labels] = FeatExtractFunc(EarData, Fs, EpochLengthSec)
 %     EpochLengthSec = 3;
 
 %%
-
+disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 
 %% MAKE EPOCHS
@@ -73,7 +73,7 @@ deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd')';
 thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd')';
 alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd')';
 betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd')';
-totalPwelch = bandpower(psdWelch,fWelch,'psd');
+totalPwelch = bandpower(psdWelch,fWelch,'psd')';
 
 %using Periodogram algorithm
 [psdPerio,fPerio] = periodogram(epochs',hanning(L),nfft,Fs);
@@ -85,35 +85,47 @@ betaPerio = bandpower(psdPerio,fPerio,[12,30],'psd')';
 %% FEATURES
 %TIME DOMAIN
 %mean value
-mean = sum(transpose(epochs))./length(epochs(1,:));
+% mean = sum(epochs') ./ length(epochs(1,:));
+disp('Calculating mean');
+Mean = mean(epochs')';
 
 %maximum value
-posEpoch = epochs;
-posEpoch(posEpoch < 0) = 0; %take rid of negative values
-maxValue = max(transpose(posEpoch)); 
+% posEpoch=epochs;
+% posEpoch(posEpoch < 0) = 0; %take rid of negative values (this is extremely slow and unnecessary)
+% maxValue= max(transpose(posEpoch)); 
+disp('Calculating max value');
+maxValue = max(epochs')';
 
 %minimum value
-negEpoch = epochs;
-negEpoch(negEpoch>0) = 0; %take rid of positive values
-minValue = min(transpose(abs(negEpoch)));
+% negEpoch=epochs;
+% negEpoch (negEpoch>0) = 0; %take rid of positive values (this is extremely slow and unnecessary)
+% minValue = min(transpose(abs(negEpoch)));
+disp('Calculating min value');
+minValue = min(epochs')';
 
 %energy
+disp('Calculating energy');
 energy = sum(abs(transpose(epochs).^2));
 %variance
+disp('Calculating variance');
 variance = var(transpose(epochs));
 
 
 %FREQUENCY DOMAIN
 %mean frequency(MNF)
-powerSpectrum = power(1:40);
-MNF = (sum(powerSpectrum.*(1:40)))/sum(powerSpectrum);
+% disp('Calculating MNF');
+% powerSpectrum = power(1:40, :); %rows is 1Hz, columns is 1 epoch
+% MNF = (sum( powerSpectrum .* (1:1:40)' )) / sum(powerSpectrum); % fix later to work per epoch
 %relative powers
-Pdelta = deltaPwelch ./ totalPwelch;
-Ptheta = thetaPwelch ./ totalPwelch;
-Palpha = alphaPwelch ./ totalPwelch;
-Pbeta = betaPwelch ./ totalPwelch;
+disp('Calculating relative powers');
+totalPwelch = mean(totalPwelch);
+Pdelta = deltaPwelch / totalPwelch;
+Ptheta = thetaPwelch / totalPwelch;
+Palpha = alphaPwelch / totalPwelch;
+Pbeta  = betaPwelch  / totalPwelch;
 
 %power ratios
+disp('Calculating power ratios');
 delta_theta = Pdelta ./ Ptheta;
 delta_alpha = Pdelta ./ Palpha;
 delta_beta =  Pdelta ./ Pbeta;
@@ -121,16 +133,17 @@ theta_alpha = Ptheta ./ Palpha;
 theta_beta =  Ptheta ./ Pbeta;
 alpha_beta =  Palpha ./ Pbeta;
     
-    
+disp('labelling features');
 [features, labels] = FeatureLabelsPerEpoch( ...
     deltaTime, 'deltaTime', thetaTime, 'thetaTime', alphaTime, 'alphaTime', betaTime, 'betaTime', ...
     deltaPwelch, 'deltaPwelch', thetaPwelch, 'thetaPwelch', alphaPwelch, 'alphaPwelch', betaPwelch, 'betaPwelch', ...
     deltaPerio, 'deltaPerio', thetaPerio, 'thetaPerio', alphaPerio, 'alphaPerio', betaPerio, 'betaPerio', ...
-    mean, 'mean', maxValue, 'maxValue', minValue, 'minValue', energy, 'energy', variance, 'variance', ...
-    MNF, 'MNF', Pdelta, 'Pdelta', Ptheta, 'Ptheta', Palpha, 'Palpha', Pbeta, 'Pbeta', ...
-    delta_theta, 'delta_theta', delta_alpha, 'delta_alpha', delta_beta, ...
+    Mean, 'mean', maxValue, 'maxValue', minValue, 'minValue', energy, 'energy', variance, 'variance', ...
+    Pdelta, 'Pdelta', Ptheta, 'Ptheta', Palpha, 'Palpha', Pbeta, 'Pbeta', ...
+    delta_theta, 'delta_theta', delta_alpha, 'delta_alpha', delta_beta, 'delta_beta', ...
     theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', alpha_beta, 'alpha_beta');
-        
+       
+disp('Done extracting features');
 end
 
 

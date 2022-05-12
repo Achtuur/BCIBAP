@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pywt
 from pathlib import Path
 import sys
-sys.path.append('..\Code\Preprocessing')
+sys.path.append(Path('../Preprocessing'))
 from prepare_data import crop
 from Filters import Filter
 from PreprocessingPipeline import PreprocessingPipeline

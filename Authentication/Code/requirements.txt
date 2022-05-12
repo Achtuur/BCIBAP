@@ -16,9 +16,6 @@ six
 mne
 scikit-learn
 mne
-scikit-learn
-sklearn
-scikit-learn
 sklearn
 appdirs==1.4.4
 certifi==2021.10.8

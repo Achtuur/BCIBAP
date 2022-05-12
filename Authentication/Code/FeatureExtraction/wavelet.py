@@ -33,6 +33,7 @@ class Wavelet():
     @staticmethod
     def stats(coeff):
         statlib = {}
+        statlist = []
         for i in range(len(coeff)):
             MAV = np.mean(np.abs(coeff[i]))
             AVP = np.mean(np.square(coeff[i]))
@@ -41,7 +42,8 @@ class Wavelet():
             SKEW = sp.stats.skew(coeff[i])
             KURT = sp.stats.kurtosis(coeff[i])
             statlib[f'D{i}'] = [MAV, AVP, SD, VAR, SKEW, KURT]
-        return statlib
+            statlist.append([MAV, AVP, SD, VAR, SKEW, KURT])
+        return statlib, statlist
 
 
 
@@ -71,7 +73,8 @@ if __name__ == "__main__":
     print(eeg_data.shape)
     one_channel = eeg_data[:, 0]
     coefficients = Wavelet.coefficients(one_channel, plot=True)
-    stats = Wavelet.stats(coefficients)
-    pprint(stats)
+    print(type(coefficients))
+    statslib, statslist = Wavelet.stats(coefficients)
+    pprint(statslist)
 
 

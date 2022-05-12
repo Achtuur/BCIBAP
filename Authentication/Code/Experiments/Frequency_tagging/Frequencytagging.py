@@ -3,10 +3,40 @@ from tkinter import ttk
 import numpy as np
 from datetime import datetime
 
+# This is to easily run the script from the command line
+# [] = optional
+# Usage: python Frequencytagging.py -pw password -freq frequency [-time] time
+import argparse
+
+# Create parser
+my_parser = argparse.ArgumentParser(description="Code to frequency tag a password")
+my_parser.add_argument('-pw',
+                        required=True,
+                        metavar='-password',
+                        type=str,
+                        help='The password to tag'    
+                    )
+my_parser.add_argument('-freq',
+                        required=True,
+                        metavar='-frequency',
+                        type=int,
+                        help='The frequency of the tagged password'    
+                    )
+my_parser.add_argument('-time',
+                        required=False,
+                        metavar='-time',
+                        type=int,
+                        help='The duration of the tagging',
+                        default=15
+)
+args = my_parser.parse_args()
+
 #Information for tagging
-password = 'papier' #Fill in your password here
-time = 15 #Fill in the duration of the tagging in seconds
-frequency = 12 #Fill in the frequency of the flashing background in Hz
+password = args.pw
+time = args.time
+frequency = args.freq
+
+print(f'Password: {password}, Frequency: {frequency}, Time')
 
 root = tk.Tk()
 root.title('Password')
@@ -42,12 +72,11 @@ for i in flashes:
 
 
 for i, background in enumerate(flashes):
-    print(i)
+    # print(i)
     background = backgrounds[i]
     textcolor = backgrounds[i - 1]
     label.after(period * i, lambda c=background, t=textcolor: label.configure(text=password,bg = c, fg = t))
     root.attributes('-topmost', 1)
 
 #mainloop is used to run the window
-print(datetime.now())
 root.mainloop()

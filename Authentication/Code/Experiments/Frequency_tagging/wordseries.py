@@ -5,9 +5,56 @@ import tkinter as tk
 from datetime import datetime
 from datetime import timedelta
 
-length = 20 #amount of words shown, maximum 50
-duration = 5 #Duration each word is shown in seconds
-tagged = ['schoenveter','papier'] #passwords that were tagged for subject
+from pathlib import Path
+
+# This is to easily run the script from the command line
+# [] = optional
+# Usage: python wordseries.py -pw1 password1 -pw2 password2 -file filename [-wl] amount_of_words [-dur] word_duration
+import argparse
+
+# Create parser
+my_parser = argparse.ArgumentParser(description="Code to run frequency tagging experiment")
+my_parser.add_argument('-pw1',
+                        required=True,
+                        metavar='-password 1',
+                        type=str,
+                        help='The 1st password to tag'    
+                    )
+
+my_parser.add_argument('-pw2',
+                        required=True,
+                        metavar='-password 2',
+                        type=str,
+                        help='The 2nd password to tag'    
+                    )
+
+my_parser.add_argument('-file', 
+                        required=True,
+                        metavar='-file name',
+                        type=str,
+                        help='The name of the file'
+)
+
+my_parser.add_argument('-wl',
+                        required=False,
+                        metavar='-amount of words',
+                        type=int,
+                        help='The amount of words to show',
+                        default=20
+                    )
+my_parser.add_argument('-dur',
+                        required=False,
+                        metavar='-word duration',
+                        type=int,
+                        help='The duration of each word',
+                        default=5
+                    )
+
+args = my_parser.parse_args()
+
+length = args.wl 
+duration = args.dur
+tagged = [args.pw1, args.pw2] #passwords that were tagged for subject
 
 with open('woorden.csv', newline='') as f:
     reader = csv.reader(f)
@@ -28,7 +75,7 @@ for x in tagged:
 
 
 random.shuffle(words)
-print(words)
+# print(words)
 
 bitjes = [0] * len(words)
 j = 0 
@@ -66,15 +113,8 @@ for i in words:
         bitjes[j] = 0
     j = j + 1
 
-#Make filename
-filename = str(datetime.now())
-filename = filename.replace("/", "-")
-filename = filename.replace(" ", "_")
-filename = filename.replace(":", "-")
+file = Path(f'./results/{args.file}.csv') 
 
-filename = f'.\\timestamps\\data_{str(filename)}'
-fo = open(filename, "w")
-fo.close()
 
 #Create timestamps for words
 times = [0] * len(words)
@@ -89,7 +129,7 @@ for i in range(0, len(words)):
 all_data = [words, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
-with open(f'{filename}.csv', 'w') as f:
+with open(file, 'w') as f:
     # using csv.writer method from CSV package
     write = csv.writer(f)
     write.writerows(all_data)

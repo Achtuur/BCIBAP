@@ -13,7 +13,7 @@
 %   fix later to have overwrite feature
 function filtered_data = LoadData(path, nFiles, varargin) 
 path = convertStringsToChars(path); % make char array so that path can be indexed
-path = strrep(path,'/', filesep); %make sure every dash in path works for os
+path = strrep(path, '/', filesep); %make sure every dash in path works for os
 path = strrep(path, '\', filesep);
 
 if nargin > 2
@@ -21,7 +21,7 @@ if nargin > 2
             'overwrite' 'integer' [0 Inf] 0;
             }, 'LoadData'); 
 else
-    g.overwrite = false;
+    g.overwrite = true;
 end
 
 scriptpath = mfilename('fullpath'); %get path to current script

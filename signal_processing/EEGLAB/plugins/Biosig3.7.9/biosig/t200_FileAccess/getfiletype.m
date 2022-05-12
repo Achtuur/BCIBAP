@@ -84,7 +84,8 @@ if exist(HDR.FileName,'dir')
 end;
 
 %fid = fopen(HDR.FileName,PERMISSION,'ieee-le');
-fid = fopen(HDR.FileName,HDR.FILE.PERMISSION);
+disp(HDR.FileName)
+fid = fopen(HDR.FileName, HDR.FILE.PERMISSION);
 if fid < 0,
 	HDR.ErrNum = -1; 
         HDR.ErrMsg = sprintf('Error GETFILETYPE: file %s not found.\n',HDR.FileName);

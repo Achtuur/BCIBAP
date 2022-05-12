@@ -10,19 +10,20 @@
 %       model: ML model which can be used to classify seizures
 %       mu_train: mean of training data obtained from zscore test, used to normalise
 %       sigma_train: std of training data obtained from zscore test, used to normalise
-function TrainModel(dataset, path, nFiles)
-%% test vars
+function [lab, predicted] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
+% test vars
 % dataset = 'chb04';
-% path = "C:\Users\Arthur\Desktop\Programming\BCIBAP\signal_processing\EEGLAB\sample_data\" + dataset + "\";
-% nFiles = 1;
+% path2dataset = "C:\Users\Arthur\Desktop\Programming\BCIBAP\signal_processing\EEGLAB\sample_data\" + dataset + "\";
+% FileIndices = 5;
 %% get filtered data
 
-filtered_data = LoadData(path, nFiles, 'overwrite', 0);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0);
 
 %% Get labels of data
-EpochLengthSec = 3;
-summarypath = path + dataset + "-summary.txt";
-[Fs, labels] = Label_extract2(summarypath, EpochLengthSec, nFiles); %get labels of where there are seizures
+% EpochLengthSec = 2;
+summarypath = path2dataset + dataset + "-summary.txt";
+[Fs, labels] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+
 
 temp = [];
 for k = 1 : size(labels, 1) %loop through rows of labels
@@ -41,6 +42,12 @@ end
 
 [features, featurelabels] = FeatExtractFunc(filtered_data(1,:), Fs, EpochLengthSec);
 
-CreateModel(features, labels, featurelabels);
+starti = find(labels == 2,1, 'first');
+endi = find(labels == 2,1, 'last');
+di = floor((endi-starti) * 2);
+features = features(starti - di : endi + di, :); %only take stuff around the epilepsy so data is 50/50
+labels = labels(starti - di : endi + di, :);
+
+[lab, predicted] = CreateModel(features, labels, featurelabels);
 
 end

@@ -4,13 +4,13 @@
 %% Inputs
 %   path: path to "chbxx-summary.txt"
 %   EpochDurationSeconds: duration of an epoch in seconds
-%   nFiles: first n files in summary.txt to be labeled
+%   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 
 %% Outputs
 %   Fs: sampling frequency contained in summary.txt file
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 
-function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, nFiles)
+function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
 %% testvalues
 % dataset = 'chb04';
 % path = "C:\Users\Arthur\Desktop\Programming\BCIBAP\signal_processing\EEGLAB\sample_data\" + dataset + "\";
@@ -41,9 +41,13 @@ for k = 2 : length(blocks)
     end
 end
 
-maxLoop = min(nFiles, length(Files));
+maxLoop = min(length(FileIndices), length(Files));
+loop = FileIndices;
+if length(loop) < 1
+   loop = 1 : length(Files); 
+end
 LabelsOut = cell(maxLoop, 2);
-for k = 1 : maxLoop
+for k = loop
    fileblock = splitlines(Files{k});
    % fileblock{1} contains file name
    % fileblock{2} contains start time

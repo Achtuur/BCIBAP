@@ -115,7 +115,7 @@ minValue = min(epochs');
 
 %energy
 disp('Calculating energy');
-energy = sum(abs(transpose(epochs).^2));
+energy = sum(abs(transpose(epochs).^2));    
 %variance
 disp('Calculating variance');
 variance = var(transpose(epochs));

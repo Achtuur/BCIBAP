@@ -31,7 +31,7 @@ L = Fs*EpochLengthSec; %sample length of epoch
 
 rowsEpoch = floor(length(EarData)/L);
 
-epochs = zeros(rowsEpoch,L);
+epochs = zeros(rowsEpoch,floor(L));
 x = 0;
 for i = 1:rowsEpoch
     epochs(i,:) = EarData(1, (x*L+1) : L*(x+1));

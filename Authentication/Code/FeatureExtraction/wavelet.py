@@ -10,7 +10,7 @@ import sys
 sys.path.append('..\Code\Preprocessing')
 from prepare_data import crop
 from Filters import Filter
-from Pipeline import Pipeline
+from PreprocessingPipeline import PreprocessingPipeline
 from Visualize import DataPlot
  
 class Wavelet():
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     cal_data = np.load(cal_data_path)
     cropped_cal_data = crop(cal_data, t_window, f_sampling)
     raw_cal = np.concatenate((cropped_cal_data[10], cropped_cal_data[11], cropped_cal_data[12], cropped_cal_data[13]))
-    cal_eeg_data = Pipeline(raw_cal).start()
+    cal_eeg_data = PreprocessingPipeline(raw_cal).start()
 
 
     # Regular data
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     cropped_data = crop(data, t_window, f_sampling)
     raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
     # raw = np.concatenate((cropped_data[2], cropped_data[3]))
-    eeg_data = Pipeline(raw, cal_eeg_data).start(plot=False)
+    eeg_data = PreprocessingPipeline(raw, cal_eeg_data).start(plot=False)
     print(eeg_data.shape)
     one_channel = eeg_data[:, 0]
     coefficients = Wavelet.coefficients(one_channel, plot=True)

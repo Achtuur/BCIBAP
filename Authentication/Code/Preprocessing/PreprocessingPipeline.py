@@ -5,7 +5,7 @@ from prepare_data import crop
 from Filters import Filter
 from Visualize import DataPlot
 
-class Pipeline():
+class PreprocessingPipeline():
     def __init__(self, raw_data, cal_data=None):
         self.raw_data = raw_data
         self.cal_data = cal_data

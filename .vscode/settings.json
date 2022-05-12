@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./Authentication/Code/Preprocessing"
+    ]
+}

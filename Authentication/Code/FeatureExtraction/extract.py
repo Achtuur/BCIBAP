@@ -8,6 +8,8 @@ from Pipeline import Pipeline
 from Visualize import DataPlot
 import matplotlib.pyplot as plt
 
+def do_wavelet():
+    A=1
 
 def do_fft(data, fs, plot=True):
     fs = fs
@@ -52,19 +54,28 @@ def extract_bands(fft_vals, fft_freq, plot=True):
     return eeg_band_fft
     
 if __name__ == "__main__":
-    data_path = Path('../Code/Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-02_15-07-38.npy')
+    # Initialise config variables
     f_sampling = 250
     t_window = 10
 
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling, skip=83)
-    # DataPlot.eeg_channels_plot(cropped_data[0])
+    # Calibration Data
+    cal_data_path = Path('Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-02_15-07-38.npy')
+    cal_data = np.load(cal_data_path)
+    cropped_cal_data = crop(cal_data, t_window, f_sampling)
+    raw_cal = np.concatenate((cropped_cal_data[10], cropped_cal_data[11], cropped_cal_data[12], cropped_cal_data[13]))
+    cal_eeg_data = Pipeline(raw_cal).start()
 
-    # Prepare and start pipelines
-    pipeline = Pipeline(cropped_data[1])
-    filtered_data = pipeline.start(plot=False)
-    print("filtered_data shape:", filtered_data.shape)
-    one_channel = filtered_data[:, 0]
+
+    # Regular data
+    data_path = Path('Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-06_15-40-45.npy')
+    data = np.load(data_path)
+    cropped_data = crop(data, t_window, f_sampling)
+    raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
+    # raw = np.concatenate((cropped_data[2], cropped_data[3]))
+    eeg_data = Pipeline(raw, cal_eeg_data).start(plot=False)
+    
+    print("filtered_data shape:", eeg_data.shape)
+    one_channel = eeg_data[:, 0]
     print("one_channel shape:", one_channel.shape)
     vals, freq = do_fft(one_channel, f_sampling)
     eeg_band_fft = extract_bands(vals, freq)

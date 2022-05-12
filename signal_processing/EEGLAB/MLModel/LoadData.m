@@ -2,7 +2,7 @@
 
 %% Inputs
 %   path2dataset: path to dataset folder containing .edf files. folder name should be 'chbxx' where xx is number of the patient
-%   nFiles: first n .edf files in the path to be used
+%   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 %% Outputs
 %   filtered_data: matrix containing preprocessed data from .edf files. (These can become quite long!!)
 %   Local storage:

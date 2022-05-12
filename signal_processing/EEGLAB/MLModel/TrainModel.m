@@ -3,7 +3,7 @@
 %% Inputs
 %   dataset: name of dataset, eg 'chb04' or 'chb10'
 %   path: path to folder containing dataset .edf files and summary.txt
-%   nFiles: first n .edf files to be used to train model
+%   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 
 %% Outputs
 %   model.mat saved in same folder contains:

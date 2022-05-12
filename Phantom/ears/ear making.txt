@@ -1,0 +1,12 @@
+1. import mesh ear
+2. combine meshes
+3. reduce meshes 25% adaptive
+4. reduce meshes 25% uniform
+5. repair holes wrap
+6. convert mesh faceted
+7. scale 14.7%, 6.3 cm, average=6.518 (6/6.2/6.5/6.5/6.8/6.6/6.5/7/6.6/6.5/6.5)
+8. offset plane under
+9. create hole sketch and create big enough block
+10. cutout desired form
+11. export 3MF file
+12. import 3MF file into new mold project

@@ -1,7 +1,16 @@
+# This is ugly
+from pathlib import Path
+import sys
+import platform
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+else:
+    sys.path.append(str(Path('../Preprocessing').resolve()))
+
+
 from wavelet import Wavelet
 import numpy as np
 from PreprocessingPipeline import PreprocessingPipeline
-from pathlib import Path
 from prepare_data import crop
 from pprint import pprint
 class FeaturePipeline():

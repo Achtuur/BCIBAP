@@ -1,3 +1,12 @@
+# This is ugly
+from pathlib import Path
+import sys
+import platform
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+else:
+    sys.path.append(str(Path('../Preprocessing').resolve()))
+
 from turtle import shape
 from pprint import pprint
 import numpy as np
@@ -5,14 +14,10 @@ import scipy as sp
 import matplotlib
 import matplotlib.pyplot as plt
 import pywt
-from pathlib import Path
-import sys
-sys.path.append(Path('../Preprocessing'))
-from prepare_data import crop
-from Filters import Filter
 from PreprocessingPipeline import PreprocessingPipeline
+from Filters import Filter
 from Visualize import DataPlot
- 
+
 class Wavelet():
 
     @staticmethod
@@ -76,5 +81,3 @@ if __name__ == "__main__":
     print(type(coefficients))
     statslib, statslist = Wavelet.stats(coefficients)
     pprint(statslist)
-
-

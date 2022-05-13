@@ -1,7 +1,14 @@
-import numpy as np
+# This is ugly
 from pathlib import Path
 import sys
-sys.path.append('..\Code\Preprocessing')
+import platform
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+else:
+    sys.path.append(str(Path('../Preprocessing').resolve()))
+
+
+import numpy as np
 from prepare_data import crop
 from Filters import Filter
 from PreprocessingPipeline import PreprocessingPipeline

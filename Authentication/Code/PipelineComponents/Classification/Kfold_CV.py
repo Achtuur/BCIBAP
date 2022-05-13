@@ -1,3 +1,11 @@
+import numpy as np
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+
+import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
@@ -6,8 +14,8 @@ results_8 =[]
 searches_8 =[]
 n_splits = 5
 random_state =42
-X = eeg_data.reshape(train_images_8.shape[0], 64)
-y = train_label_8
+# X = eeg_data.reshape(train_images_8.shape[0], 64)
+# y = train_label_8
 models = {
     "DecisionTreeClassifier": DecisionTreeClassifier(random_state=random_state),
     "KNeighborsClassifier": KNeighborsClassifier(),
@@ -39,7 +47,7 @@ model_parameters = {
 }
 i=0
 accuracies_untuned_8 = np.empty((4))
-for name, parameters in model_parameters.items():
+for i, (name, parameters) in enumerate(model_parameters.items()):
     model = models[name]
 
     cv = KFold(n_splits=n_splits, random_state=random_state, shuffle=True)
@@ -51,5 +59,5 @@ for name, parameters in model_parameters.items():
     best_score = grid_search.best_score_
     acc = accuracy_score(val_label_8, grid_search.predict(val_images_8.reshape(val_images_8.shape[0], 64)))
     accuracies_untuned_8[i] = acc
-    i +=1
+    # i +=1
     print(f'for model {name}:best score is {best_score}, parameters: {best_par}')

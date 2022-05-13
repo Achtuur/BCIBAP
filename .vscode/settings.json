@@ -1,5 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "./Authentication/Code/Preprocessing"
+        "./Authentication/Code/Preprocessing",
+        "./Authentication/Code/PipelineComponents/Preprocessing",
+        "./Authentication/Code/Data/ExperimentResults"
     ]
 }

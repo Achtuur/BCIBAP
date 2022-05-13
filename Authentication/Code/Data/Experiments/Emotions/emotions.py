@@ -51,7 +51,8 @@ for i in range(0, len(emotions)):
     times[j] = times[j][:12]
     j = j + 1
 
-all_data = [emotions, times]
+bitjes = [0] * len(emotions)
+all_data = [emotions, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
 with open(f'{filename}.csv', 'w') as f:

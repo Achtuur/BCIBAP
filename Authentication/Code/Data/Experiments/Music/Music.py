@@ -97,7 +97,7 @@ for index, num in enumerate(exp_song_order):
     playsound(songname)
     time.sleep(pause - 3)
 
-all_data = [data, times, bitjes]
+all_data = [data, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
 file = Path(f'./experiment_song_order/{args.name}.csv')

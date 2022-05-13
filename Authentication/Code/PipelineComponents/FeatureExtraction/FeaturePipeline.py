@@ -51,7 +51,7 @@ if __name__ == "__main__":
     cal_data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')
     cal_data = np.load(cal_data_path)
     cropped_cal_data = crop(cal_data, t_window, f_sampling)
-    raw_cal = np.concatenate((cropped_cal_data[10], cropped_cal_data[11], cropped_cal_data[12], cropped_cal_data[13]))
+    raw_cal = np.concatenate((cropped_cal_data[4], cropped_cal_data[5], cropped_cal_data[6], cropped_cal_data[7]))
     cal_eeg_data = PreprocessingPipeline(raw_cal).start()
 
 
@@ -65,6 +65,6 @@ if __name__ == "__main__":
 
     #Wavelet transform
     stats_dwt = FeaturePipeline(eeg_data).start()
-
-    print(len(stats_dwt),stats_dwt[0], stats_dwt[0][0])
+    stats_dwt = np.array(stats_dwt).reshape(240, 1)
+    print(stats_dwt.shape)
 

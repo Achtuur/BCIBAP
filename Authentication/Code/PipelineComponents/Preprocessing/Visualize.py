@@ -1,8 +1,13 @@
-from pathlib import Path
 import numpy as np
+from numpy.fft import rfft, rfftfreq
 import matplotlib.pyplot as plt
 
 from prepare_data import crop
+
+def get_fft(data: np.ndarray):
+    y_fft = rfft(data)
+    
+    return y_fft
 
 class DataPlot():
     @staticmethod
@@ -14,13 +19,34 @@ class DataPlot():
             num_col = 1
         
         try:
-            fix, axs = plt.subplots(num_col,1)
+            fig, axs = plt.subplots(num_col,1)
             for i in range(num_col):
                 axs[i].plot(data[:,i])
         except TypeError:
             plt.plot(data[:])
 
         plt.show(block=True)
+
+    @staticmethod
+    def eeg_spectrum_plot(data: np.ndarray):
+        # This programming method allows for multiple or singular EEG channel plots
+        try:
+            num_col = data.shape[1]
+        except IndexError:
+            num_col = 1
+
+        try:
+            fig, axs = plt.subplots(num_col, 1)
+            for i in range(num_col):
+                y = get_fft(data[:,i])
+                axs[i].plot(y)
+
+        except TypeError:
+            y = get_fft(data[:])
+            plt.plot(y)
+
+        plt.show(block=True)
+        
 
     @staticmethod
     def plot_difference(data: np.ndarray, filtered_data: np.ndarray):
@@ -45,25 +71,28 @@ class DataPlot():
             plt.legend(['Original', 'Filtered'])
 
         plt.show(block=True)
-        
-
-    # @staticmethod
-    # def eeg_combined_channels_plot(data: np.ndarray):
-    #     try:
-    #         num_col = data.shape[1]
-    #     except IndexError:
-    #         num_col = 1
-        
-    #     for i in range(num_col):
-    #         plt.plot(np.linalg.norm(data[:, i]))
-
-    #     plt.show(block=True)
 
 if __name__ == '__main__':
-    data_path = Path('../Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-02_15-07-38.npy')
+    import platform
+    import sys
+    from pathlib import Path
+    if platform.system() == "Windows":
+        sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+        sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
+        sys.path.append(str(Path('Data/ExperimentResults').resolve()))
+    else:
+        sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
+        sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
+        sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
+
+    from PreprocessingPipeline import PreprocessingPipeline
+
+    data_path = Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_music.npy')
+    
     f_sampling = 250
     t_window = 10
 
     data = np.load(data_path)
     cropped_data = crop(data, t_window, f_sampling)
-    DataPlot.eeg_channels_plot(cropped_data[1])
+    data = PreprocessingPipeline(cropped_data[10]).start()
+    DataPlot.eeg_spectrum_plot(data)

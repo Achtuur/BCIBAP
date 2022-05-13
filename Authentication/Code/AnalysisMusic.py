@@ -1,3 +1,5 @@
+import numpy as np
+
 # This is ugly
 from pathlib import Path
 import sys
@@ -19,6 +21,7 @@ from PreprocessingPipeline import PreprocessingPipeline
 from Visualize import DataPlot
 
 # Feature Extraction
+from FeaturePipeline import FeaturePipeline
 
 if __name__ == '__main__':
     EXPERIMENTS = []
@@ -46,11 +49,13 @@ if __name__ == '__main__':
     EXPERIMENTS.append(EXPERIMENT_M1)
 
     for experiment in EXPERIMENTS:
+        print(f'\nAnalysing {experiment.get_subject()}')
         # Hier functie van Joos om automatisch data te croppen
         calibration_data = PreprocessingPipeline(experiment.get_calibration_data()).start()
         # DataPlot.eeg_channels_plot(calibration_data)
-        experiment_data = PreprocessingPipeline(experiment.get_m_data(), calibration_data)
+        experiment_data = PreprocessingPipeline(experiment.get_m_data(), calibration_data).start()
 
         # Do feature Extraction
+        features = FeaturePipeline(experiment_data).start()
 
         # Aggregate result(?)

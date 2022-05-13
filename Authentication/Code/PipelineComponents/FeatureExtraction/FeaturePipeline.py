@@ -1,8 +1,16 @@
-import numpy as np
+# This is ugly
 from pathlib import Path
 import sys
-sys.path.append('Preprocessing')
-sys.path.append('../Data/ExperimentResults/recorded_data/recordings_numpy')
+import platform
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+else:
+    sys.path.append(str(Path('../Preprocessing').resolve()))
+
+
+from wavelet import Wavelet
+import numpy as np
+from PreprocessingPipeline import PreprocessingPipeline
 from prepare_data import crop
 from wavelet import Wavelet
 from PreprocessingPipeline import PreprocessingPipeline

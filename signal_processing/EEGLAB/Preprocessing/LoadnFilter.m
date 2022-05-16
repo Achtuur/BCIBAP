@@ -41,6 +41,7 @@ function filtered_data = LoadnFilter(path2edf, varargin)
        error(path2edf + " not found"); 
     end
     %read file using biosig
+    path2edf = convertStringsToChars(path2edf);
     EEG = pop_biosig(path2edf);
         
     %create EEGLAB set

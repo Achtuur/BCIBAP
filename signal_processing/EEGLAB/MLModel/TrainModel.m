@@ -13,15 +13,14 @@
 %%
 function [lab, predicted] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
-dataset = 'chb04';
-eegpath = AddPath();
-path2dataset = eegpath + "\sample_data\" + dataset + "\";
-FileIndices = 5;
-EpochLengthSec = 2;
+% dataset = 'chb04';
+% eegpath = AddPath();
+% path2dataset = eegpath + "\sample_data\" + dataset + "\";
+% FileIndices = 5;
+% EpochLengthSec = 2;
 %% Get labels of data
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels, channellist] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
-
 
 temp = [];
 for k = 1 : size(labels, 1) %loop through rows of labels
@@ -36,11 +35,12 @@ filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist
 
 %% Get features
 % normalise filtered_data
-for k = 1 : size(filtered_data, 1) %loop through channels
-    filtered_data(:,k) = (filtered_data(:,k) - mean(filtered_data(:,k))) / max(filtered_data(:,k));
-end
+% for k = 1 : size(filtered_data, 1) %loop through channels
+%     filtered_data(:,k) = (filtered_data(:,k) - mean(filtered_data(:,k))) / max(filtered_data(:,k));
+% end
 
-[features, featurelabels] = FeatExtractFunc(filtered_data, Fs, EpochLengthSec);
+epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 
 starti = find(labels == 2,1, 'first');
 endi = find(labels == 2,1, 'last');
@@ -49,6 +49,8 @@ features = features(starti - di : endi + di, :); %only take stuff around the epi
 labels = labels(starti - di : endi + di, :);
 
 %%Create model
-[lab, predicted] = CreateModel(features, labels, featurelabels);
+[lab, predicted, savepath] = CreateModel(features, labels, featurelabels);
+
+save(savepath, 'Fs', 'EpochLengthSec', '-append');
 
 end

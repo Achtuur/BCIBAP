@@ -8,6 +8,7 @@
 %  OPTIONAL:
 %       - locutoff: [number], bottom cutoff frequency (Hz) for filter on eeg data, default 0.5
 %       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 25
+%       - forder: filter order
 %       - showplots: [true/false], show plots of before/after filtering, default 'off'
 %       - channellist: [number], vector with channels to be included, use 0 to include all channels, default 0
 %% OUTPUTS:
@@ -42,11 +43,13 @@ function filtered_data = LoadnFilter(path2edf, varargin)
        g.hicutoff = 40;
        g.showplots = 0;
        g.channellist = 0;
+       g.forder = 70;
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] 0;
             'locutoff' 'integer' [0 Inf] 0.5;
             'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
+            'forder' 'integer' [0 inf] 70;
             'showplots' 'integer' [0 inf] 0
             }, 'LoadnFilter');
     end
@@ -72,8 +75,8 @@ g.channellist = sort(g.channellist);
     end
     
     %filter EEG data
-    [EEG, com, filter_coeff] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff);
-    
+%     [EEG, ~, ~] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff, 'filtorder', g.forder);
+    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
     %Plot filtered EEG data
     if g.showplots
         pop_eegplot( EEG, 1, 1, 1);

@@ -15,6 +15,7 @@ function filtered_data = LoadData(path, nFiles, varargin)
 path = convertStringsToChars(path); % make char array so that path can be indexed
 path = strrep(path,'/', filesep); %make sure every dash in path works for os
 path = strrep(path, '\', filesep);
+nFiles = sort(nFiles);
 
 if nargin > 2
    g = finputcheck( varargin, { ...

@@ -7,9 +7,12 @@ epochs = 0.5 : 0.25 : 4;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 for k = epochs
-    [features,featurelabels,filtered_data] = CNN(dataset, path2dataset, FileIndices, k);
+    [features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, k);
     
-     final_results(i, :) = {features filtered_data};
+    % Train CNN here
+
+
+     final_results(i, :) = {features featurelabels};
 %     figure(i)
      i = i + 1;
 %     fig = plotconfusion(lab, predicted);

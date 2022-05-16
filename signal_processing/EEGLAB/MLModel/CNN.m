@@ -9,7 +9,9 @@
 % uhh
 
 %% Function start
-function [features,featurelabels,filtered_data] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
+%% Test variables
+EegFeature = 0;
 
 %% Get filtered data
 
@@ -31,5 +33,19 @@ labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure 
 %% Get features
 
 [features, featurelabels] = FeatExtractFunc(filtered_data(1,:), Fs, EpochLengthSec);
+
+for k = 1 : size(features, 2) %loop through channels
+    features(:,k) = zscore([features{:,k}]);
+end
+
+%% Normalizes EEG data and adds it to features, TODO
+if EegFeature
+    for k = 1 : size(filtered_data, 1) %loop through channels
+        filtered_data(:,k) = zcore(filtered_data(:,k));
+    end
+end
+
+
+
 end
 

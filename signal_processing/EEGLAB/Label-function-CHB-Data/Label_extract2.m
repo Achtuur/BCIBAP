@@ -10,14 +10,14 @@
 %   Fs: sampling frequency contained in summary.txt file
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 
-% function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
+function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
 %% testvalues
-dataset = 'chb04';
-eegpath = AddPath();
-path = eegpath + "\sample_data\" + dataset + "\";
-FileIndices = [1 2 4];
-path = path + dataset + "-summary.txt";
-EpochDurationSeconds = 3;
+% dataset = 'chb04';
+% eegpath = AddPath();
+% path = eegpath + "\sample_data\" + dataset + "\";
+% FileIndices = [1 2 4];
+% path = path + dataset + "-summary.txt";
+% EpochDurationSeconds = 3;
 %%
 
 %Read summary as plain txt
@@ -76,7 +76,7 @@ for k = loop
    LabelsOut(k, :) = {filename Epoch};
 end
 % LabelsOut(
-% end
+end
 
 %calculate time difference in seconds
 %input time should be in 'hh:mm:ss' format

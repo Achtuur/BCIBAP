@@ -19,26 +19,26 @@ my_parser = argparse.ArgumentParser(description="Code to run music experiment")
 my_parser.add_argument('-song_dur',
                         required=False,
                         default=5,
-                        metavar='-duration song sample',
+                        metavar='duration song sample',
                         type=int,
                         help='The duration each sample is played'    
                     )
 my_parser.add_argument('-pause',
                         required=False,
                         default=5,
-                        metavar='-pause',
+                        metavar='pause',
                         type=int,
                         help='The pause between each sample'    
                     )
 my_parser.add_argument('-name',
                         required=True,
-                        metavar='-file name',
+                        metavar='file name',
                         type=str,
                         help='The file name'
 )
 my_parser.add_argument('-known',
                         required=True,
-                        metavar='-known song',
+                        metavar='known song',
                         type=int,
                         help='The number of the known song'
 )

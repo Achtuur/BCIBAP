@@ -10,11 +10,21 @@
 %           (note these files can become very large)
 
 %% Todo
-%   fix later to have overwrite feature
+%   fix later to select correct channels in LoadnFilter
 function filtered_data = LoadData(path2dataset, FileIndices, varargin) 
+%% test values
+%   comment out the lines about nargin and varargin
+%     eegpath = AddPath();
+%     path2dataset = eegpath + "/sample_data/" + "chb04";
+%     g.overwrite = false;
+%     FileIndices = [1 2 3];
+%%
+
+
 path2dataset = convertStringsToChars(path2dataset); % make char array so that path can be indexed
-path2dataset = strrep(path2dataset, '/', filesep); %make sure every dash in path works for os
+path2dataset = strrep(path2dataset,'/', filesep); %make sure every dash in path works for os
 path2dataset = strrep(path2dataset, '\', filesep);
+FileIndices = sort(FileIndices);
 
 if nargin > 2
    g = finputcheck( varargin, { ...
@@ -55,12 +65,12 @@ for i = FileIndices
     file = sprintf('%s%s_%s.edf',path2dataset, chb, istr); %path to file of recording
     if isfile(file)
         filtered_data = [filtered_data, LoadnFilter(file)];
-        datafilepath = datapath + "nFiles" + string(i) + "filtered_data.mat";
+%         datafilepath = datapath + "nFiles" + string(i) + "filtered_data.mat";
     else
         error(file + " does not exist");
     end
-    disp("Saving " + "nFiles" + FileIndicesstr + "filtered_data.mat"); %saves files up to now to reduce later load time
-    save(datafilepath, 'filtered_data');
-    disp("Done saving data, file stored in " + datapath);
 end
+disp("Saving " + "nFiles" + FileIndicesstr + "filtered_data.mat"); %saves files up to now to reduce later load time
+save(datafilepath, 'filtered_data');
+disp("Done saving data, file stored in " + datapath);
 end

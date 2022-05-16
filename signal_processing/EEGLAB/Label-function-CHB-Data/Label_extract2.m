@@ -9,19 +9,19 @@
 %% Outputs
 %   Fs: sampling frequency contained in summary.txt file
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
-
-% function [Fs, LabelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
+%   Channelsout: vector containing indices of channels to be used
+function [Fs, LabelsOut, ChannelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
 %% testvalues
-dataset = 'chb04';
-eegpath = AddPath();
-path = eegpath + "\sample_data\" + dataset + "\";
-FileIndices = [1 2 4];
-path = path + dataset + "-summary.txt";
-EpochDurationSeconds = 3;
-%%
-
+%     dataset = 'chb04';
+%     eegpath = AddPath();
+%     path = eegpath + "\sample_data\" + dataset + "\";
+%     FileIndices = [1 2 28 9];
+%     path = path + dataset + "-summary.txt";
+%     EpochDurationSeconds = 3;
+%% Read txt file and create arrays with file and channel info
 %Read summary as plain txt
 Txt = fileread(path);
+FileIndices = sort(FileIndices);
 
 %split Txt by blank lines
 blocks = strsplit(Txt, '\n\s*\n', 'DelimiterType', 'RegularExpression', 'CollapseDelimiters',false);
@@ -34,6 +34,7 @@ Fs = regexpnum(blocks{1}, '\d+(?=\s\Hz)'); %get sampling frequency from first bl
 % File End Time: 22:01:23
 % Number of Seizures in File: 0
 Files = cell(1); 
+Channels = blocks{2}; %channel info is always in blocks{2}
 i = 1;
 for k = 2 : length(blocks)
     if contains(blocks{k}, ".edf", 'IgnoreCase', ispc) %add only strings that contain a file block
@@ -41,13 +42,14 @@ for k = 2 : length(blocks)
         i = i + 1;
     end
 end
-
+%% Get seizure labels
 maxLoop = min(length(FileIndices), length(Files));
 loop = FileIndices;
 if length(loop) < 1
    loop = 1 : length(Files); 
 end
 LabelsOut = cell(maxLoop, 2);
+i = 1; %index for labelsout
 for k = loop
    fileblock = splitlines(Files{k});
    % fileblock{1} contains file name
@@ -73,10 +75,30 @@ for k = loop
           Epoch(1, startIndex : endIndex) = 1; % change labels to 1
       end
    end
-   LabelsOut(k, :) = {filename Epoch};
+   LabelsOut(i, :) = {filename Epoch};
+   i = i + 1;
 end
-% LabelsOut(
-% end
+
+%% Get channel info
+Channels = strsplit(Channels, '\n');
+Channels = Channels(3:end); %first two entries contain irrelevant text
+% Channels now looks like this:
+% Channels{x} = "Channel x: FP7-T4" (FP7 and T4 are example values)
+EarLabels = {'FT9', 'FT7', 'T7', 'TP7', 'TP9', 'FC5', 'C5', 'CP5', ... %Left preauricular
+             'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6'}; %Right preauricular
+
+ChannelsOut = [];
+for k = 1:length(Channels)
+    matches = regexp(Channels{k}, 'Channel\s\d+:\s(?<Electrode>[a-zA-Z0-9]+)\-(?<Reference>[a-zA-Z0-9]+)', 'names');
+    % matches is struct containing:
+    %   matches.Electrode: name of electrode (label left of the ':')
+    %   matches.Reference: name of the reference electrode (label right of the ':')
+    if any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
+       ChannelsOut = [ChannelsOut k]; %append to channels
+    end
+end
+end %func end
+%% Helper functions
 
 %calculate time difference in seconds
 %input time should be in 'hh:mm:ss' format

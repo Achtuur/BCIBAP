@@ -14,13 +14,11 @@
 function [features, labels] = FeatExtractFunc(EarData, Fs, EpochLengthSec)
 %% Test variables
 %     path2edf = 'FeatExtract\chb10_01.edf';
-% 
 %     Fs = 256;            % Sampling frequency                    
 %     T = 1/Fs;             % Sampling period  
 %     filtered_data = LoadnFilter(path2edf, 'locutoff', 0.5, 'hicutoff', 40, 'showplots', 0);
 %     EarData = filtered_data(1,:) ;
 %     EpochLengthSec = 3;
-
 %%
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 

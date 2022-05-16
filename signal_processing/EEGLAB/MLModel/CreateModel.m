@@ -46,8 +46,8 @@ for i=1:num_classes
     Ytest_cat(i, Ytest==i) = 1;
     Ytest_pred_cat(i, Ytest_pred==i) = 1;
 end
-% figure(2);
-% plotconfusion(Ytest_cat,Ytest_pred_cat); hold off;
+figure(2);
+plotconfusion(Ytest_cat,Ytest_pred_cat); hold off;
 
 %% Save model and relevant normalisation constants to ./model.mat
 

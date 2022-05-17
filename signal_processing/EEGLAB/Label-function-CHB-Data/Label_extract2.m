@@ -83,6 +83,7 @@ for k = loop
    i = i + 1;
 end
 
+
 %% Get channel info
 Channels = strsplit(Channels, '\n');
 Channels = Channels(3:end); %first two entries contain irrelevant text
@@ -103,7 +104,6 @@ for k = 1:length(Channels)
 end
 end %func end
 %% Helper functions
-
 %calculate time difference in seconds
 %input time should be in 'hh:mm:ss' format
 function d = calcTimeDiff(startTimeHMS, endTimeHMS)

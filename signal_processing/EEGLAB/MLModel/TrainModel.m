@@ -11,7 +11,7 @@
 %       mu_train: mean of training data obtained from zscore test, used to normalise
 %       sigma_train: std of training data obtained from zscore test, used to normalise
 %%
-% function [lab, predicted] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
 clc; clear;
 eegpath = AddPath();
@@ -46,12 +46,13 @@ filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+feature_out = features;
 
-starti = find(labels == 2,1, 'first');
-endi = find(labels == 2,1, 'last');
-di = floor((endi-starti) * 1);
-features = features(starti - di : endi + di, :); %only take stuff around the epilepsy so data is 50/50
-labels = labels(starti - di : endi + di, :);
+% starti = find(labels == 2,1, 'first');
+% endi = find(labels == 2,1, 'last');
+% di = floor((endi-starti) * 2);
+% features = features(starti - di : endi + di, :); %only take stuff around the epilepsy so data is 50/50
+% labels = labels(starti - di : endi + di, :);
 
 %% Create model
 [lab, predicted, savepath] = CreateModel(features, labels, featurelabels);

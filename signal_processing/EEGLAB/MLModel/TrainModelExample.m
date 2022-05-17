@@ -1,14 +1,14 @@
 eegpath = AddPath();
-dataset = 'chb04';
+dataset = 'chb03';
 path2dataset = eegpath + "sample_data\" + dataset + "\";
-FileIndices = [5];
+FileIndices = [1:6];
 
 % epochs = 0.5 : 0.25 : 4;
 epochs = 2.75;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 for k = epochs
-    [lab, predicted] = TrainModel(dataset, path2dataset, FileIndices, k);
+    [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileIndices, k);
     final_results(i, :) = {lab predicted};
     
 %     figure(i)

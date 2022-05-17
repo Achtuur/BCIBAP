@@ -7,13 +7,25 @@ epochs = 0.5 : 0.25 : 4;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 for k = epochs
-    [features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, k);
+
+    [X,features,Y,featurelabels] = CNN(dataset, path2dataset, FileIndices, k);
     
     % Train CNN here
+    rng("default") % For reproducibility of the partition
+    cvp = cvpartition(Y,"Holdout",0.3);
+    XTrain = X(training(cvp),:);
+    YTrain = Y(training(cvp));
+    XTest = X(test(cvp),:);
+    YTest = Y(test(cvp));
 
+    Mdl = fitcnet(XTrain,YTrain, ...
+    "LayerSizes",[35 20]);
 
+    
      final_results(i, :) = {features featurelabels};
-%     figure(i)
+    
+     figure(i)
+     confusionchart(YTest.Rating,predict(Mdl,Ytest))
      i = i + 1;
 %     fig = plotconfusion(lab, predicted);
 %     fig.CurrentAxes.Title.String = sprintf("epochlengthsec = %0.1f", k);

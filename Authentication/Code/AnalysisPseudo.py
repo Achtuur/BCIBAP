@@ -17,8 +17,8 @@ if platform.system() == "Windows":
 else:
     sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
     sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
-    sys.path.append(str(Path('./PipelineComponents/PrepareData').resolve()))
     sys.path.append(str(Path('./PipelineComponents/Classification').resolve()))
+    sys.path.append(str(Path('./Data').resolve()))
     sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
 
 # Experiments
@@ -26,10 +26,8 @@ from ExperimentWrapper import ExperimentWrapper
 
 # Preprocessing
 from PreprocessingPipeline import PreprocessingPipeline
+from crop import crop
 from Visualize import DataPlot
-
-# PrepareData
-from prepare_data import crop
 
 # Feature Extraction
 from FeaturePipeline import FeaturePipeline
@@ -56,16 +54,15 @@ def get_labels(path_experiment, label_column = 1):
 
 if __name__ == '__main__':
     EXPERIMENTS = []
-
+    
     # Sam
     EXPERIMENT_SAM =ExperimentWrapper("Sam", 
         'Pseudo',
-        Path('./PipelineComponents/PrepareData/recorded_data/recordings_numpy/OpenBCISession_Sam_calibration/OpenBCI-RAW-2022-05-10_09-35-30/OpenBCI-RAW-2022-05-10_09-35-30.npy'),
-        (250*62, 250*122)
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy'),
     )
 
-    EXPERIMENT_SAM = EXPERIMENT_SAM.set_experiment_data_path(
-        Path('./PipelineComponents/PrepareData/recorded_data/recordings_numpy/OpenBCISession_Sam_pseudo/OpenBCI-RAW-2022-05-10_09-51-49/')    
+    EXPERIMENT_SAM = EXPERIMENT_SAM.set_experiment_data(
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_pseudo.npy')    
     ).set_experiment_description_file(
         Path('./Data/Experiments/Pseudowords/results/data_2022-05-10_09-51-54.724695.csv')
     )
@@ -75,11 +72,11 @@ if __name__ == '__main__':
     # M1
     EXPERIMENT_M1 = ExperimentWrapper("M1", 
         'Pseudo',    
-        Path('./PipelineComponents/PrepareData/recorded_data/recordings_numpy/OpenBCISession_Wessel_calibration/OpenBCI-RAW-2022-05-10_11-28-23/OpenBCI-RAW-2022-05-10_11-28-23.npy'),
-        (250*15, 250*75)
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_calibration.npy'),
     )
-    EXPERIMENT_M1 = EXPERIMENT_M1.set_experiment_data_path(
-        Path('./PipelineComponents/PrepareData/recorded_data/recordings_numpy/OpenBCISession_Wessel_pseudo/OpenBCI-RAW-2022-05-10_11-31-11/')
+
+    EXPERIMENT_M1 = EXPERIMENT_M1.set_experiment_data(
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_pseudo.npy')
     ).set_experiment_description_file(
         Path('./Data/Experiments/Pseudowords/results/data_2022-05-10_11-31-17.544482.csv')
     )
@@ -87,18 +84,28 @@ if __name__ == '__main__':
     EXPERIMENTS.append(EXPERIMENT_M1)
 
     # Simon
-    EXPERIMENT_SIMON = ExperimentWrapper("Simon",
-        'Pseudo',
-        Path('')
+    EXPERIMENT_SIMON = ExperimentWrapper("Simon", 
+        'Pseudo',    
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_calibration.npy')
     )
 
+    EXPERIMENT_SIMON = EXPERIMENT_SIMON.set_experiment_data(
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_pseudo.npy')
+    ).set_experiment_description_file(
+        Path('./Data/Experiments/Pseudowords/results/Simon_17-05-2022_pseudo_take1.csv')
+    )
+
+    EXPERIMENTS.append(EXPERIMENT_SIMON)
+   
     features = np.array([])
     labels = []
     for experiment in EXPERIMENTS:
         calibration_data = PreprocessingPipeline(experiment.get_calibration_data()).start()
-        cropped_data = crop(experiment.get_experiment_description_file(), experiment.get_experiment_data_path(), 5, 250) 
-        cropped_data = list(map(lambda x: PreprocessingPipeline(x, calibration_data).start(), cropped_data))
+        data = PreprocessingPipeline(experiment.get_experiment_data(), experiment.get_calibration_data()).start()
         
+        # This is not correct
+        cropped_data = crop(data, 5, 250)
+                
         # Calculate Features, reshaped to 240x1 numpy array
         for data_interval in cropped_data:
             try:
@@ -106,6 +113,7 @@ if __name__ == '__main__':
             except ValueError:
                 features = np.array(FeaturePipeline(data_interval).start()).reshape(1,240)
 
+        
         labels = labels + get_labels(experiment.get_experiment_description_file())
 
     

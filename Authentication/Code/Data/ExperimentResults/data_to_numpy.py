@@ -1,5 +1,7 @@
 from pathlib import Path
 import numpy as np
+from datetime import datetime
+
 import os
 
 # Global dictionary constructed from experiment file
@@ -11,7 +13,7 @@ RECORDINGS_CROP_DICTIONARY = {
         },
         'M1_PSEUDO' : {
                 'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_pseudo.npy'),
-                'crop' : (1570, 62864)
+                'crop' : (1570, 1570+(250*50*5))
         }, 
         # SAM
         'SAM_CALIBRATION' : {
@@ -20,7 +22,15 @@ RECORDINGS_CROP_DICTIONARY = {
         },
         'SAM_PSEUDO' : {
                 'path' : Path('./recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_pseudo.npy'),
-                'crop' : (1186, 62532)
+                'crop' : (1186, 1186+(250*50*5))
+        },
+        'SIMON_CALIBRATION' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_calibration.npy'),
+                'crop' : (250*10, 250*70)
+        },
+        'SIMON_PSEUDO' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_pseudo.npy'),
+                'crop' : (5511, 5511+(250*50*5))
         }
 }
 

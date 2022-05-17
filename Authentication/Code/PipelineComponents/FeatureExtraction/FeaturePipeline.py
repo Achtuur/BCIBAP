@@ -11,7 +11,6 @@ else:
 from wavelet import Wavelet
 import numpy as np
 from PreprocessingPipeline import PreprocessingPipeline
-from prepare_data import crop
 from wavelet import Wavelet
 from PreprocessingPipeline import PreprocessingPipeline
 from pprint import pprint
@@ -43,28 +42,29 @@ class FeaturePipeline():
 
 
 if __name__ == "__main__":
-    # Initialise config variables
-    f_sampling = 250
-    t_window = 10
+    pass
+    # # Initialise config variables
+    # f_sampling = 250
+    # t_window = 10
 
-    # Calibration Data
-    cal_data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')
-    cal_data = np.load(cal_data_path)
-    cropped_cal_data = crop(cal_data, t_window, f_sampling)
-    raw_cal = np.concatenate((cropped_cal_data[4], cropped_cal_data[5], cropped_cal_data[6], cropped_cal_data[7]))
-    cal_eeg_data = PreprocessingPipeline(raw_cal).start()
+    # # Calibration Data
+    # cal_data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')
+    # cal_data = np.load(cal_data_path)
+    # cropped_cal_data = crop(cal_data, t_window, f_sampling)
+    # raw_cal = np.concatenate((cropped_cal_data[4], cropped_cal_data[5], cropped_cal_data[6], cropped_cal_data[7]))
+    # cal_eeg_data = PreprocessingPipeline(raw_cal).start()
 
 
 
-    # Regular data
-    data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_music.npy')
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling)
-    raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
-    eeg_data = PreprocessingPipeline(raw, cal_eeg_data).start()
+    # # Regular data
+    # data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_music.npy')
+    # data = np.load(data_path)
+    # cropped_data = crop(data, t_window, f_sampling)
+    # raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
+    # eeg_data = PreprocessingPipeline(raw, cal_eeg_data).start()
 
-    #Wavelet transform
-    stats_dwt = FeaturePipeline(eeg_data).start()
-    stats_dwt = np.array(stats_dwt).reshape(240, 1)
-    print(stats_dwt.shape)
+    # #Wavelet transform
+    # stats_dwt = FeaturePipeline(eeg_data).start()
+    # stats_dwt = np.array(stats_dwt).reshape(240, 1)
+    # print(stats_dwt.shape)
 

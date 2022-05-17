@@ -1,7 +1,6 @@
 import numpy as np
 from pathlib import Path
 
-from prepare_data import crop
 from Filters import Filter
 from Visualize import DataPlot
 
@@ -60,16 +59,17 @@ class PreprocessingPipeline():
         
 
 if __name__ == '__main__':
-    # Initialise config variables
-    f_sampling = 250
-    t_window = 10
+    pass
+    # # Initialise config variables
+    # f_sampling = 250
+    # t_window = 10
 
-    # Calibration Data
-    cal_data_path = Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')
-    cal_data = np.load(cal_data_path)
-    cropped_cal_data = crop(cal_data, t_window, f_sampling)
-    raw_cal = np.concatenate((cropped_cal_data[7], cropped_cal_data[8], cropped_cal_data[9], cropped_cal_data[10]))
-    cal_eeg_data = PreprocessingPipeline(raw_cal).start(plot=True)
+    # # Calibration Data
+    # cal_data_path = Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')
+    # cal_data = np.load(cal_data_path)
+    # cropped_cal_data = crop(cal_data, t_window, f_sampling)
+    # raw_cal = np.concatenate((cropped_cal_data[7], cropped_cal_data[8], cropped_cal_data[9], cropped_cal_data[10]))
+    # cal_eeg_data = PreprocessingPipeline(raw_cal).start(plot=True)
 
 
 

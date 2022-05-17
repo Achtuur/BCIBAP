@@ -2,8 +2,6 @@ import numpy as np
 from numpy.fft import rfft, rfftfreq
 import matplotlib.pyplot as plt
 
-from prepare_data import crop
-
 def get_fft(data: np.ndarray):
     y_fft = rfft(data)
     
@@ -73,26 +71,27 @@ class DataPlot():
         plt.show(block=True)
 
 if __name__ == '__main__':
-    import platform
-    import sys
-    from pathlib import Path
-    if platform.system() == "Windows":
-        sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
-        sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
-        sys.path.append(str(Path('Data/ExperimentResults').resolve()))
-    else:
-        sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
-        sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
-        sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
+    pass
+    # import platform
+    # import sys
+    # from pathlib import Path
+    # if platform.system() == "Windows":
+    #     sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+    #     sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
+    #     sys.path.append(str(Path('Data/ExperimentResults').resolve()))
+    # else:
+    #     sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
+    #     sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
+    #     sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
 
-    from PreprocessingPipeline import PreprocessingPipeline
+    # from PreprocessingPipeline import PreprocessingPipeline
 
-    data_path = Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_music.npy')
+    # data_path = Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_music.npy')
     
-    f_sampling = 250
-    t_window = 10
+    # f_sampling = 250
+    # t_window = 10
 
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling)
-    data = PreprocessingPipeline(cropped_data[10]).start()
-    DataPlot.eeg_spectrum_plot(data)
+    # data = np.load(data_path)
+    # cropped_data = crop(data, t_window, f_sampling)
+    # data = PreprocessingPipeline(cropped_data[10]).start()
+    # DataPlot.eeg_spectrum_plot(data)

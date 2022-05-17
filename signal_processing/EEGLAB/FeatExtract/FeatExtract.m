@@ -48,34 +48,59 @@ s= spectrogram(epochs(2,:),hanning(L/3),L/6,2^nextpow2(L/3),Fs,'MinThreshold',-2
 %spectrogram(epochs(2,:),hanning(L/3),L/6,2^nextpow2(L/3),Fs,'MinThreshold',-20,'yaxis');
 [S,F,T] = stft(epochs(2,:),Fs,'Window',hanning(L/3),'OverlapLength',L/6,'FFTLength',2^nextpow2(L/3));
 %% WAVELET TRANSFORM
-[cfs,f] = cwt(epochs(2,:),Fs);
-%cwt(epochs(2,:),Fs);
-[cA,cD] = dwt(epochs(2,:),'db4');
+%[cA,cD] = dwt(epochs(2,:),'db4');
 figure(3)
-%xrec = idwt(cA,zeros(size(cA)),'db4');
-%plot(epochs(2,:));
-%hold on
-%grid on
-%plot(xrec)
-%legend('Original','Reconstruction')
-[c,l]=wavedec(epoch1,4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
+[c,l]=wavedec(epoch1,5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
 approximation= appcoef(c,l,'db4');
-[d1,d2,d3,d4]=detcoef(c,l,[1 2 3 4]);
+[d1,d2,d3,d4,d5]=detcoef(c,l,[1 2 3 4 5]);
 subplot(6, 1, 1)
 plot(approximation);
-title('Approximation at Level 3')
-subplot(5, 1, 2)
+title('Approximation at Level 5') %0-4Hz
+subplot(6, 1, 2)
 plot(d1)
-title('Detail Coefficients at Level 3');
-subplot(5, 1, 3)
+title('Detail Coefficients at Level 1');%64-128Hz
+subplot(6, 1, 3)
 plot(d2)
-title('Detail Coefficients at Level 3');
-subplot(5, 1, 4)
+title('Detail Coefficients at Level 2');%32-64Hz
+subplot(6, 1, 4)
 plot(d3)
-title('Detail Coefficients at Level 2');
-subplot(5, 1, 5)
+title('Detail Coefficients at Level 3');%16-32Hz
+subplot(6, 1, 5)
 plot(d4)
-title('Detail Coefficients at Level 1');
+title('Detail Coefficients at Level 4');%8-16Hz
+subplot(6, 1, 6)
+plot(d5)
+title('Detail Coefficients at Level 5'); %4-8Hz
+
+meanDelta= mean(approximation);
+meanTheta = mean(d5);
+meanAlpha= mean(d4);
+meanBeta= mean(d3);
+
+stdDelta= std(approximation);
+stdTheta = std(d5);
+stdAlpha= std(d4);
+stdBeta= std(d3);
+
+energyDelta= sum(approximation.^2);
+energyTheta = sum(d5.^2);
+energyAlpha= sum(d4.^2);
+energyBeta= sum(d3.^2);
+
+entropyDelta= approximateEntropy(floor(approximation));
+entropyTheta = approximateEntropy(d5);
+entropyAlpha= approximateEntropy(d4);
+entropyBeta= approximateEntropy(d3);
+%energy, entropy and standard deviation
+
+%wavelet packet decomposition
+wpt = wpdec(epoch1,5,'db4','shannon');
+%wpt = dwpt(epoch1,5,'db4','shannon');
+plot(wpt)
+signaltheta=read(wpt,'cfs',31);
+signaldelta=read(wpt,'cfs',32);
+signalalpha=read(wpt,'cfs',33);
+signalbeta=read(wpt,'cfs',34)+read(wpt,'cfs',35)+read(wpt,'cfs',36)+read(wpt,'cfs',37)+read(wpt,'cfs',38);
 %% POWER SPECTRAL DENSITY
 figure(4)
 nfftWelch= 2^nextpow2(L/3); 
@@ -115,7 +140,7 @@ saveas(gcf,'Pwelch_Periodogram_plot','epsc')
 %% FEATURES
 %TIME DOMAIN
 %mean value
-mean= sum(transpose(epochs))./length(epochs(1,:));
+mean1= sum(transpose(epochs))./length(epochs(1,:));
 %maximum value
 posEpoch=epochs;
 posEpoch(posEpoch < 0) = 0; %take rid of negative values
@@ -153,6 +178,7 @@ delta_beta=Pdelta/Pbeta;
 theta_alpha=Ptheta/Palpha;
 theta_beta=Ptheta/Pbeta;
 alpha_beta= Palpha/Pbeta;
+
 %energy per frequency band
 %time instance1
 sumenergyDelta=0;

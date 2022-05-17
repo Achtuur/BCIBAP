@@ -4,14 +4,14 @@
 %   path2dataset: path to dataset folder containing .edf files. folder name should be 'chbxx' where xx is number of the patient
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 % OPTIONAL:
-%   overwrite: overwrite .mat file instead of reading it when available
-%   channellist: channels to include in read data, use value 0 to include all channels
+%   overwrite: overwrite .mat file instead of reading it when available (default false)
+%   channellist: channels to include in read data, use value 0 to include all channels (default 0)
+%   rounding_err: vector containing amount of samples to remove per file when loading. Each entry in vector should correspond to a FileIndex (default 0)
 %% Outputs
 %   filtered_data: matrix containing preprocessed data from .edf files. (These can become quite long!!)
 %   Local storage:
 %       -loadeddata folder containing .mat files which store the filtered data so continuous runs dont take as long
 %           (note these files can become very large)
-
 %% Todo
 %   fix later to select correct channels in LoadnFilter
 function filtered_data = LoadData(path2dataset, FileIndices, varargin) 

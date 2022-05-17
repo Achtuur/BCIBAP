@@ -1,9 +1,21 @@
-from pathlib import Path
 import numpy as np
 import os
-# This is to easily run the script from the command line
-# [] = optional
-# Usage: python data_to_numpy.py -folder folder_name
+
+# This is an ugly hack to make imports work
+from pathlib import Path
+import sys
+import platform
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+    sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
+    sys.path.append(str(Path('Data/ExperimentResults').resolve()))
+else:
+    sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
+    sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
+    sys.path.append(str(Path('./PipelineComponents/PrepareData').resolve()))
+    sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
+
+from prepare_data import timestamps_recording
 
 
 def data_to_numpy(RECORDINGS_PATH = Path(f'../../Data/ExperimentResults/recorded_data/recordings_txt')):

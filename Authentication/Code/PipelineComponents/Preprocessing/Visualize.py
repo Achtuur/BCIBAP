@@ -21,9 +21,9 @@ class DataPlot():
         try:
             fig, axs = plt.subplots(num_col,1)
             for i in range(num_col):
-                axs[i].plot(data[:,i])
+                axs[i].plot(data[:,i], linewidth=0.25)
         except TypeError:
-            plt.plot(data[:])
+            plt.plot(data[:], linewidth=0.25)
 
         plt.show(block=True)
 

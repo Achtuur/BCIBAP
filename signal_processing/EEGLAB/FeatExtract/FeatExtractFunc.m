@@ -11,37 +11,22 @@
 
 %Note that in most of the extraction paths 'epochs' is transposed because then the return value is per epoch instead of per sample of epoch
 
-function [features, labels] = FeatExtractFunc(EarData, Fs, EpochLengthSec)
+function [features, labels] = FeatExtractFunc(EarDataEpochs, Fs, EpochLengthSec)
 %% Test variables
 %     path2edf = 'FeatExtract\chb10_01.edf';
-% 
 %     Fs = 256;            % Sampling frequency                    
 %     T = 1/Fs;             % Sampling period  
 %     filtered_data = LoadnFilter(path2edf, 'locutoff', 0.5, 'hicutoff', 40, 'showplots', 0);
 %     EarData = filtered_data(1,:) ;
 %     EpochLengthSec = 3;
-
 %%
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
-
-%% MAKE EPOCHS
-
-L = Fs*EpochLengthSec; %sample length of epoch
-
-rowsEpoch = floor(length(EarData)/L);
-
-epochs = zeros(rowsEpoch,floor(L));
-x = 0;
-for i = 1:rowsEpoch
-    epochs(i,:) = EarData(1, (x*L+1) : L*(x+1));
-    x = x+1;
-end
-
-
+L = Fs*EpochLengthSec;
+size(EarDataEpochs)
 %% FOURIER TRANSFORM
 nfft = 2^nextpow2(L); %zero padding
-Y = fft(epochs', L);  % compute fft of each epoch , zero padding is an option in second argument
+Y = fft(EarDataEpochs', L);  % compute fft of each epoch , zero padding is an option in second argument
 %Pxx = abs(fft(x,nfft)).^2/length(x)/Fs;
 
 P2 = abs(Y/L); %normalize fft with length of signal
@@ -55,18 +40,18 @@ f = Fs*(0:(L/2))/L;
 
 %% POWER SPECTRAL DENSITY
 nfftWelch = 2^nextpow2(L/3); 
-[psdWelch,fWelch] = pwelch(epochs',hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) , outputs single sided
+[psdWelch,fWelch] = pwelch(EarDataEpochs',hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) , outputs single sided
 
-power = pwelch(epochs',hanning(L/3),L/6, Fs,'power');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) 
+power = pwelch(EarDataEpochs',hanning(L/3),L/6, Fs,'power');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) 
 
 %% AVERAGE BAND POWER FOR EEG EPOCHS
 %compute average band power for each EEG channel using 3 different methods
 
 %using the time series input 
-deltaTime = bandpower(epochs',Fs,[0.5,4])';
-thetaTime = bandpower(epochs',Fs,[4,8])';
-alphaTime = bandpower(epochs',Fs,[8,12])';
-betaTime = bandpower(epochs',Fs,[12,30])';
+deltaTime = bandpower(EarDataEpochs',Fs,[0.5,4])';
+thetaTime = bandpower(EarDataEpochs',Fs,[4,8])';
+alphaTime = bandpower(EarDataEpochs',Fs,[8,12])';
+betaTime = bandpower(EarDataEpochs',Fs,[12,30])';
 
 %using Pwelch algorithm
 deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd')';
@@ -76,7 +61,7 @@ betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd')';
 totalPwelch = bandpower(psdWelch,fWelch,'psd')';
 
 %using Periodogram algorithm
-[psdPerio,fPerio] = periodogram(epochs',hanning(L),nfft,Fs);
+[psdPerio,fPerio] = periodogram(EarDataEpochs',hanning(L),nfft,Fs);
 deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd')';
 thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd')';
 alphaPerio = bandpower(psdPerio,fPerio,[8,12],'psd')';
@@ -87,28 +72,28 @@ betaPerio = bandpower(psdPerio,fPerio,[12,30],'psd')';
 %mean value
 % mean = sum(epochs') ./ length(epochs(1,:));
 disp('Calculating mean');
-Mean = mean(epochs')';
+Mean = mean(EarDataEpochs')';
 
 %maximum value
 % posEpoch=epochs;
 % posEpoch(posEpoch < 0) = 0; %take rid of negative values (this is extremely slow and unnecessary)
 % maxValue= max(transpose(posEpoch)); 
 disp('Calculating max value');
-maxValue = max(epochs')';
+maxValue = max(EarDataEpochs')';
 
 %minimum value
 % negEpoch=epochs;
 % negEpoch (negEpoch>0) = 0; %take rid of positive values (this is extremely slow and unnecessary)
 % minValue = min(transpose(abs(negEpoch)));
 disp('Calculating min value');
-minValue = min(epochs')';
+minValue = min(EarDataEpochs')';
 
 %energy
 disp('Calculating energy');
-energy = sum(abs(transpose(epochs).^2));
+energy = sum(abs(transpose(EarDataEpochs).^2));
 %variance
 disp('Calculating variance');
-variance = var(transpose(epochs));
+variance = var(transpose(EarDataEpochs));
 
 
 %FREQUENCY DOMAIN

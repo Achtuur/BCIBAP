@@ -3,6 +3,9 @@
 %% Inputs
 %   path2dataset: path to dataset folder containing .edf files. folder name should be 'chbxx' where xx is number of the patient
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
+% OPTIONAL:
+%   overwrite: overwrite .mat file instead of reading it when available
+%   channellist: channels to include in read data, use value 0 to include all channels
 %% Outputs
 %   filtered_data: matrix containing preprocessed data from .edf files. (These can become quite long!!)
 %   Local storage:
@@ -28,9 +31,11 @@ FileIndices = sort(FileIndices);
 
 if nargin > 2
    g = finputcheck( varargin, { ...
+            'channellist' 'integer' [0 inf] 0;
             'overwrite' 'integer' [0 Inf] 0;
             }, 'LoadData'); 
 else
+    g.channellist = 0;
     g.overwrite = false;
 end
 
@@ -38,10 +43,12 @@ scriptpath = mfilename('fullpath'); %get path to current script
 scriptpath = strrep(scriptpath, mfilename, ''); %remove filename to obtain path to folder where script is run
 datapath = scriptpath + "loadeddata\";
 FileIndicesstr = join(string(FileIndices), ',');
-datafilepath = datapath + "nFiles" + FileIndicesstr + "filtered_data.mat";
+ChannelListstr = join(string(g.channellist), ',');
+savestr = "nFiles" + FileIndicesstr + "Channels" + ChannelListstr;
+datafilepath = datapath + savestr + "filtered_data.mat";
 
 if ~g.overwrite && isfile(datafilepath)
-    disp ("LoadData(): Data already saved as " + "nFiles" + FileIndicesstr + "filtered_data.mat!")
+    disp ("LoadData(): Data already saved as " + savestr + "filtered_data.mat!")
     disp('Loading .mat file...');
     filtered_data = load(datafilepath);
     filtered_data = filtered_data.filtered_data; %matlab loads it as a struct :/
@@ -64,13 +71,13 @@ for i = FileIndices
     end
     file = sprintf('%s%s_%s.edf',path2dataset, chb, istr); %path to file of recording
     if isfile(file)
-        filtered_data = [filtered_data, LoadnFilter(file)];
+        filtered_data = [filtered_data, LoadnFilter(file, 'channellist', g.channellist)];
 %         datafilepath = datapath + "nFiles" + string(i) + "filtered_data.mat";
     else
         error(file + " does not exist");
     end
 end
-disp("Saving " + "nFiles" + FileIndicesstr + "filtered_data.mat"); %saves files up to now to reduce later load time
+disp("Saving " + savestr + "filtered_data.mat"); %saves files up to now to reduce later load time
 save(datafilepath, 'filtered_data');
 disp("Done saving data, file stored in " + datapath);
 end

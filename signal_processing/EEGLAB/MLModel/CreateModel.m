@@ -1,4 +1,4 @@
-function [Ytest_cat,Ytest_pred_cat] = CreateModel(features, labels, featurelabels)
+function [Ytest_cat,Ytest_pred_cat, savepath] = CreateModel(features, labels, featurelabels)
 %% Below follows some shameless copy paste stuff from EPO 4
 percent_train_split = 70/100;
 
@@ -13,7 +13,7 @@ Ytest = labels(test_id, :);
 Xtest = (Xtest-mu_train)./sigma_train; %applying same normalisation to test data
 
 % fig = figure(1);
-[idx,scores] = fscmrmr(Xtrain,Ytrain); % mRMR feature selection (selects most useful features)
+[feature_idx,scores] = fscmrmr(Xtrain,Ytrain); % mRMR feature selection (selects most useful features)
 % bar(idx,scores(idx))%Create bar graph
 % xlabel('Feature')
 % set(gca,'TickLabelInterpreter','latex');
@@ -21,10 +21,11 @@ Xtest = (Xtest-mu_train)./sigma_train; %applying same normalisation to test data
 % xticks(1:1:length(featurelabels));
 % xticklabels(featurelabels);
 
-[sortedscores, idx] = sort(scores);
+[sortedscores, feature_idx] = sort(scores);
+feature_idx = feature_idx(1:8);
 size(Xtrain)
-Xtrain = Xtrain(:, idx(1:8));
-Xtest = Xtest(:, idx(1:8));
+Xtrain = Xtrain(:, feature_idx);
+Xtest = Xtest(:, feature_idx);
 
 % This makes sure we get the same results every time we run the code.
 rng default
@@ -54,5 +55,5 @@ end
 scriptpath = mfilename('fullpath'); %get path to current script
 scriptpath = strrep(scriptpath, mfilename, ''); %remove filename to obtain path to folder where script is run
 savepath = scriptpath + "model.mat";
-save(savepath, 'model', 'mu_train', 'sigma_train');
+save(savepath, 'model', 'mu_train', 'sigma_train', 'feature_idx');
 end

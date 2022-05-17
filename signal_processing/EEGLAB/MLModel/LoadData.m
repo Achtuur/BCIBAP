@@ -16,11 +16,13 @@
 %   fix later to select correct channels in LoadnFilter
 function filtered_data = LoadData(path2dataset, FileIndices, varargin) 
 %% test values
-%   comment out the lines about nargin and varargin
+% %   comment out the lines about nargin and varargin
 %     eegpath = AddPath();
 %     path2dataset = eegpath + "/sample_data/" + "chb04";
+%     FileIndices = 5;
 %     g.overwrite = false;
-%     FileIndices = [1 2 3];
+%     g.channellist = 0;
+%     g.rounding_err = linspace(0,0,max(FileIndices));
 %%
 
 
@@ -31,11 +33,13 @@ FileIndices = sort(FileIndices);
 
 if nargin > 2
    g = finputcheck( varargin, { ...
+            'rounding_err' 'integer' [0 inf] linspace(0,0,length(FileIndices));
             'channellist' 'integer' [0 inf] 0;
             'overwrite' 'integer' [0 Inf] 0;
             }, 'LoadData'); 
 else
     g.channellist = 0;
+    g.rounding_err = linspace(0,0,length(FileIndices));
     g.overwrite = false;
 end
 
@@ -64,6 +68,7 @@ mkdir(datapath); %create path if doesnt exist yet
 filtered_data = [];
 chb = strsplit(path2dataset, filesep); % split path into separate folders
 chb = chb{length(chb)-1}; % take second to last (chb should now be 'chbxx') (last entry is empty due to path ending with filesep)
+j = 1;
 for i = FileIndices
     istr = string(i);
     if i < 10
@@ -71,8 +76,11 @@ for i = FileIndices
     end
     file = sprintf('%s%s_%s.edf',path2dataset, chb, istr); %path to file of recording
     if isfile(file)
-        filtered_data = [filtered_data, LoadnFilter(file, 'channellist', g.channellist)];
-%         datafilepath = datapath + "nFiles" + string(i) + "filtered_data.mat";
+        newData =  LoadnFilter(file, 'channellist', g.channellist);
+        lim = size(newData, 2) - floor(g.rounding_err(j)); %discard samples that attribute to rounding error
+        newData = newData(:, 1 : lim); 
+        j = j + 1;
+        filtered_data = [filtered_data, newData];
     else
         error(file + " does not exist");
     end

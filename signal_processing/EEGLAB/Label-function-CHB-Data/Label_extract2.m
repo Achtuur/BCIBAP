@@ -10,7 +10,8 @@
 %   Fs: sampling frequency contained in summary.txt file
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 %   Channelsout: vector containing indices of channels to be used
-function [Fs, LabelsOut, ChannelsOut] = Label_extract2(path, EpochDurationSeconds, FileIndices)
+%   rounding_err: number of samples lost per file due to rounding
+function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path, EpochDurationSeconds, FileIndices)
 %% testvalues
 %     dataset = 'chb04';
 %     eegpath = AddPath();
@@ -50,6 +51,7 @@ if length(loop) < 1
 end
 LabelsOut = cell(maxLoop, 2);
 i = 1; %index for labelsout
+rounding_err = zeros(1, maxLoop);
 for k = loop
    fileblock = splitlines(Files{k});
    % fileblock{1} contains file name
@@ -63,6 +65,8 @@ for k = loop
    startTimeHMS = cell2mat(regexp(fileblock{2}, '\d+:\d+:\d+', 'match'));
    endTimeHMS = cell2mat(regexp(fileblock{3}, '\d+:\d+:\d+', 'match'));
    timeDiff = calcTimeDiff(startTimeHMS, endTimeHMS);
+   L = timeDiff / EpochDurationSeconds;
+   rounding_err(i) = (L - floor(L)) * Fs * EpochDurationSeconds;
    Epoch = zeros(1, floor(timeDiff / EpochDurationSeconds));
    
    nSeizures = regexpnum(fileblock{4}, '\d+'); %get number of seizures as a double

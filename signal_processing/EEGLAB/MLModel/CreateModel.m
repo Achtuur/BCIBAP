@@ -23,7 +23,6 @@ Xtest = (Xtest-mu_train)./sigma_train; %applying same normalisation to test data
 
 [sortedscores, feature_idx] = sort(scores);
 feature_idx = feature_idx(1:8);
-size(Xtrain)
 Xtrain = Xtrain(:, feature_idx);
 Xtest = Xtest(:, feature_idx);
 
@@ -41,7 +40,6 @@ Ytest_pred = str2double(Ytest_pred_str);
 num_classes=length(unique(labels));
 Ytest_cat=zeros(num_classes,size(Ytest,1));
 Ytest_pred_cat=zeros(num_classes,size(Ytest,1));
-size(find(Ytest == 2))
 
 for i=1:num_classes
     Ytest_cat(i, Ytest==i) = 1;

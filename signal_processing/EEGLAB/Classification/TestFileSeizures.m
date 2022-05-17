@@ -2,16 +2,16 @@
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb04';
+    dataset = 'chb03';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = 5;
+    FileIndices = 1:4;
     path2model = eegpath + "\MLModel\model.mat";
 
 %% get labels
 EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels, channellist] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+[Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
 temp = [];
 for k = 1 : size(labels, 1) %loop through rows of labels
     labelarr = labels{k, 2};
@@ -26,12 +26,12 @@ if length(SeizureEpochs) == 0
 end
 
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 epochs = epochs(SeizureEpochs, :);
 [feat, ~] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 
-disp('Classifying data ... ');
+disp('Classifying data...');
 sensitivity = 0;
 TN = 0; FP = 0;
 for k = 1:size(feat, 1)

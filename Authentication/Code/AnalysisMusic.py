@@ -19,6 +19,7 @@ from ExperimentWrapper import ExperimentWrapper
 
 # Preprocessing
 from PreprocessingPipeline import PreprocessingPipeline
+from prepare_data import crop
 from Visualize import DataPlot
 
 # Feature Extraction
@@ -72,15 +73,31 @@ if __name__ == '__main__':
     
     EXPERIMENTS.append(EXPERIMENT_M1)
 
+    features = []
+    labels = []
     for experiment in EXPERIMENTS:
         print(f'\nAnalysing {experiment.get_subject()}')
         # Hier functie van Joos om automatisch data te croppen
         calibration_data = PreprocessingPipeline(experiment.get_calibration_data()).start()
         # DataPlot.eeg_channels_plot(calibration_data)
         experiment_data = PreprocessingPipeline(experiment.get_experiment_data(), calibration_data).start()
+        data_portions = crop(experiment_data[8000:20000], 5, 250)
+        
+        for data in data_portions:
+            features.append(np.array(FeaturePipeline(data).start()).reshape(240,1))
+
+        labels.append(get_labels(experiment.get_experiment_description_file(), 2))
+
+    # This converts list with sublist features into large list and reshapes it into 240x18
+    # features = np.array([item for sublist in features for item in sublist]).reshape(18,240)
+    # features_normalized = np.empty((240, 18))
+    # for index, column in enumerate(features.T):
+    #     features_normalized[index,:] = np.linalg.norm(column)
+    
+    # features_normalized = features_normalized.T
+    # print(features_normalized.s)
 
         # Do feature Extraction
-        features = FeaturePipeline(experiment_data).start()
-        labels = get_labels(experiment.get_experiment_description_file(), 2)
+        # features = FeaturePipeline(experiment_data).start()
         
         # Aggregate result(?)

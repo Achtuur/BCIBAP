@@ -31,24 +31,27 @@ class PreprocessingPipeline():
 
         return data_artifacts_removed
 
-    def start(self, plot=False):
+    def start(self, plot=False, v=False):
         clean_data = self.raw_data
         # High pass filter
-        print("Apply High Pass Filter")
+        if v:
+            print("Apply High Pass Filter")
         clean_data = self.perform_high_pass_filter(clean_data)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
 
         # Notch filter
-        print("Apply Notch Filter")
+        if v:
+            print("Apply Notch Filter")
         clean_data = self.perform_notch_filter(clean_data)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
         # ASR if pipeline has calibrated data
         if self.cal_data is not None:
-            print("Removing artifacts")
+            if v:
+                print("Removing artifacts")
             clean_data = self.remove_artifacts(clean_data)
             if plot:
                 DataPlot.eeg_channels_plot(clean_data)

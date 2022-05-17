@@ -4,13 +4,15 @@ from datetime import datetime, timedelta
 import csv
 import os.path
 import numpy as np
+from pathlib import Path
 
 amount = 10 #amount of tasks that will be shown on the screen
 duration = 5 #duration of each task in seconds
 tasks = ['Solve sums ', 'Rotate object ', 'Imagine finger movement ', 'Imagine song '] #tasks that are shown on screen
 
 
-data = ['0'] * amount
+data = ['0'] * (amount + 1)
+data[-1] = 'FINISHED'
 bitjes = [0] * amount #sums = 0, rotate = 1, imagine movement = 2, imagine song = 3
 
 k = list(range(0,amount))
@@ -29,12 +31,9 @@ for j in k:
         bitjes[j] = ''
 
     
-filename = str(datetime.now())
-filename = filename.replace("/", "-")
-filename = filename.replace(" ", "_")
-filename = filename.replace(":", "-")
+filename = 'Simon_17-05-2022_mt_take4'
 
-filename = f'.\\tasklists\\data_{str(filename)}'
+filename = Path(f'.\\tasklists\\{filename}')
 
 
 

@@ -33,12 +33,9 @@ for i, emotion in enumerate(emotions):
     # binding word required because of the loop
     label.after(1000*duration * i, lambda w= emotion: label.configure(text=w))
 
-filename = str(datetime.now())
-filename = filename.replace("/", "-")
-filename = filename.replace(" ", "_")
-filename = filename.replace(":", "-")
+filename = 'Simon_17-05-2022_em_test'
 
-filename = f'.\\timestamps\\data_{str(filename)}'
+filename = f'.\\timestamps\\{filename}'
 fo = open(filename, "w")
 fo.close()
 

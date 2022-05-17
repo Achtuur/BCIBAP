@@ -68,7 +68,7 @@ for i in range(1, songs_amount + 1):
     filename = Path(f"./songs/Song{str(i)}.mp3")
     sound = AudioSegment.from_mp3(filename)
     songs[i-1] = sound[starttime:endtime]
-    newname = Path(f'./song_samples/song{str(i)}.mp3')
+    newname = Path(f'./songs/song_samples/song{str(i)}.mp3')
     songs[i-1].export(newname, format="mp3")
 
 data = [0 for i in range(songs_amount)]
@@ -81,8 +81,8 @@ j = 0
 exp_song_order = [i for i in range(1, songs_amount+1)]
 random.shuffle(exp_song_order)
 for index, num in enumerate(exp_song_order):
-    songname = Path(f'song_samples/song{str(num)}.mp3')
-    if songname == Path(f'song_samples/song{known_song}.mp3'):
+    songname = Path(f'./songs/song_samples/song{str(num)}.mp3')
+    if songname == Path(f'./songs/song_samples/song{known_song}.mp3'):
         bitjes[index] = 1
     else:
         bitjes[index] = 0

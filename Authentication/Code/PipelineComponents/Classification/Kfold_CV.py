@@ -36,16 +36,16 @@ class Models():
             #     'n_neighbors' : [3],
             #     'weights' : ["distance"]
             # },
-            # "SVC": {
-            #     'C' : [10],
-            #     'kernel' : ["poly"],
-            #     'random_state' : [42]
-            # },
-            "LogisticRegression": {
-                'C' : [10],
-                'penalty' : ["none"],
+            "SVC": {
+                'C' : [1, 10, 100],
+                'kernel' : ["poly"],
                 'random_state' : [42]
-            }
+            }#,
+            # "LogisticRegression": {
+            #     'C' : [10],
+            #     'penalty' : ["none"],
+            #     'random_state' : [42]
+            # }
             }
 
     def KFOLD_CV(self, train_data, train_labels, val_data, val_labels):
@@ -68,7 +68,7 @@ class Models():
         return grid_search, accuracies
 
     @staticmethod
-    def train_val_split(X, y, test_size=0.25):
+    def train_val_split(X, y, test_size=0.8):
         X_train, X_val, Y_train, Y_val = train_test_split(X, y, test_size = test_size, random_state = 42)
         return X_train, X_val, Y_train, Y_val
     

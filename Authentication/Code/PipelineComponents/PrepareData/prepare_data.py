@@ -4,12 +4,14 @@ from pathlib import Path
 import numpy as np
 import os
 from os import listdir
+import glob
 
 def crop(path_experiment, path_recording_numpy, t_window: int, f_sampling: float) -> list:
     sample_start, sample_end = start_data(f_sampling, path_experiment, path_recording_numpy)
-    files = os.listdir(path_recording_numpy)
-    path = Path(f'{path_recording_numpy}/{files[1]}')
-    data = np.load(path)
+
+    path = Path(path_recording_numpy)
+    file = glob.glob(f'{path}/*.npy')
+    data = np.load(file[0])
     data = data[sample_start:sample_end]
     array_length = data.shape[0]
     n_sub_samples = ceil(t_window * f_sampling)
@@ -54,7 +56,7 @@ def start_data(fs, path_experiment, path_recording, duration = 5):
     #start_data = timestamps_data(path_recording, lines_to_skip, time_location, time_information)
     start_data = timestamps_recording(path_recording)
     time_diff = str(int(start_experiment) - int(start_data))
-    time_diff = '00000' + time_diff
+    time_diff = '0000000' + time_diff
     ms = time_diff[-3:]
     s = time_diff[-5:-3]
     m = time_diff[-7:-5]
@@ -72,8 +74,9 @@ def start_data(fs, path_experiment, path_recording, duration = 5):
 #This function takes data from the raw recording file and takes the timestamps from this, it removes the dates and turns the time into a string of only numbers
 def timestamps_recording(path_recording):
     path = Path(path_recording)
-    files = os.listdir(path)
-    with open(f'{path}/{files[0]}', 'r') as f:
+
+    file = glob.glob(f'{path}/*.txt')
+    with open(file[0], 'r') as f:
         data = f.readlines()
     
     data = str(data[0])
@@ -104,13 +107,13 @@ def data_to_numpy(RECORDINGS_PATH = Path(f'../../Data/ExperimentResults/recorded
 
 
 if __name__ == '__main__':
-    path_experiment = Path('../../Data/Experiments/Pseudowords/results/data_2022-05-10_11-31-17.544482.csv')
-    path_recordings_RAW = Path()
+    path_experiment = Path('../../Data/Experiments/Pseudowords/results/data_2022-05-10_11-31-17.544482.csv') #path to file containing information on the experiment
+    path_recordings_RAW = Path() #Path to raw recording, used for the data_to_numpy function
     path_recording_numpy = Path(f'.\\recorded_data\\recordings_numpy\OpenBCISession_Sam_ft_12\OpenBCI-RAW-2022-05-10_10-03-06') #path to folder containing the numpy data and timestampfile
-    f_sampling = 250
-    t_window = 5
+    f_sampling = 250 #sampling frequency
+    t_window = 5 #duration of experiment stimulations
     
-    data_to_numpy()
+    #data_to_numpy()
     
 
     cropped_data = crop(path_experiment, path_recording_numpy, t_window, f_sampling)

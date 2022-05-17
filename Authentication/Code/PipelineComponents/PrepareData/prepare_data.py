@@ -8,14 +8,12 @@ from os import listdir
 def crop(path_experiment, path_recording_numpy, t_window: int, f_sampling: float) -> list:
     sample_start, sample_end = start_data(f_sampling, path_experiment, path_recording_numpy)
     files = os.listdir(path_recording_numpy)
-    path = Path(f'{path_recording_numpy}/{files[0]}')
+    path = Path(f'{path_recording_numpy}/{files[1]}')
     data = np.load(path)
     data = data[sample_start:sample_end]
-    print(len(data))
     array_length = data.shape[0]
     n_sub_samples = ceil(t_window * f_sampling)
     groups = array_length // n_sub_samples
-    print(data, groups)
     cropped_data = np.array_split(data, groups)
     return cropped_data
 
@@ -39,13 +37,12 @@ def get_labels(path_experiment, label_column = 1):
 
 #This function gets timestamps from the file timestamp file
 def timestamps_experiment(path_experiment, time_column = 2):
-    
     with open(path_experiment, newline = '') as f:
         csv_reader = csv.reader(f, delimiter=',')
         data = list(csv_reader)
 
     start_experiment = data[0][time_column].replace(':','').replace('.','')
-    len_experiment = int(len(data)*0.5)
+    len_experiment = int(len(data))
     
     return start_experiment, len_experiment
 
@@ -69,7 +66,6 @@ def start_data(fs, path_experiment, path_recording, duration = 5):
         sample_start = int(int(m)*fs*60 + int(s)*fs + int(ms)*(fs/1000))
 
     sample_end = len_experiment*fs*duration + sample_start
-    print(sample_start, sample_end)
     return sample_start, sample_end
 
 
@@ -77,7 +73,7 @@ def start_data(fs, path_experiment, path_recording, duration = 5):
 def timestamps_recording(path_recording):
     path = Path(path_recording)
     files = os.listdir(path)
-    with open(f'{path}/{files[1]}', 'r') as f:
+    with open(f'{path}/{files[0]}', 'r') as f:
         data = f.readlines()
     
     data = str(data[0])

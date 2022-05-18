@@ -6,7 +6,7 @@
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
     FileIndices = 1:4;
-    path2model = eegpath + "\MLModel\model.mat";
+    path2model = eegpath + "\MLModel\treebagmodel.mat";
 
 %% get labels
 EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;

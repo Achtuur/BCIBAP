@@ -27,7 +27,7 @@ function filtered_data = LoadData(path2dataset, FileIndices, varargin)
 
 
 path2dataset = convertStringsToChars(path2dataset); % make char array so that path can be indexed
-path2dataset = strrep(path2dataset,'/', filesep); %make sure every dash in path works for os
+path2dataset = strrep(path2dataset, '/', filesep); %make sure every dash in path works for os
 path2dataset = strrep(path2dataset, '\', filesep);
 FileIndices = sort(FileIndices);
 

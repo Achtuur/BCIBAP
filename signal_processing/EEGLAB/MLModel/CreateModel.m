@@ -52,6 +52,7 @@ end
 
 scriptpath = mfilename('fullpath'); %get path to current script
 scriptpath = strrep(scriptpath, mfilename, ''); %remove filename to obtain path to folder where script is run
-savepath = scriptpath + "model.mat";
+filename = "treebagmodel";
+savepath = scriptpath + filename + ".mat";
 save(savepath, 'model', 'mu_train', 'sigma_train', 'feature_idx');
 end

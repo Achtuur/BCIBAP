@@ -6,7 +6,7 @@
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 
 %% Outputs
-% uhh
+% uhh - hahah sterk
 
 %% Function start
 function [features_norm,features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
@@ -16,7 +16,7 @@ EegFeature = 0;
 %% Get labels of data
 
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels, channellist] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+[Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
 
 temp = [];
 for k = 1 : size(labels, 1) %loop through rows of labels
@@ -27,7 +27,7 @@ end
 labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure respectively
 clear temp
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
 
 %% Get features
 

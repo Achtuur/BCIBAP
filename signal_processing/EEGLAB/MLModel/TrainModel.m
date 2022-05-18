@@ -13,12 +13,12 @@
 %%
 function [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
-clc; clear;
-eegpath = AddPath();
-dataset = 'chb04';
-path2dataset = eegpath + "sample_data\" + dataset + "\";
-FileIndices = 5;
-EpochLengthSec = 3.25;
+%     clc; clear;
+%     eegpath = AddPath();
+%     dataset = 'chb04';
+%     path2dataset = eegpath + "sample_data\" + dataset + "\";
+%     FileIndices = 5;
+%     EpochLengthSec = 3.25;
 %% Get labels of data
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
@@ -55,7 +55,11 @@ feature_out = features;
 % labels = labels(starti - di : endi + di, :);
 
 %% Create model
+disp('Creating model...');
 [lab, predicted, savepath] = CreateModel(features, labels, featurelabels);
-
+disp('Done creating model!');
+%% Save model
+disp('Saving Model');
 save(savepath, 'Fs', 'EpochLengthSec', '-append');
+disp('Done saving model');
 % end

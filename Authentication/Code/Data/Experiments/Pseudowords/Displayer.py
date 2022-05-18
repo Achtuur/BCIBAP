@@ -41,6 +41,7 @@ display_time = args.disp
 length = args.len
 words, bitjes = listgenerator(length)
 
+words = words.append('FINISHED')
 
 def refresh_label(label, word):
     label.configure(text=word)
@@ -65,8 +66,6 @@ for i in range(0, len(words)):
     times[j] = time.strftime("%H:%M:%S.%f")
     times[j] = times[j][:12]
     j = j + 1
-
-print(times)
 
 
 

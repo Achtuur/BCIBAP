@@ -31,6 +31,26 @@ RECORDINGS_CROP_DICTIONARY = {
         'SIMON_PSEUDO' : {
                 'path' : Path('./recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_pseudo.npy'),
                 'crop' : (5511, 5511+(250*50*5))
+        },
+        'MIRTHE_CALIBRATION' : {
+                'path' : Path('./recorded_data/recordings_numpy/Mirthe_17_05_2022/OpenBCISession_Mirthe_calibration.npy'),
+                'crop' : (250*10, 250*70)
+        },
+        'MAXIM_CALIBRATION' : {
+                'path' : Path('./recorded_data/recordings_numpy/M2_17_05_2022/OpenBCISession_M2_calibration.npy'),
+                'crop' : (250*10, 250*70)
+        },
+        'F1_CALIBRATION' : {
+                'path' : Path('./recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_calibration.npy'),
+                'crop' : (250*10, 250*70)
+        },
+        'F1_PSEUDO' : {
+                'path' : Path('./recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_pseudo.npy'),
+                'crop' : (2570, 2570+(250*5*50))
+        },
+        'F3_CALIBRATION' : {
+                'path' : Path('./recorded_data/recordings_numpy/F3_17_05_2022/OpenBCISession_F3_calibration.npy'),
+                'crop' : (250*10, 250*70)
         }
 }
 

@@ -53,6 +53,9 @@ def get_labels(path_experiment, label_column = 1):
     return labels
 
 if __name__ == '__main__':
+
+    # This Shouldn't Change unless you add experiments
+    #-------------------------------------------------------------------- 
     EXPERIMENTS = []
     
     # Sam
@@ -96,7 +99,26 @@ if __name__ == '__main__':
     )
 
     EXPERIMENTS.append(EXPERIMENT_SIMON)
+
+    # F1
+    EXPERIMENT_F1 = ExperimentWrapper('F1',
+        'Pseudo',    
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_calibration.npy')
+    )
+
+    EXPERIMENT_F1 = EXPERIMENT_F1.set_experiment_data(
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_pseudo.npy')
+    ).set_experiment_description_file(
+        Path('./Data/Experiments/Pseudowords/results/F1_17-05-2022_pseudo_take1.csv')
+    )
+
+    EXPERIMENTS.append(EXPERIMENT_F1)
+    #-------------------------------------------------------------------- 
    
+
+    # This can be changed, but you'll probably only need to change the lines 
+    # where the Features are calculated and the PCA stuff
+    #-------------------------------------------------------------------- 
     features = np.array([])
     labels = []
     for experiment in EXPERIMENTS:
@@ -118,8 +140,9 @@ if __name__ == '__main__':
 
     
     features_normalized = normalize(features, axis=0)
-    # This is arbitrarily chosen
-    pca = PCA(n_components=40)
+
+    # This is arbitrarily chosen and depends on how many features you have
+    pca = PCA(n_components=80)
     principal_components = pca.fit_transform(features_normalized)
     principal_components = principal_components.tolist() 
 
@@ -138,7 +161,11 @@ if __name__ == '__main__':
 
     test_data = principal_components[split+1:]
     test_labels = labels[split+1:]
+    #-------------------------------------------------------------------- 
 
+
+    # Below can be changed freely
+    #-------------------------------------------------------------------- 
     # # Train classifier
     svm = svm_classifier(train_data, train_labels)
 
@@ -152,3 +179,4 @@ if __name__ == '__main__':
             correct += 1
 
     print(f'Number of test samples: {len(test_data)}\nTotal Correct: {correct}\nAccuracy: {correct/len(test_data)}')
+    #-------------------------------------------------------------------- 

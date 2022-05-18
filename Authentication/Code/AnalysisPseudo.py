@@ -117,7 +117,7 @@ if __name__ == '__main__':
    
 
     # This can be changed, but you'll probably only need to change the lines 
-    # where the Features are calculated and the PCA stuff
+    # where the Features are calculated and the PCA stuff 
     #-------------------------------------------------------------------- 
     features = np.array([])
     labels = []

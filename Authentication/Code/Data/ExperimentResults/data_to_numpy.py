@@ -8,11 +8,11 @@ import os
 RECORDINGS_CROP_DICTIONARY = {
         # M1
         'M1_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_calibration.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_calibration.npy'),
                 'crop' : (250*15, 250*75)
         },
         'M1_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_pseudo.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_pseudo.npy'),
                 'crop' : (1570, 1570+(250*50*5))
         }, 
         # SAM

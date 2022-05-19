@@ -1,7 +1,7 @@
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data\" + dataset + "\";
-FileIndices = 1:6;
+FileIndices = 1;
 
 % epochs = 0.5 : 0.25 : 4;
 epochs = 3.25;

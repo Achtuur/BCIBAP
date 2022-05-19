@@ -50,7 +50,7 @@ path2edf = strrep(path2edf, '\', filesep);
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-            'locutoff' 'integer' [0 Inf] 0.1;
+            'locutoff' 'integer' [0 Inf] 0.5;
             'hicutoff' 'integer' [0 Inf] 50; %take lo/hi cutoff from function argument input
             'forder' 'integer' [0 inf] 1000;
             'showplots' 'integer' [0 inf] 0
@@ -79,7 +79,7 @@ end
 [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
 
 %% ASR
-[EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+% [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
 
 %% Plot filtered EEG data
 if g.showplots

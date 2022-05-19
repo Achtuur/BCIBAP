@@ -11,7 +11,7 @@
 %       mu_train: mean of training data obtained from zscore test, used to normalise
 %       sigma_train: std of training data obtained from zscore test, used to normalise
 %%
-function [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [lab, predicted, feature_out, mus, stds] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
 %     clc; clear;
 %     eegpath = AddPath();
@@ -20,9 +20,11 @@ function [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileI
 %     FileIndices = 5;
 %     EpochLengthSec = 3.25;
 %% Get labels of data
+disp('Getting labels of data');
+tic
+
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
-
 temp = [];
 for k = 1 : size(labels1, 1) %loop through rows of labels
     labelarr = labels1{k, 2};
@@ -34,20 +36,34 @@ labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure 
 if isempty(find(labels == 2, 1))
    error("Input data contains no seizures"); 
 end
-
+t = toc;
+fprintf("Got labels, took %.3f seconds\n", t);
 %% get filtered data
+tic;
+disp("Loading data...");
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
-
+t = toc;
+fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
 % normalise filtered_data
 % for k = 1 : size(filtered_data, 1) %loop through channels
 %     filtered_data(:,k) = (filtered_data(:,k) - mean(filtered_data(:,k))) / max(filtered_data(:,k));
 % end
+disp('Getting features...');
+tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 feature_out = features;
 
+t = toc;
+fprintf("Got features, took %.3f seconds\n", t);
+
+%% normalise features
+for k = 1 : size(features, 2) %loop through features
+    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
+    features_norm = num2cell(temp);
+end
 % starti = find(labels == 2,1, 'first');
 % endi = find(labels == 2,1, 'last');
 % di = floor((endi-starti) * 2);
@@ -56,10 +72,18 @@ feature_out = features;
 
 %% Create model
 disp('Creating model...');
+tic;
+
 [lab, predicted, savepath] = CreateModel(features, labels, featurelabels);
-disp('Done creating model!');
+
+t = toc;
+fprintf("Done creating model, took %.3f seconds\n", t);
 %% Save model
 disp('Saving Model');
+tic;
+
 save(savepath, 'Fs', 'EpochLengthSec', '-append');
-disp('Done saving model');
-% end
+
+t = toc;
+fprintf("Done saving model, took %.3f seconds\n", t);
+end

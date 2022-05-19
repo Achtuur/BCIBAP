@@ -20,6 +20,9 @@ function [features, labels] = FeatureLabelsPerEpoch(varargin)
     
     %% Init
     nEpochs = size(varargin{1}, 1); %amount of epochs is equal to rows of any data element (should have same amount of epochs)
+    if nEpochs == 1 && size(varargin{1}, 2) ~= 1
+       nEpochs = size(varargin{1}, 2); %use column as epochs if input is 1xNepochs 
+    end
     L = nargin/2; %amount of data/label pairs
     features = cell(nEpochs, L);
     labels = cell(1, L);
@@ -41,6 +44,7 @@ function [features, labels] = FeatureLabelsPerEpoch(varargin)
         for k = 1:size(data,1) %loop through rows of data
             col{k, 1} = data(k, :); 
         end
+        disp(label);
         features(:, i) = col;
         labels(1, i) = {label};
     end

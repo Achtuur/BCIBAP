@@ -7,8 +7,13 @@ d = load(path2model);
 model = d.model; %ML model
 mu = d.mu_train; %mean of train data used for model
 sigma = d.sigma_train; %std of train data used for model
-idx = d.feature_idx;
+idx = false;
+if exist('d.feature_idx', 'var')
+    idx = true;
+end
 norm = (input_epoch - mu) ./ sigma;
-norm = norm(idx);
+if idx
+    norm = norm(d.feature_idx);
+end
 OutputClass = model.predict(norm);
 end

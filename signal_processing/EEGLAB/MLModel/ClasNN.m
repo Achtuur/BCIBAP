@@ -9,9 +9,10 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
+matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
-    [X,features,Y,featurelabels] = CNN(dataset, path2dataset, FileIndices, k);
+    [X,features,Y,featurelabels, mu_train, sigma_train] = CNN(dataset, path2dataset, FileIndices, k);
     X = cell2mat(X);
     %Y = cell2mat(Y);
     % Train CNN here
@@ -37,3 +38,5 @@ for k = epochs
 %     fig = plotconfusion(lab, predicted);
 %     fig.CurrentAxes.Title.String = sprintf("epochlengthsec = %0.1f", k);
 end
+model = Mdl;
+save('MLModel/CNNmodel.mat', 'model', 'mu_train', 'sigma_train', '-append');

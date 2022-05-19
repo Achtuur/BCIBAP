@@ -9,41 +9,64 @@
 % uhh - hahah sterk
 
 %% Function start
-function [features_norm,features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [features_norm,features,labels,featurelabels, mus, stds] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% Test variables
 EegFeature = 0;
 
 %% Get labels of data
+disp('Getting labels of data');
+tic
 
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
-
+[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
 temp = [];
-for k = 1 : size(labels, 1) %loop through rows of labels
-    labelarr = labels{k, 2};
+for k = 1 : size(labels1, 1) %loop through rows of labels
+    labelarr = labels1{k, 2};
     labelarr = labelarr(:); %force column vector
     temp = [temp; labelarr]; %make labels 1 long column vector where every row is an epoch
 end
 labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure respectively
-clear temp
-%% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
 
+if isempty(find(labels == 2, 1))
+   error("Input data contains no seizures"); 
+end
+t = toc;
+clear temp;
+save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
+fprintf("Got labels, took %.3f seconds\n", t);
+
+%% get filtered data
+tic;
+disp("Loading data...");
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err);
+t = toc;
+fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
 
+disp('Getting features...');
+tic;
+
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+feature_out = features;
+
+t = toc;
+fprintf("Got features, took %.3f seconds\n", t);
 
 %% Normalize features
-for k = 1 : size(features, 2) %loop through channels
-    temp(:,k) = zscore([features{:,k}]);
+disp('Normalising features...');
+tic;
+for k = 1 : size(features, 2) %loop through features
+    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
     features_norm = num2cell(temp);
 end
+t = toc;
+fprintf("Normalised features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
 if EegFeature
     for k = 1 : size(filtered_data, 1) %loop through channels
-        filtered_data(:,k) = zcore(filtered_data(:,k));
+        filtered_data(:,k) = zscore(filtered_data(:,k));
     end
 end
 

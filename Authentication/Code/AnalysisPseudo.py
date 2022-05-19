@@ -75,11 +75,11 @@ if __name__ == '__main__':
     # M1
     EXPERIMENT_M1 = ExperimentWrapper("M1", 
         'Pseudo',    
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_calibration.npy'),
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_calibration.npy'),
     )
 
     EXPERIMENT_M1 = EXPERIMENT_M1.set_experiment_data(
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_pseudo.npy')
+        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_pseudo.npy')
     ).set_experiment_description_file(
         Path('./Data/Experiments/Pseudowords/results/data_2022-05-10_11-31-17.544482.csv')
     )

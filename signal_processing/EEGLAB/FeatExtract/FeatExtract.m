@@ -1,6 +1,7 @@
 %% SIGNAL PARAMETERS 
-addpath('./SPgroupfunc')
-path2edf = './sample_data/chb10_01.edf';
+AddPath();
+path2edf = 'FeatExtract\chb10_01.edf';
+
 Fs = 256;            % Sampling frequency                    
 T = 1/Fs;             % Sampling period  
 filtered_data = LoadnFilter(path2edf, 'locutoff', 0.5, 'hicutoff', 40, 'showplots', 0);
@@ -28,7 +29,7 @@ xlabel('t (milliseconds)')
 saveas(gcf,'EEG_Epoch','epsc')
 %% FOURIER TRANSFORM
 nfft = 2^nextpow2(L); %zerro padding
-Y= fft(transpose(epochs),L);  % compute fft of each epoch , zero padding is an option in second argument
+Y= fft(epochs',L);  % compute fft of each epoch , zero padding is an option in second argument
 %Pxx = abs(fft(x,nfft)).^2/length(x)/Fs;
 P2 = abs(Y/L); %normalize fft with length of signal
 P1 = P2(1:L/2+1);  %take frequencies up until nyquist rate (L/2)
@@ -102,7 +103,7 @@ signaldelta=read(wpt,'cfs',32);
 signalalpha=read(wpt,'cfs',33);
 signalbeta=read(wpt,'cfs',34)+read(wpt,'cfs',35)+read(wpt,'cfs',36)+read(wpt,'cfs',37)+read(wpt,'cfs',38);
 %% POWER SPECTRAL DENSITY
-figure(4)
+% figure(4)
 nfftWelch= 2^nextpow2(L/3); 
 [psdWelch,fWelch] = pwelch(epochs(2,:),hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f]= pwelch(x,window,noverlap,nfft,fs) , outputs single sided
 pwelch(epochs(2,:),hanning(L/3), L/6,nfftWelch,Fs,'psd');
@@ -124,9 +125,9 @@ alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd');
 betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd');
 totalPwelch= bandpower(psdWelch,fWelch,'psd');
 %using Periodogram algorithm
-figure(6)
-periodogram(epochs(2,:),hanning(L),nfft,Fs);
-[psdPerio,fPerio] = periodogram(epochs(2,:),hanning(L),nfft,Fs);
+% figure(6)
+% periodogram(epochs',hanning(L),nfft,Fs);
+[psdPerio,fPerio] = periodogram(epochs',hanning(L),nfft,Fs);
 deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd');
 thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd');
 alphaPerio= bandpower(psdPerio,fPerio,[8,12],'psd');
@@ -172,12 +173,13 @@ Ptheta= thetaPwelch/totalPwelch;
 Palpha= alphaPwelch/totalPwelch;
 Pbeta= betaPwelch/totalPwelch;
 %power ratios
-delta_theta= Pdelta/Ptheta;
-delta_alpha=Pdelta/Palpha;
-delta_beta=Pdelta/Pbeta;
-theta_alpha=Ptheta/Palpha;
-theta_beta=Ptheta/Pbeta;
-alpha_beta= Palpha/Pbeta;
+disp('Calculating power ratios');
+delta_theta = Pdelta ./ Ptheta;
+delta_alpha = Pdelta ./ Palpha;
+delta_beta =  Pdelta ./ Pbeta;
+theta_alpha = Ptheta ./ Palpha;
+theta_beta =  Ptheta ./ Pbeta;
+alpha_beta =  Palpha ./ Pbeta;
 
 %energy per frequency band
 %time instance1

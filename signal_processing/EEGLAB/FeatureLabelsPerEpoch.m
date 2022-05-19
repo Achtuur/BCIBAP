@@ -26,14 +26,17 @@ function [features, labels] = FeatureLabelsPerEpoch(varargin)
     
     for i = 1:L %loop through all data/name pairs
         data = varargin{2*i - 1}; %every second element starting from 1
+        label = varargin{2*i}; %every second element starting from 2
         if size(data, 1) ~= nEpochs %check number of epochs
             if size(data, 2) == nEpochs % if column length is equal to number of epochs but row length isnt, maybe data wasnt transposed properly
                 data = data'; % attempt to fix by transposing data
             else
-                error('Not all data has same amount of epochs');
+                sizestr = sprintf("%d x %d", size(data,1), size(data,2));
+                error("FeatureLabelingError:NotSameEpochs", ...
+                    "Not all data has same amount of epochs \n" + ...
+                     "Faulty data '" + label + "'; size " + sizestr);
             end
         end
-        label = varargin{2*i}; %every second element starting from 2
         col = cell(size(data,2), 1); %col is cells of epochs x 1 which will contain data of columns of data per epoch
         for k = 1:size(data,1) %loop through rows of data
             col{k, 1} = data(k, :); 

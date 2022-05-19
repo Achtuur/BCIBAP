@@ -1,0 +1,89 @@
+%% Loads edf file using EEGLAB, uses a basic filter and returns the data from
+% all channels
+%
+% !!! Important: EEGLAB must be in MATLAB path !!!
+
+%% INPUTS:
+%       - path2edf: Path to edf file
+%  OPTIONAL:
+%       - locutoff: [number], bottom cutoff frequency (Hz) for filter on eeg data, default 0.5
+%       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 25
+%       - forder: filter order
+%       - showplots: [true/false], show plots of before/after filtering, default 'off'
+%       - channellist: [number], vector with channels to be included, use 0 to include all channels, default 0
+%% OUTPUTS:
+%       - filtered_data: MATLAB matrix with a size of nChannels x
+%       TimeRecorded * Fs
+function filtered_data = LoadnFilter(path2edf, varargin)
+%% test vars (comment out nargin/varargin stuff)
+%     eegpath = AddPath();
+%     dataset = 'chb04';
+%     filenum = '05';
+%     file = sprintf("%s_%s.edf", dataset, filenum); %chb0x_0y.edf
+%     path2edf = eegpath + "/sample_data/" + dataset + "/" + file;
+%     g.locutoff = 0.5; %default values for locutoff and hicutoff
+%     g.hicutoff = 40;
+%     g.showplots = 0;
+%     g.channellist = [1 2 5 4];
+%%
+    %check if eeglab is in path already or if eeglab.m is in current folder
+    if ~strInPath("eeglab") && ~ScriptInCurrentFolder("eeglab", mfilename) 
+%        error('EEGLAB not found in path')
+       addpath(which('eeglab'));
+    end
+
+    %Test if biosig is in path, if not then launch eeglab to take care of
+    %adding to path and stuff
+    if ~strInPath('Biosig')
+       eeglab nogui; %launch eeglab without gui
+    end
+%% varargin
+    if nargin < 3
+       g.locutoff = 0.5; %default values for locutoff and hicutoff
+       g.hicutoff = 40;
+       g.showplots = 0;
+       g.channellist = 0;
+       g.forder = 70;
+    else
+        g = finputcheck( varargin, { ...
+            'channellist' 'integer' [0 inf] 0;
+            'locutoff' 'integer' [0 Inf] 0.5;
+            'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
+            'forder' 'integer' [0 inf] 70;
+            'showplots' 'integer' [0 inf] 0
+            }, 'LoadnFilter');
+    end
+%% Read and filter data
+g.channellist = sort(g.channellist);
+    if ~isfile(path2edf)
+       error(path2edf + " not found"); 
+    end
+    %read file using biosig
+    path2edf = convertStringsToChars(path2edf);
+    EEG = pop_biosig(path2edf);
+        
+    %create EEGLAB set
+    [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfread', 'overwrite', 'on');
+    
+    if g.channellist ~= 0
+        EEG = pop_select(EEG, 'channel', g.channellist);
+        [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfreadChannelSelect', 'overwrite', 'on');
+    end
+    %Plot raw EEG data
+    if g.showplots
+        pop_eegplot( EEG, 1, 1, 1);
+    end
+    
+    %filter EEG data
+%     [EEG, ~, ~] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff, 'filtorder', g.forder);
+    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
+    %Plot filtered EEG data
+    if g.showplots
+        pop_eegplot( EEG, 1, 1, 1);
+    end
+    
+    %create new EEGLAB set with filtered data
+    [ALLEEG, EEG, CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET, 'setname', 'filtered', 'overwrite', 'on');
+
+    filtered_data = EEG.data; %get data from EEG struct
+end

@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+signal_processing/EEGLAB/MLModel/loadeddata/
+*.asv
+signal_processing/EEGLAB/sample_data/**/*.edf
+signal_processing/EEGLAB/sample_data/chb03/chb03-summary.txt

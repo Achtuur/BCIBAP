@@ -36,11 +36,11 @@ class DataPlot():
         try:
             fig, axs = plt.subplots(num_col, 1)
             for i in range(num_col):
-                y = get_fft(data[:,i])
+                y = np.abs(get_fft(data[:,i]))
                 axs[i].plot(y)
 
         except TypeError:
-            y = get_fft(data[:])
+            y = np.abs(get_fft(data[:]))
             plt.plot(y)
 
         plt.show(block=True)

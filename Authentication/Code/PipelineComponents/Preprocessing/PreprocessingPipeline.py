@@ -21,15 +21,10 @@ class PreprocessingPipeline():
     def perform_high_pass_filter(self, eeg_data):
         data_high_pass_filtered = np.empty(eeg_data.shape)
         for channel in range(eeg_data.shape[1]):
-            result = np.array(Filter.high_pass_filter(eeg_data[:, channel], 4, 1))
+            result = np.array(Filter.high_pass_filter(eeg_data[:, channel], 4, 1, 250))
             data_high_pass_filtered[:, channel] = result 
         
         return data_high_pass_filtered
-
-    def remove_artifacts(self, eeg_data):
-        data_artifacts_removed = Filter.filter_artifacts(eeg_data, self.cal_data)
-
-        return data_artifacts_removed
 
     @staticmethod
     def remove_bad_channels(data: np.ndarray, threshold_val=False):
@@ -66,16 +61,6 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
-        # # ASR if pipeline has calibrated data
-        # if self.cal_data is not None:
-        #     if v:
-        #         print("Removing artifacts")
-        #     clean_data = self.remove_artifacts(clean_data)
-        #     if plot:
-        #         DataPlot.eeg_channels_plot(clean_data)
-
-        return clean_data
-        
 
 if __name__ == '__main__':
     

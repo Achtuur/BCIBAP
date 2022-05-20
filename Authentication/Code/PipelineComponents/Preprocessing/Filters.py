@@ -4,9 +4,7 @@ from scipy.signal import find_peaks
 import numpy as np
 from pathlib import Path
 
-from meegkit.asr import ASR
-from meegkit.utils.matrix import sliding_window
-
+from Visualize import DataPlot
 
 class Filter():
     @staticmethod
@@ -16,42 +14,34 @@ class Filter():
         return notch_filtered_data
 
     @staticmethod
-    def high_pass_filter(data: np.ndarray, order: int, crit_freq: float):
-        b, a = signal.butter(order, crit_freq, 'high', fs=250)
+    def high_pass_filter(data: np.ndarray, order: int, crit_freq: float, fs: float):
+        b, a = signal.butter(order, crit_freq, 'high', fs=fs)
         high_pas_filtered_data = signal.filtfilt(b, a, data)
         return high_pas_filtered_data
 
     @staticmethod
-    def filter_artifacts(data: np.ndarray, cal_data: np.ndarray):
-        # This value is hardcoded for now
-        f_sampling = 250
-
-        # The data is transposed, because that is the required format for the ASR package
-        data = data.T
-        cal_data = cal_data.T
-
-        asr = ASR(method='euclid')
-        train_idx = np.arange(0, data.shape[1], dtype=int)
-        _, sample_mask = asr.fit(cal_data)
-    
-        X = sliding_window(data, window=int(f_sampling), step=int(f_sampling))
-        Y = np.zeros_like(X)
-        for i in range(X.shape[1]):
-            Y[:, i, :] = asr.transform(X[:, i, :])
-
-        clean = Y.reshape(-1, 8)
-
-        return clean
+    def band_pass_filter(data: np.ndarray, order: int, crit_range: tuple, fs: float):
+        b, a = signal.butter(order, crit_range, 'bandpass', fs=fs)
+        # Just discovered that you don't have to filter per channel, oops
+        band_pass_filtered = signal.filtfilt(b, a, data, axis=0)
+        return band_pass_filtered
 
     
 if __name__ == '__main__':
-    data_path = Path('../Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-06_15-40-45.npy')
-    f_sampling = 250
-    t_window = 10
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling)
+    data_path = Path('../../Data/ExperimentResults/recorded_data/_unused/OpenBCI-RAW-2022-05-06_15-40-45.npy')
+    data = np.load(data_path)[1000:3000]
     
-    # ASR method
-    asr = ASR(method='euclid')
-    
-    
+    data_notch_filtered = np.empty(data.shape)
+    for channel in range(data.shape[1]):
+        result = np.array(Filter.notch_filter(data[:,channel], 50, 30, 250))
+        data_notch_filtered[:, channel] = result 
+
+    data_high_pass_filtered = np.empty(data_notch_filtered.shape)
+    for channel in range(data_notch_filtered.shape[1]):
+        result = np.array(Filter.high_pass_filter(data_notch_filtered[:, channel], 4, 1, 250))
+        data_high_pass_filtered[:, channel] = result 
+
+    DataPlot.eeg_channels_plot(data_high_pass_filtered)
+    data_bp_filtered = Filter.band_pass_filter(data_high_pass_filtered, 4, (20,40), 250)
+    DataPlot.eeg_spectrum_plot(data_bp_filtered)
+        

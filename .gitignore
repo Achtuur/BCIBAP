@@ -2,3 +2,4 @@ Authentication/Code/env
 Authentication/Code/temp
 Authentication/Code/Experiments/Music/song_samples/*.mp3
 Authentication/**/__pycache__/
+code_snippits/

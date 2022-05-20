@@ -35,12 +35,16 @@ epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 feature_out = features;
 
 %% normalise features
-for k = 1 : size(features, 2) %loop through features
-    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
-    features_norm = num2cell(temp);
-end
+%for k = 1 : size(features, 2) %loop through features
+%    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
+%   features_norm = num2cell(temp);
+%end
+%features_norm=cell2mat(features_norm);
+feature_out=cell2mat(feature_out);
+features_norm = zscore(feature_out);
 
-features_norm=cell2mat(features_norm);
 %% pca
-[coeff,score,latent,tsquared,explained,mu]= pca(features_norm);
+[coeff,score,latent,~,explained,mu]= pca(features_norm);
+FeatVector=coeff(:,1:18)'*features_norm'; %take first 18 principal components since they account for 95%variance
+
 

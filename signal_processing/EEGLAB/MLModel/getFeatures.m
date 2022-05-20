@@ -22,7 +22,7 @@
     dataset = 'chb04';
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = 5;
-    EpochLengthSec = 3.25;
+    EpochLengthSec = 3;
 %% Get labels of data
 disp('Getting labels of data');
 tic

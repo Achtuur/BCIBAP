@@ -99,14 +99,20 @@ for k = 1:nChannels
 
     for i = 1:nEpochs %loop through epochs of current channel
         CurChannelEpochs = EarDataEpochs{k,1};
+        tic
         wpt = wpdec(CurChannelEpochs(i,:)',5,'db4','shannon');
         %plot(wpt)
-
+        fprintf("wpt took %.3f sec\n", toc);
+    
+        tic
         signaldelta=read(wpt,'cfs',31);
         signaltheta=read(wpt,'cfs',32);
         signalalpha=read(wpt,'cfs',33);
         signalbeta=read(wpt,'cfs',34)+read(wpt,'cfs',35)+read(wpt,'cfs',36)+read(wpt,'cfs',37)+read(wpt,'cfs',38);
-
+        
+        fprintf("reading took %.3f sec\n", toc);
+        
+        tic
         meanDeltaEpochs(i,1)= mean(signaldelta);
         meanThetaEpochs(i,1) = mean(signaltheta);
         meanAlphaEpochs(i,1) = mean(signalalpha);
@@ -151,6 +157,8 @@ for k = 1:nChannels
         varThetaEpochs(i,1)= var(signaltheta);
         varAlphaEpochs(i,1)= var(signalalpha);
         varBetaEpochs(i,1)= var(signalbeta);
+        
+        fprintf("other stuff took %.3f sec\n", toc);
     end 
     
     %% label features

@@ -1,6 +1,5 @@
 %% Combines multiple feature cell arrays using feature labels
 % Does so such that same features from different channels are adjacent
-% assume that adder only contains labels once
 
 %% Input
 %   addee_features, addee_labels: features and labels to which you want to add features and labels
@@ -17,9 +16,9 @@
 function [features, labels] = CombineFeatureLabels(addee_features, addee_labels, adder_features, adder_labels)
     %% test vars
 %        l = load('FeatExtract/testfeatures.mat');
-%        addee_features = l.double_features; adder_features = l.features;
-%        addee_labels = l.double_labels; adder_labels = l.featurelabels;
-    %% combine features
+%        addee_features = l.double_features; adder_features = l.triple_features;
+%        addee_labels = l.double_labels; adder_labels = l.triple_labels;
+    %% Check addee for empty
 
     if isempty(addee_labels) || isempty(addee_features) %if addee is empty, then return adder
        features = adder_features;
@@ -27,29 +26,36 @@ function [features, labels] = CombineFeatureLabels(addee_features, addee_labels,
        return;
     end
     
+    %% Init for loop
     features = cell(size(addee_features));
     labels = {''};
+    unique_adder_labels = unique(adder_labels, 'stable');
     
-    for i = 1:length(adder_labels) %loop through labels
-        matches = ismember(addee_labels, adder_labels{i}); %get matches between labels
-        first_occ = find(matches, 1, 'first');
-        last_occ = find(matches, 1, 'last');
-        if isempty(first_occ)
+    %% Loop through labels
+    for i = 1:length(unique_adder_labels)
+        %% calculate indices
+        [first_occ_addee, last_occ_addee] = GetFirstLastMatch(addee_labels, unique_adder_labels{i});
+        [first_occ_adder, last_occ_adder] = GetFirstLastMatch(adder_labels, unique_adder_labels{i});
+        if isempty(first_occ_addee) && isempty(first_occ_adder)
            error('Labels from adder do not appear in addee'); 
         end
-        diff = last_occ - first_occ; % number of times label occurs in addee
+        diff_addee = last_occ_addee - first_occ_addee + 1; % number of times label occurs
+        diff_adder = last_occ_adder - first_occ_adder + 1;
+        diff_tot = diff_addee + diff_adder;
         
-        %% calculate indices
-        addee_indices_new = first_occ + i - 1 : last_occ + i - 1; %indices for new array from addee
-        adder_index_new = last_occ + i; %index for new array from adder
-        addee_indices_old = i + (i-1) * diff : i + i*diff ; %index from old array
-        adder_index_old = i; %index from old array
         
-        %% add addee indices
-        features(:, addee_indices_new) = addee_features(:, addee_indices_old);
-        labels(:, addee_indices_new) =  addee_labels(:, addee_indices_old);
-        %% add adder indices
-        features(:, adder_index_new) = adder_features(:, adder_index_old);
-        labels(:, adder_index_new) = adder_labels(:, adder_index_old);
+        addee_indices = first_occ_addee  : last_occ_addee; %indices for new array from addee
+        adder_indices = first_occ_adder  : last_occ_adder; %indices for new array from adder
+        new_indices = (i-1) * diff_tot + 1 : i * diff_tot;
+        
+        %% add adder and addee together
+        features(:, new_indices) = [addee_features(:, addee_indices) adder_features(:, adder_indices)];
+        labels(:, new_indices) =  [addee_labels(:, addee_indices) adder_labels(:, adder_indices)];
     end
+end
+
+function [first, last] = GetFirstLastMatch(labels, str)
+    matches = ismember(labels, str);
+    first = find(matches, 1, 'first');
+    last = find(matches, 1, 'last');
 end

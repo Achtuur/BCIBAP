@@ -28,7 +28,11 @@ end
 %% get filtered data
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-epochs = epochs(SeizureEpochs, :);
+for k = 1:size(epochs,1)
+    temp = epochs{k,1};
+   epochs(k,1) = {temp(SeizureEpochs,:)};
+end
+% epochs = epochs(SeizureEpochs, :);
 [feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
 disp('Classifying data...');

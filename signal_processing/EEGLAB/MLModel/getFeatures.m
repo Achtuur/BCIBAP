@@ -15,14 +15,14 @@
 %   maybe remove features from output?
 
 %% Function start
-function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+% function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
-%     clc; clear;
-%     eegpath = AddPath();
-%     dataset = 'chb04';
-%     path2dataset = eegpath + "sample_data\" + dataset + "\";
-%     FileIndices = 5;
-%     EpochLengthSec = 3.25;
+    clc; clear;
+    eegpath = AddPath();
+    dataset = 'chb04';
+    path2dataset = eegpath + "sample_data\" + dataset + "\";
+    FileIndices = 5;
+    EpochLengthSec = 3.25;
 %% Get labels of data
 disp('Getting labels of data');
 tic
@@ -57,6 +57,7 @@ disp('Getting features...');
 tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
+% [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 [features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
 t = toc;
@@ -79,7 +80,5 @@ if 0 && EegFeature %remove '0 &&' when finished
     end
 end
 
-
-
-end
+% end
 

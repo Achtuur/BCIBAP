@@ -44,7 +44,6 @@ function [features, labels] = FeatureLabelsPerEpoch(varargin)
         for k = 1:size(data,1) %loop through rows of data
             col{k, 1} = data(k, :); 
         end
-        disp(label);
         features(:, i) = col;
         labels(1, i) = {label};
     end

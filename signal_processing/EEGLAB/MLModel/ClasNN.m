@@ -12,7 +12,7 @@ i = 1;
 matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
-    [X,features,Y,featurelabels, mu_train, sigma_train] = CNN(dataset, path2dataset, FileIndices, k);
+    [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
     X = cell2mat(X);
     %Y = cell2mat(Y);
     % Train CNN here

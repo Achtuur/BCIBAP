@@ -10,8 +10,9 @@
 %       model: ML model which can be used to classify seizures
 %       mu_train: mean of training data obtained from zscore test, used to normalise
 %       sigma_train: std of training data obtained from zscore test, used to normalise
-%%
-function [lab, predicted, feature_out, mus, stds] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
+%% todo
+%   remove, getFeatures deprecated this function
+function [lab, predicted, feature_out, mu_train, sigma_train] = TrainModel(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
 %     clc; clear;
 %     eegpath = AddPath();
@@ -61,7 +62,7 @@ fprintf("Got features, took %.3f seconds\n", t);
 
 %% normalise features
 for k = 1 : size(features, 2) %loop through features
-    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
+    [temp(:,k), mu_train(:,k), sigma_train(:,k)] = zscore([features{:,k}]);
     features_norm = num2cell(temp);
 end
 % starti = find(labels == 2,1, 'first');
@@ -70,20 +71,5 @@ end
 % features = features(starti - di : endi + di, :); %only take stuff around the epilepsy so data is 50/50
 % labels = labels(starti - di : endi + di, :);
 
-%% Create model
-disp('Creating model...');
-tic;
 
-[lab, predicted, savepath] = CreateModel(features, labels, featurelabels);
-
-t = toc;
-fprintf("Done creating model, took %.3f seconds\n", t);
-%% Save model
-disp('Saving Model');
-tic;
-
-save(savepath, 'Fs', 'EpochLengthSec', '-append');
-
-t = toc;
-fprintf("Done saving model, took %.3f seconds\n", t);
 end

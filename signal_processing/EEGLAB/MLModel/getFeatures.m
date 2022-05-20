@@ -4,15 +4,25 @@
 %   dataset: name of dataset, eg 'chb04' or 'chb10'
 %   path: path to folder containing dataset .edf files and summary.txt
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
+%   EpochLengthSec: length of each epoch in seconds
 
 %% Outputs
-% uhh - hahah sterk
+%   features_norm: normalised features from input dataset(s)
+%   features: unnormalised features from input dataset
+%   labels: label for each epoch indicating class (yes/no/incoming seizure)
+%   mus, stds: mean and std per feature for normalisation
+%% Todo
+%   maybe remove features from output?
 
 %% Function start
-function [features_norm,features,labels,featurelabels, mus, stds] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)
-%% Test variables
-EegFeature = 0;
-
+function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+%% test vars
+%     clc; clear;
+%     eegpath = AddPath();
+%     dataset = 'chb04';
+%     path2dataset = eegpath + "sample_data\" + dataset + "\";
+%     FileIndices = 5;
+%     EpochLengthSec = 3.25;
 %% Get labels of data
 disp('Getting labels of data');
 tic
@@ -48,7 +58,6 @@ tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 [features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
-feature_out = features;
 
 t = toc;
 fprintf("Got features, took %.3f seconds\n", t);
@@ -64,7 +73,7 @@ t = toc;
 fprintf("Normalised features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
-if EegFeature
+if 0 && EegFeature %remove '0 &&' when finished
     for k = 1 : size(filtered_data, 1) %loop through channels
         filtered_data(:,k) = zscore(filtered_data(:,k));
     end

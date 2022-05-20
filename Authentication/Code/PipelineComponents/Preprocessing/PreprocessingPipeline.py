@@ -32,7 +32,7 @@ class PreprocessingPipeline():
         # If the input data is a vector, this is not necessary.
         try:
             bad_channels = {i:0 for i in range(data.shape[1])}
-        except KeyError:
+        except IndexError:
             pass
 
         # Value was empirically chosen
@@ -63,7 +63,7 @@ class PreprocessingPipeline():
                     if value == 1:
                         data[:, key] = common_mode
                         
-        except KeyError:
+        except IndexError:
             square = np.vectorize(lambda x: x**2)
             signal_power = np.sum(square(data)) / data.shape[0]
             if signal_power > threshold:
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     # # Regular data
     data_path = Path('../../Data/ExperimentResults/recorded_data/_unused/OpenBCI-RAW-2022-05-06_15-40-45.npy')
-    data = np.load(data_path)[1000:3000]
+    data = np.load(data_path)[1000:3000, 0]
     # data = np.load(data_path)[1000:]
     data = PreprocessingPipeline(data).start(plot=True)
     data = PreprocessingPipeline.remove_bad_channels(data)

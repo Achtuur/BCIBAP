@@ -6,7 +6,9 @@
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 
 %% Outputs
-% uhh
+%   features_norm: The extracted freatures normalized
+%   features: the extracted features
+%   
 
 %% Function start
 function [features_norm,features,labels,featurelabels] = CNN(dataset, path2dataset, FileIndices, EpochLengthSec)

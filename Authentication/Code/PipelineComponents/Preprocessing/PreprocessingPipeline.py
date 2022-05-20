@@ -55,6 +55,8 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
+        return clean_data
+
 
 if __name__ == '__main__':
     

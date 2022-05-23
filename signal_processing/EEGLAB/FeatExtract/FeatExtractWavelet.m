@@ -1,7 +1,20 @@
+%% Syntax:
+% [TotalFeatures,TotalFeatureLabels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
+%% Inputs:
+%       EarDataEpochs: 
+%       Fs: 
+%       EpochLengthSec:
+%
+%% Outputs:
+%    TotalFeatures:
+%   TotalFeatureLabels:
+%
+%% Example:
+%    
+%% See also:
+%    
 function [TotalFeatures,TotalFeatureLabels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-%%
+
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 L = Fs*EpochLengthSec;
@@ -39,6 +52,7 @@ TotalFeatures = {};
 TotalFeatureLabels = '';
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
+    t = tic;
 %initialize matrices 
     meanDeltaEpochs = zeros(nEpochs, 1);
     meanThetaEpochs = zeros(nEpochs, 1);
@@ -79,10 +93,10 @@ for k = 1:nChannels
     kurtosisBetaEpochs=zeros(nEpochs, 1);
     
 
-    varDeltaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    varThetaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    varAlphaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    varBetaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    varDeltaEpochs=zeros(nEpochs, 1);
+    varThetaEpochs=zeros(nEpochs, 1);
+    varAlphaEpochs=zeros(nEpochs, 1);
+    varBetaEpochs=zeros(nEpochs, 1);
 
 % for i = 1:size(EarDataEpochs, 1)
 % 
@@ -141,9 +155,9 @@ for k = 1:nChannels
 % end 
 %% DWT
 
-for i = 1:size(EarDataEpochs, 1)
-    
-    [c,l]=wavedec(EarDataEpochs(i,:),5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
+for i = 1:nEpochs
+    CurChannelEpoch = EarDataEpochs{k, 1};
+    [c,l]=wavedec(CurChannelEpoch(i,:),5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
     a5= appcoef(c,l,'db4');
     [d1,d2,d3,d4,d5]=detcoef(c,l,[1 2 3 4 5]);
    
@@ -206,7 +220,8 @@ end
         meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
         meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
     %    epochs, 'epochs');
-     [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels); 
+     [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);
+     fprintf("Done extracting features from channel %d, took %.3f seconds\n", k, toc(t));
 end
 disp('Done extracting features');
 end

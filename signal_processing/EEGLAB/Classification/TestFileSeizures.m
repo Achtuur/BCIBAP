@@ -28,7 +28,7 @@ end
 %% get filtered data
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-for k = 1:size(epochs,1)
+for k = 1:size(epochs,1) %only take epochs with seizures
     temp = epochs{k,1};
    epochs(k,1) = {temp(SeizureEpochs,:)};
 end

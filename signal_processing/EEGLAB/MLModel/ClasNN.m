@@ -5,7 +5,7 @@ FileIndices = [1:6];
 Plot_CFNMatrix = 1;
 
 epochs = 0.5 : 0.25 : 4;
-epochs = 2;
+epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 

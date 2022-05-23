@@ -37,6 +37,15 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
+        # ASR if pipeline has calibrated data
+        # if self.cal_data is not None:
+        #     if v:
+        #         print("Removing artifacts")
+        #     clean_data = self.remove_artifacts(clean_data)
+        #     if plot:
+        #         DataPlot.eeg_channels_plot(clean_data)
+
+
         return clean_data
 
 

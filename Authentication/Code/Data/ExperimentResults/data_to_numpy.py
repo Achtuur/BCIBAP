@@ -104,6 +104,7 @@ if __name__ == '__main__':
         for recording_to_crop in RECORDINGS_CROP_DICTIONARY.values():
                 numpy_data = np.load(recording_to_crop['path'])
                 cropped_numpy_data = numpy_data[recording_to_crop['crop'][0]:recording_to_crop['crop'][1]]
+                print(f"File: {recording_to_crop['path'].stem}\nOld shape: {numpy_data.shape}\nNew shape: {cropped_numpy_data.shape}")
                 np.save(recording_to_crop['path'], cropped_numpy_data)
                 
         

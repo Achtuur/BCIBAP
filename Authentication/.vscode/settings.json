@@ -1,6 +1,8 @@
 {
     "python.analysis.extraPaths": [
         "./Code/PipelineComponents/Preprocessing",
-        "./Code/Data"
+        "./Code/PipelineComponents/Classification",
+        "./Code/PipelineComponents/FeatureExtraction"
+
     ]
 }

@@ -20,12 +20,12 @@ if __name__ == "__main__":
 
     EXPERIMENTS = []
 
-    EXPERIMENT_SIMON_TAKE_1 = ExperimentWrapper("Simon", "ft6", Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_Calibration.npy"))
+    EXPERIMENT_SIMON_TAKE_1 = ExperimentWrapper("Simon", "ft", Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_Calibration.npy"))
     EXPERIMENT_SIMON_TAKE_1.set_experiment_data(Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_ft_recognition.npy"))
     EXPERIMENT_SIMON_TAKE_1.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/simon_17-05-2022_ft_take1.csv"))
     EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_1)
 
-    EXPERIMENT_SIMON_TAKE_2 = ExperimentWrapper("Simon", "ft6", Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_Calibration.npy"))
+    EXPERIMENT_SIMON_TAKE_2 = ExperimentWrapper("Simon", "ft", Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_Calibration.npy"))
     EXPERIMENT_SIMON_TAKE_2.set_experiment_data(Path("./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_ft_recognition_2.npy"))
     EXPERIMENT_SIMON_TAKE_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/simon_17-05-2022_ft_take2.csv"))
     EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_2)

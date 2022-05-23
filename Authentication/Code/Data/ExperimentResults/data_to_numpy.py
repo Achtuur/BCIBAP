@@ -7,50 +7,33 @@ import os
 # Global dictionary constructed from experiment file
 RECORDINGS_CROP_DICTIONARY = {
         # M1
-        'M1_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_calibration.npy'),
-                'crop' : (250*15, 250*75)
+        'Joos_ft1_take1' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Joos_2022-05-23_ft1_take1.csv'),
+                'crop' : (538, 538 + 20000)
         },
-        'M1_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_pseudo.npy'),
-                'crop' : (1570, 1570+(250*50*5))
-        }, 
-        # SAM
-        'SAM_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy'),
-                'crop' : (250*62, 250*122)
+        'Joos_ft1_take2' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Joos_2022-05-23_ft1_take2.csv'),
+                'crop' : (678, 678 + 20000)
         },
-        'SAM_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_pseudo.npy'),
-                'crop' : (1186, 1186+(250*50*5))
+        'Sam_ft1_take1' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Sam_2022-05-23_ft1_take1.csv'),
+                'crop' : (4984, 4984 + 20000)
         },
-        'SIMON_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_calibration.npy'),
-                'crop' : (250*10, 250*70)
+        'Sam_ft1_take2' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Sam_2022-05-23_ft1_take2.csv'),
+                'crop' : (1393, 1393 + 20000)
         },
-        'SIMON_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_pseudo.npy'),
-                'crop' : (5511, 5511+(250*50*5))
+        'Simon_ft1_take1' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon_2022-05-23_ft1_take1.csv'),
+                'crop' : (809, 809 + 20000)
         },
-        'MIRTHE_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/Mirthe_17_05_2022/OpenBCISession_Mirthe_calibration.npy'),
-                'crop' : (250*10, 250*70)
+        'Simon_ft1_take2' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon_2022-05-23_ft1_take2.csv'),
+                'crop' : ()
         },
-        'MAXIM_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/M2_17_05_2022/OpenBCISession_M2_calibration.npy'),
-                'crop' : (250*10, 250*70)
-        },
-        'F1_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_calibration.npy'),
-                'crop' : (250*10, 250*70)
-        },
-        'F1_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_pseudo.npy'),
-                'crop' : (2570, 2570+(250*5*50))
-        },
-        'F3_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/F3_17_05_2022/OpenBCISession_F3_calibration.npy'),
-                'crop' : (250*10, 250*70)
+        'Simon_ft_6hz_take1' : {
+                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon6hz_2022-05-23_ft1_take1.csv'),
+                'crop' : ()
         }
 }
 

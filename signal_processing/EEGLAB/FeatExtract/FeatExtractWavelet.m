@@ -32,20 +32,6 @@ nChannels = size(EarDataEpochs, 1);
 % plot(d5)
 % title('Detail Coefficients at Level 5'); %4-8Hz
 % 
-% meanDelta= mean(a5); meanTheta = mean(d5); meanAlpha= mean(d4); meanBeta= mean(d3);
-% 
-% stdDelta= std(a5); stdTheta = std(d5); stdAlpha= std(d4); stdBeta= std(d3);
-% 
-% energyDelta= sum(a5.^2); energyTheta = sum(d5.^2); energyAlpha= sum(d4.^2); energyBeta= sum(d3.^2);
-% 
-% entropyDelta= approximateEntropy(a5);
-% entropyTheta = approximateEntropy(d5);
-% entropyAlpha= approximateEntropy(d4);
-% entropyBeta= approximateEntropy(d3);
-% 
-% skewnessDelta=skewness(a5);skewnessTheta=skewness(d5);skewnessAlpha=skewness(d4);skewnessBeta=skewness(d3);
-% 
-% kurtosisDelta=kurtosis(a5);kurtosisTheta=kurtosis(d5);kurtosisAlpha=kurtosis(d4);kurtosisBeta=kurtosis(d3);
 
 
 %% Discrete Wavelet Packet Transform
@@ -92,75 +78,120 @@ for k = 1:nChannels
     kurtosisAlphaEpochs=zeros(nEpochs, 1);
     kurtosisBetaEpochs=zeros(nEpochs, 1);
     
-    varDeltaEpochs=zeros(nEpochs, 1);
-    varThetaEpochs=zeros(nEpochs, 1);
-    varAlphaEpochs=zeros(nEpochs, 1);
-    varBetaEpochs=zeros(nEpochs, 1);
 
-    for i = 1:nEpochs %loop through epochs of current channel
-        CurChannelEpochs = EarDataEpochs{k,1};
-        tic
-        wpt = wpdec(CurChannelEpochs(i,:)',5,'db4','shannon');
-        %plot(wpt)
-        fprintf("wpt took %.3f sec\n", toc);
+    varDeltaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    varThetaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    varAlphaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    varBetaEpochs=zeros(size(EarDataEpochs, 1), 1);
+
+% for i = 1:size(EarDataEpochs, 1)
+% 
+%     wpt = wpdec(EarDataEpochs(i,:)',5,'db4','shannon');
+%     %plot(wpt)
+%     
+%     signaldelta=read(wpt,'cfs',31);
+%     signaltheta=read(wpt,'cfs',32);
+%     signalalpha=read(wpt,'cfs',33);
+%     signalbeta=read(wpt,'cfs',34)+read(wpt,'cfs',35)+read(wpt,'cfs',36)+read(wpt,'cfs',37)+read(wpt,'cfs',38);
+%     
+%     meanDeltaEpochs(i,1)= mean(signaldelta) ;
+%     meanThetaEpochs(i,1) = mean(signaltheta);
+%     meanAlphaEpochs(i,1) = mean(signalalpha);
+%     meanBetaEpochs(i,1) = mean(signalbeta);
+% 
+%     meanAbsDeltaEpochs(i,1) = mean(abs(signaldelta)) ;
+%     meanAbsThetaEpochs(i,1) = mean(abs(signaltheta)) ;
+%     meanAbsAlphaEpochs(i,1) = mean(abs(signalalpha)) ;
+%     meanAbsBetaEpochs(i,1) = mean(abs(signalbeta)) ;
+% 
+%     stdDeltaEpochs(i,1)= std(signaldelta);
+%     stdThetaEpochs(i,1) = std(signaltheta);
+%     stdAlphaEpochs(i,1)= std(signalalpha);
+%     stdBetaEpochs(i,1)=std(signalbeta);
+% 
+%     energyDeltaEpochs(i,1)= sum(signaldelta.^2);
+%     energyThetaEpochs(i,1) = sum(signaltheta.^2);
+%     energyAlphaEpochs(i,1)= sum(signalalpha.^2);
+%     energyBetaEpochs(i,1)= sum(signalbeta.^2);
+%     
+%     entropyDeltaEpochs(i,1)= approximateEntropy(signaldelta);
+%     entropyThetaEpochs(i,1) =approximateEntropy(signaltheta);
+%     entropyAlphaEpochs(i,1)= approximateEntropy(signalalpha);
+%     entropyBetaEpochs(i,1)= approximateEntropy(signalbeta);
+%     
+%     powerDeltaEpochs(i,1)= sum(signaldelta.^2)/length(signaldelta);
+%     powerThetaEpochs(i,1) = sum(signaltheta.^2)/length(signaltheta);
+%     powerAlphaEpochs(i,1)= sum(signalalpha.^2)/length(signalalpha);
+%     powerBetaEpochs(i,1)= sum(signalbeta.^2)/length(signalbeta);
+%     
+%     skewnessDeltaEpochs(i,1)= skewness(signaldelta);
+%     skewnessThetaEpochs(i,1)=skewness(signaltheta);
+%     skewnessAlphaEpochs(i,1)=skewness(signalalpha);
+%     skewnessBetaEpochs(i,1)=skewness(signalbeta);
+%     
+%     kurtosisDeltaEpochs(i,1)=kurtosis(signaldelta);
+%     kurtosisThetaEpochs(i,1)=kurtosis(signaltheta);
+%     kurtosisAlphaEpochs(i,1)=kurtosis(signalalpha);
+%     kurtosisBetaEpochs(i,1)=kurtosis(signalbeta);
+%     
+%     varDeltaEpochs(i,1)=var(signaldelta);
+%     varThetaEpochs(i,1)=var(signaltheta);
+%     varAlphaEpochs(i,1)=var(signalalpha);
+%     varBetaEpochs(i,1)=var(signalbeta);   
+% end 
+%% DWT
+
+for i = 1:size(EarDataEpochs, 1)
     
-        tic
-        signaldelta=read(wpt,'cfs',31);
-        signaltheta=read(wpt,'cfs',32);
-        signalalpha=read(wpt,'cfs',33);
-        signalbeta=read(wpt,'cfs',34)+read(wpt,'cfs',35)+read(wpt,'cfs',36)+read(wpt,'cfs',37)+read(wpt,'cfs',38);
-        
-        fprintf("reading took %.3f sec\n", toc);
-        
-        tic
-        meanDeltaEpochs(i,1)= mean(signaldelta);
-        meanThetaEpochs(i,1) = mean(signaltheta);
-        meanAlphaEpochs(i,1) = mean(signalalpha);
-        meanBetaEpochs(i,1) = mean(signalbeta);
+    [c,l]=wavedec(EarDataEpochs(i,:),5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
+    a5= appcoef(c,l,'db4');
+    [d1,d2,d3,d4,d5]=detcoef(c,l,[1 2 3 4 5]);
+   
+    meanDeltaEpochs(i,1)= mean(a5) ;
+    meanThetaEpochs(i,1) = mean(d5);
+    meanAlphaEpochs(i,1) = mean(d4);
+    meanBetaEpochs(i,1) = mean(d3);
 
-        meanAbsDeltaEpochs(i,1) = mean(abs(signaldelta));
-        meanAbsThetaEpochs(i,1) = mean(abs(signaltheta));
-        meanAbsAlphaEpochs(i,1) = mean(abs(signalalpha));
-        meanAbsBetaEpochs(i,1) = mean(abs(signalbeta));
+    meanAbsDeltaEpochs(i,1) = mean(abs(a5)) ;
+    meanAbsThetaEpochs(i,1) = mean(abs(d5)) ;
+    meanAbsAlphaEpochs(i,1) = mean(abs(d4)) ;
+    meanAbsBetaEpochs(i,1) = mean(abs(d3)) ;
 
-        stdDeltaEpochs(i,1)= std(signaldelta);
-        stdThetaEpochs(i,1) = std(signaltheta);
-        stdAlphaEpochs(i,1)= std(signalalpha);
-        stdBetaEpochs(i,1)= std(signalbeta);
+    stdDeltaEpochs(i,1)= std(a5);
+    stdThetaEpochs(i,1) = std(d5);
+    stdAlphaEpochs(i,1)= std(d4);
+    stdBetaEpochs(i,1)=std(d3);
 
-        energyDeltaEpochs(i,1)= sum(signaldelta.^2);
-        energyThetaEpochs(i,1) = sum(signaltheta.^2);
-        energyAlphaEpochs(i,1)= sum(signalalpha.^2);
-        energyBetaEpochs(i,1)= sum(signalbeta.^2);
-
-        entropyDeltaEpochs(i,1)= approximateEntropy(signaldelta);
-        entropyThetaEpochs(i,1) = approximateEntropy(signaltheta);
-        entropyAlphaEpochs(i,1)= approximateEntropy(signalalpha);
-        entropyBetaEpochs(i,1)= approximateEntropy(signalbeta);
-
-        powerDeltaEpochs(i,1)= sum(signaldelta.^2)/length(signaldelta);
-        powerThetaEpochs(i,1) = sum(signaltheta.^2)/length(signaltheta);
-        powerAlphaEpochs(i,1)= sum(signalalpha.^2)/length(signalalpha);
-        powerBetaEpochs(i,1)= sum(signalbeta.^2)/length(signalbeta);
-
-        skewnessDeltaEpochs(i,1)= skewness(signaldelta);
-        skewnessThetaEpochs(i,1)= skewness(signaltheta);
-        skewnessAlphaEpochs(i,1)= skewness(signalalpha);
-        skewnessBetaEpochs(i,1)= skewness(signalbeta);
-
-        kurtosisDeltaEpochs(i,1)= kurtosis(signaldelta);
-        kurtosisThetaEpochs(i,1)= kurtosis(signaltheta);
-        kurtosisAlphaEpochs(i,1)= kurtosis(signalalpha);
-        kurtosisBetaEpochs(i,1)= kurtosis(signalbeta);
-
-        varDeltaEpochs(i,1)= var(signaldelta);
-        varThetaEpochs(i,1)= var(signaltheta);
-        varAlphaEpochs(i,1)= var(signalalpha);
-        varBetaEpochs(i,1)= var(signalbeta);
-        
-        fprintf("other stuff took %.3f sec\n", toc);
-    end 
+    energyDeltaEpochs(i,1)= sum(a5.^2);
+    energyThetaEpochs(i,1) = sum(d5.^2);
+    energyAlphaEpochs(i,1)= sum(d4.^2);
+    energyBetaEpochs(i,1)= sum(d3.^2);
     
+    entropyDeltaEpochs(i,1)= approximateEntropy(a5);
+    entropyThetaEpochs(i,1) =approximateEntropy(d5);
+    entropyAlphaEpochs(i,1)= approximateEntropy(d4);
+    entropyBetaEpochs(i,1)= approximateEntropy(d3);
+    
+    powerDeltaEpochs(i,1)= sum(a5.^2)/length(a5);
+    powerThetaEpochs(i,1) = sum(d5.^2)/length(d5);
+    powerAlphaEpochs(i,1)= sum(d4.^2)/length(d4);
+    powerBetaEpochs(i,1)= sum(d3.^2)/length(d3);
+    
+    skewnessDeltaEpochs(i,1)= skewness(a5);
+    skewnessThetaEpochs(i,1)=skewness(d5);
+    skewnessAlphaEpochs(i,1)=skewness(d4);
+    skewnessBetaEpochs(i,1)=skewness(d3);
+    
+    kurtosisDeltaEpochs(i,1)=kurtosis(a5);
+    kurtosisThetaEpochs(i,1)=kurtosis(d5);
+    kurtosisAlphaEpochs(i,1)=kurtosis(d4);
+    kurtosisBetaEpochs(i,1)=kurtosis(d3);
+    
+    varDeltaEpochs(i,1)=var(a5);
+    varThetaEpochs(i,1)=var(d5);
+    varAlphaEpochs(i,1)=var(d4);
+    varBetaEpochs(i,1)=var(d3);   
+end 
     %% label features
     
     fprintf('Labelling features from channel %d...\n', k);

@@ -5,6 +5,36 @@ import csv
 import os.path
 import numpy as np
 from pathlib import Path
+import argparse
+
+my_parser = argparse.ArgumentParser(description="Code to run mental task experiment")
+my_parser.add_argument('-disp',
+                        required=False,
+                        default=5,
+                        metavar='-display time',
+                        type=int,
+                        help='The duration each word is shown'    
+                    )
+my_parser.add_argument('-len',
+                        required=False,
+                        default=10,
+                        metavar='-length',
+                        type=int,
+                        help='The amount of words to show'    
+                    )
+my_parser.add_argument('-name',
+                        required=True,
+                        metavar='subject name',
+                        type=str,
+                        help='M or F followed by a number'  
+                    )
+my_parser.add_argument('-take',
+                        required=True,
+                        metavar='take',
+                        type=str,
+                        help='the nth time this experiment takes place' 
+                    )
+args = my_parser.parse_args()
 
 amount = 10 #amount of tasks that will be shown on the screen
 duration = 5 #duration of each task in seconds
@@ -31,9 +61,11 @@ for j in k:
         bitjes[j] = ''
 
     
-filename = 'Simon_17-05-2022_mt_take4'
-
-filename = Path(f'.\\tasklists\\{filename}')
+date = str(datetime.now())[0:10]
+filename = f'.\\tasklists\\{args.name}_{date}_mt_take{args.take}'
+if os.path.exists(f'{filename}.csv'):
+    print('filename already exists')
+    exit()
 
 
 

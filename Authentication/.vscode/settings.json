@@ -3,5 +3,6 @@
         "./Code/PipelineComponents/Preprocessing",
         "./Code/PipelineComponents/Classification",
         "./Code/PipelineComponents/FeatureExtraction"
+
     ]
 }

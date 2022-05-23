@@ -1,10 +1,12 @@
-function [features,labels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
+function [TotalFeatures,TotalFeatureLabels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 %%
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 L = Fs*EpochLengthSec;
+nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
+nChannels = size(EarDataEpochs, 1);
 
 %% Discrete Wavelet Transform (DWT)
 % figure(1)
@@ -31,46 +33,52 @@ L = Fs*EpochLengthSec;
 % title('Detail Coefficients at Level 5'); %4-8Hz
 % 
 
+
 %% Discrete Wavelet Packet Transform
+TotalFeatures = {};
+TotalFeatureLabels = '';
+for k = 1:nChannels
+    fprintf('Extracting from channel %d...\n', k);
 %initialize matrices 
-    meanDeltaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanThetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanAlphaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanBetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanAbsDeltaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanAbsThetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanAbsAlphaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    meanAbsBetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    stdDeltaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    stdThetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    stdAlphaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    stdBetaEpochs= zeros(size(EarDataEpochs, 1), 1);
+    meanDeltaEpochs = zeros(nEpochs, 1);
+    meanThetaEpochs = zeros(nEpochs, 1);
+    meanAlphaEpochs = zeros(nEpochs, 1);
+    meanBetaEpochs = zeros(nEpochs, 1);
+    meanAbsDeltaEpochs = zeros(nEpochs, 1);
+    meanAbsThetaEpochs = zeros(nEpochs, 1);
+    meanAbsAlphaEpochs = zeros(nEpochs, 1);
+    meanAbsBetaEpochs = zeros(nEpochs, 1);
+    stdDeltaEpochs= zeros(nEpochs, 1);
+    stdThetaEpochs = zeros(nEpochs, 1);
+    stdAlphaEpochs= zeros(nEpochs, 1);
+    stdBetaEpochs= zeros(nEpochs, 1);
     
-    energyDeltaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    energyThetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    energyAlphaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    energyBetaEpochs= zeros(size(EarDataEpochs, 1), 1);
+    energyDeltaEpochs= zeros(nEpochs, 1);
+    energyThetaEpochs = zeros(nEpochs, 1);
+    energyAlphaEpochs= zeros(nEpochs, 1);
+    energyBetaEpochs= zeros(nEpochs, 1);
     
-    entropyDeltaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    entropyThetaEpochs =zeros(size(EarDataEpochs, 1), 1);
-    entropyAlphaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    entropyBetaEpochs= zeros(size(EarDataEpochs, 1), 1);
+    entropyDeltaEpochs= zeros(nEpochs, 1);
+    entropyThetaEpochs =zeros(nEpochs, 1);
+    entropyAlphaEpochs= zeros(nEpochs, 1);
+    entropyBetaEpochs= zeros(nEpochs, 1);
     
-    powerDeltaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    powerThetaEpochs = zeros(size(EarDataEpochs, 1), 1);
-    powerAlphaEpochs= zeros(size(EarDataEpochs, 1), 1);
-    powerBetaEpochs= zeros(size(EarDataEpochs, 1), 1);
+    powerDeltaEpochs= zeros(nEpochs, 1);
+    powerThetaEpochs = zeros(nEpochs, 1);
+    powerAlphaEpochs= zeros(nEpochs, 1);
+    powerBetaEpochs= zeros(nEpochs, 1);
     
-    skewnessDeltaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    skewnessThetaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    skewnessAlphaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    skewnessBetaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    skewnessDeltaEpochs=zeros(nEpochs, 1);
+    skewnessThetaEpochs=zeros(nEpochs, 1);
+    skewnessAlphaEpochs=zeros(nEpochs, 1);
+    skewnessBetaEpochs=zeros(nEpochs, 1);
     
-    kurtosisDeltaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    kurtosisThetaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    kurtosisAlphaEpochs=zeros(size(EarDataEpochs, 1), 1);
-    kurtosisBetaEpochs=zeros(size(EarDataEpochs, 1), 1);
+    kurtosisDeltaEpochs=zeros(nEpochs, 1);
+    kurtosisThetaEpochs=zeros(nEpochs, 1);
+    kurtosisAlphaEpochs=zeros(nEpochs, 1);
+    kurtosisBetaEpochs=zeros(nEpochs, 1);
     
+
     varDeltaEpochs=zeros(size(EarDataEpochs, 1), 1);
     varThetaEpochs=zeros(size(EarDataEpochs, 1), 1);
     varAlphaEpochs=zeros(size(EarDataEpochs, 1), 1);
@@ -184,21 +192,21 @@ for i = 1:size(EarDataEpochs, 1)
     varAlphaEpochs(i,1)=var(d4);
     varBetaEpochs(i,1)=var(d3);   
 end 
+    %% label features
     
-%% label features
-    
-disp('labelling features');
-[features, labels] = FeatureLabelsPerEpoch( ...
-     varDeltaEpochs, 'VarianceDelta',  varThetaEpochs, 'VarianceTheta',varAlphaEpochs, 'VarianceAlpha', varBetaEpochs, 'VarianceBeta', ...
-    kurtosisDeltaEpochs, 'kurtosisDelta', kurtosisThetaEpochs, 'kurtosisTheta', kurtosisAlphaEpochs, 'kurtosisAlpha', kurtosisBetaEpochs, 'kurtosisBeta', ...
-    skewnessDeltaEpochs, 'skewnessDelta', skewnessThetaEpochs, 'skewnessTheta', skewnessAlphaEpochs, 'skewnessAlpha', skewnessBetaEpochs, 'skewnessBeta', ...
-     powerDeltaEpochs, 'powerDelta',  powerThetaEpochs, 'powerTheta', powerAlphaEpochs, 'powerAlpha',  powerBetaEpochs, 'powerBeta',  ...
-   entropyDeltaEpochs, 'entropyDelta', entropyThetaEpochs, 'entropyTheta', entropyAlphaEpochs, 'entropyAlpha',entropyBetaEpochs, 'entropyBeta', ...
-    energyDeltaEpochs, 'energyDelta', energyThetaEpochs, 'energyTheta', energyAlphaEpochs, 'energyAlpha',energyBetaEpochs,'energyBeta', ...
-    stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta',...
-    meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
-    meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
-%    epochs, 'epochs');
-       
+    fprintf('Labelling features from channel %d...\n', k);
+    [features, labels] = FeatureLabelsPerEpoch( ...
+         varDeltaEpochs, 'VarianceDelta',  varThetaEpochs, 'VarianceTheta',varAlphaEpochs, 'VarianceAlpha', varBetaEpochs, 'VarianceBeta', ...
+        kurtosisDeltaEpochs, 'kurtosisDelta', kurtosisThetaEpochs, 'kurtosisTheta', kurtosisAlphaEpochs, 'kurtosisAlpha', kurtosisBetaEpochs, 'kurtosisBeta', ...
+        skewnessDeltaEpochs, 'skewnessDelta', skewnessThetaEpochs, 'skewnessTheta', skewnessAlphaEpochs, 'skewnessAlpha', skewnessBetaEpochs, 'skewnessBeta', ...
+         powerDeltaEpochs, 'powerDelta',  powerThetaEpochs, 'powerTheta', powerAlphaEpochs, 'powerAlpha',  powerBetaEpochs, 'powerBeta',  ...
+       entropyDeltaEpochs, 'entropyDelta', entropyThetaEpochs, 'entropyTheta', entropyAlphaEpochs, 'entropyAlpha',entropyBetaEpochs, 'entropyBeta', ...
+        energyDeltaEpochs, 'energyDelta', energyThetaEpochs, 'energyTheta', energyAlphaEpochs, 'energyAlpha',energyBetaEpochs,'energyBeta', ...
+        stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta',...
+        meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
+        meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
+    %    epochs, 'epochs');
+     [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels); 
+end
 disp('Done extracting features');
 end

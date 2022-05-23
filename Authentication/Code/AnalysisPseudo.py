@@ -62,10 +62,7 @@ if __name__ == '__main__':
     EXPERIMENTS = []
     
     # Sam
-    EXPERIMENT_SAM =ExperimentWrapper("Sam", 
-        'Pseudo',
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy'),
-    )
+    EXPERIMENT_SAM =ExperimentWrapper("Sam", 'Pseudo')
 
     EXPERIMENT_SAM = EXPERIMENT_SAM.set_experiment_data(
         Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_pseudo.npy')    
@@ -76,10 +73,7 @@ if __name__ == '__main__':
     EXPERIMENTS.append(EXPERIMENT_SAM)
 
     # M1
-    EXPERIMENT_M1 = ExperimentWrapper("M1", 
-        'Pseudo',    
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_calibration.npy'),
-    )
+    EXPERIMENT_M1 = ExperimentWrapper("M1", 'Pseudo')
 
     EXPERIMENT_M1 = EXPERIMENT_M1.set_experiment_data(
         Path('./Data/ExperimentResults/recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_pseudo.npy')
@@ -90,10 +84,7 @@ if __name__ == '__main__':
     EXPERIMENTS.append(EXPERIMENT_M1)
 
     # Simon
-    EXPERIMENT_SIMON = ExperimentWrapper("Simon", 
-        'Pseudo',    
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_calibration.npy')
-    )
+    EXPERIMENT_SIMON = ExperimentWrapper("Simon", 'Pseudo',)
 
     EXPERIMENT_SIMON = EXPERIMENT_SIMON.set_experiment_data(
         Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon_17_05_2022/OpenBCISession_Simon_pseudo.npy')
@@ -104,10 +95,7 @@ if __name__ == '__main__':
     EXPERIMENTS.append(EXPERIMENT_SIMON)
 
     # F1
-    EXPERIMENT_F1 = ExperimentWrapper('F1',
-        'Pseudo',    
-        Path('./Data/ExperimentResults/recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_calibration.npy')
-    )
+    EXPERIMENT_F1 = ExperimentWrapper('F1', 'Pseudo')
 
     EXPERIMENT_F1 = EXPERIMENT_F1.set_experiment_data(
         Path('./Data/ExperimentResults/recorded_data/recordings_numpy/F1_17_05_2022/OpenBCISession_F1_pseudo.npy')
@@ -126,11 +114,10 @@ if __name__ == '__main__':
     labels = []
     for experiment in EXPERIMENTS:
         calibration_data = PreprocessingPipeline(experiment.get_calibration_data()).start()
-        data = PreprocessingPipeline(experiment.get_experiment_data(), experiment.get_calibration_data()).start()
+        data = PreprocessingPipeline(experiment.get_experiment_data()).start()
         
         # This is not correct
         cropped_data = crop(data, 5, 250)
-        print(experiment.get_subject(), len(cropped_data), len(cropped_data[0]), len(cropped_data[0][0]))      
         # Calculate Features, reshaped to 240x1 numpy array
         for data_interval in cropped_data:
             data_interval = data_interval.reshape(1, 10000)
@@ -143,8 +130,6 @@ if __name__ == '__main__':
 
         
         labels = labels + get_labels(experiment.get_experiment_description_file())
-        print(features.shape, len(labels))
-    print(features.shape, len(labels))
     # features_normalized = normalize(features, axis=0)
     
     # This is arbitrarily chosen and depends on how many features you have

@@ -36,6 +36,8 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
+
+ 
         # ASR if pipeline has calibrated data
         # if self.cal_data is not None:
         #     if v:

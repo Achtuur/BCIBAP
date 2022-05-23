@@ -9,19 +9,16 @@ else:
 
 
 import numpy as np
-from prepare_data import crop
+from crop import crop
 from Filters import Filter
 from PreprocessingPipeline import PreprocessingPipeline
 from Visualize import DataPlot
 import matplotlib.pyplot as plt
 
-def do_wavelet():
-    A=1
-
-def do_fft(data, fs, plot=True):
+def do_fft(data, fs, plot=False):
     fs = fs
     #
-    fft_vals = np.absolute(np.fft.rfft(data))
+    fft_vals = np.absolute(np.fft.rfft(data, axis=0))
     # Get frequencies for amplitudes in Hz
     fft_freq = np.fft.rfftfreq(len(data), 1.0/fs)
     if plot==True:
@@ -29,61 +26,80 @@ def do_fft(data, fs, plot=True):
     return fft_vals, fft_freq
 
 def plot_fft(freq, vals):
-    plt.plot(freq, vals)
+    fig, axs = plt.subplots(vals.shape[1],1)
+    for i in range(vals.shape[1]):
+        axs[i].plot(freq, vals[:,i], linewidth=0.25)
+    # plt.plot(freq, vals)
     plt.xlabel("frequency(Hz)")
     plt.ylabel("Amplitude")
+    plt.show()
 
-def plot_bands(eeg_band_fft):
-    values = [eeg_band_fft[band] for band in eeg_band_fft.keys()]
-    plt.figure(2)
-    plt.bar(eeg_band_fft.keys(), values)
-    plt.xlabel("band")
+def plot_bands(data):
+    eeg_bands = {'Delta': (0, 4),
+                'Theta': (4, 8),
+                'Alpha': (8, 12),
+                'Beta': (12, 30),
+                'Gamma': (30, 45)
+                }
+    fig, axs = plt.subplots(1, data.shape[1])
+    for i in range(data.shape[1]):
+        axs[i].bar(eeg_bands.keys(), data[:,i])
+        plt.xlabel("band")
     plt.ylabel("Energy")
     plt.show()
 
+def get_bands(fft_vals, fft_freq, plot=False):
+    for i in range(fft_vals.shape[1]):
+        try:
+            eeg_bands_channel = np.vstack([eeg_bands_channel, np.array(extract_bands(fft_vals[:,i], fft_freq))])
+        except (ValueError, NameError):
+            eeg_bands_channel = np.array(extract_bands(fft_vals[:,i], fft_freq))
+    if plot==True:
+        plot_bands(np.mean(eeg_bands_channel, axis=0))
+    return eeg_bands_channel
+    
 
-def extract_bands(fft_vals, fft_freq, plot=True):
+def extract_bands(fft_vals, fft_freq, plot=False):
     # Define EEG bands
     eeg_bands = {'Delta': (0, 4),
                 'Theta': (4, 8),
                 'Alpha': (8, 12),
                 'Beta': (12, 30),
-                'Gamma': (30, 45)}
+                'Gamma': (30, 45)
+                }
 
     # Take the mean of the fft amplitude for each EEG band
-    eeg_band_fft = dict()
-    for band in eeg_bands:  
+    eeg_band_fft = []
+    for i, band in enumerate(eeg_bands):  
         freq_ix = np.where((fft_freq >= eeg_bands[band][0]) & 
                         (fft_freq <= eeg_bands[band][1]))[0]
-        eeg_band_fft[band] = np.mean(fft_vals[freq_ix])
-    if plot==True:
-        plot_bands(eeg_band_fft)
+        eeg_band_fft.append(np.mean(fft_vals[freq_ix]))
     return eeg_band_fft
+
     
 if __name__ == "__main__":
     # Initialise config variables
     f_sampling = 250
-    t_window = 10
-
-    # Calibration Data
-    cal_data_path = Path('Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-02_15-07-38.npy')
-    cal_data = np.load(cal_data_path)
-    cropped_cal_data = crop(cal_data, t_window, f_sampling)
-    raw_cal = np.concatenate((cropped_cal_data[10], cropped_cal_data[11], cropped_cal_data[12], cropped_cal_data[13]))
-    cal_eeg_data = PreprocessingPipeline(raw_cal).start()
-
+    # t_window = 10
 
     # Regular data
-    data_path = Path('Data/recorded_data/recordings_numpy/OpenBCI-RAW-2022-05-06_15-40-45.npy')
-    data = np.load(data_path)
-    cropped_data = crop(data, t_window, f_sampling)
-    raw = np.concatenate((cropped_data[2], cropped_data[3], cropped_data[4], cropped_data[5]))
-    # raw = np.concatenate((cropped_data[2], cropped_data[3]))
-    eeg_data = PreprocessingPipeline(raw, cal_eeg_data).start(plot=False)
+    data_path = Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_first_mental_experiment.npy')
+    # The relevant data interval is 1:23 - 2:42
+    data = np.load(data_path)[250*83:250*163]
+    data = PreprocessingPipeline(data).start()
     
-    print("filtered_data shape:", eeg_data.shape)
-    one_channel = eeg_data[:, 0]
-    print("one_channel shape:", one_channel.shape)
-    vals, freq = do_fft(one_channel, f_sampling)
-    eeg_band_fft = extract_bands(vals, freq)
-    print("eeg_bands_dict:", eeg_band_fft)
+    # Split intervals
+    data_task_1 = data[:20*250]
+    data_rest_1 = data[20*250:40*250]
+    data_task_2 = data[40*250:60*250]
+    data_rest_2 = data[60*250:]
+
+    #task1:
+    vals, freq = do_fft(data_task_2, f_sampling, plot=False)
+    eeg_bands_avg = np.mean(get_bands(vals, freq, plot=False), axis=0)
+    #task2:
+    vals, freq = do_fft(data_rest_2, f_sampling, plot=False)
+    eeg_bands_avg_2 = np.mean(get_bands(vals, freq, plot=False), axis=0)
+    print(eeg_bands_avg[2], eeg_bands_avg_2[2])
+    data = np.vstack([eeg_bands_avg, eeg_bands_avg_2])
+    plot_bands(data.T)

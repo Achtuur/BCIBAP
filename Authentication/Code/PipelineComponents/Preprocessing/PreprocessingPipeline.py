@@ -6,9 +6,8 @@ from Filters import Filter
 from Visualize import DataPlot
 
 class PreprocessingPipeline():
-    def __init__(self, raw_data, cal_data=None):
+    def __init__(self, raw_data):
         self.raw_data = raw_data
-        self.cal_data = cal_data
 
     def perform_notch_filter(self, eeg_data, f0, q, fs):
         data_notch_filtered = Filter.notch_filter(eeg_data, f0, q, fs)

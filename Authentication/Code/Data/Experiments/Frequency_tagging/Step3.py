@@ -7,10 +7,10 @@ import os
 
 my_parser = argparse.ArgumentParser(description="Code to frequency tag a password")
 my_parser.add_argument('-pw',
-                        required=False,
-                        metavar='-password',
+                        required=True,
+                        metavar='password',
                         type=str,
-                        help='The password to tag'    
+                        help='The password to tag, add words with spaces in between and within brackets'    
                     )
 my_parser.add_argument('-freq',
                         required=False,
@@ -57,14 +57,14 @@ responserecogntion = args.R
 if __name__ == '__main__':
 
     date = str(datetime.now())[0:10]
-    filename = f'.\\results\\Step1\\{args.name}_{date}_ft1_take{args.take}'
+    filename = f'.\\results\\Step3\\{args.name}_{date}_ft3_take{args.take}'
     if os.path.exists(f'{filename}.csv'):
         print('filename already exists')
         exit()
+        
+    bitjes, start_time, words = tagging(step = '3', chosen_words = args.pw, color = '000')
+    print(words)
 
-    bitjes, start_time, words = tagging(step = '1')
-
-    
     
     words.append(start_time)
     bitjes.append(' ')

@@ -5,12 +5,15 @@ FileIndices = [1:6];
 Plot_CFNMatrix = 1;
 
 epochs = 0.5 : 0.25 : 4;
+epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
+matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
-    [X,features,Y,featurelabels] = CNN(dataset, path2dataset, FileIndices, k);
+    [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
+    %% train model
     X = cell2mat(X);
     %Y = cell2mat(Y);
     % Train CNN here
@@ -22,9 +25,8 @@ for k = epochs
     YTest = Y(test(cvp));
 
     Mdl = fitcnet(XTrain,YTrain, ...
-    "LayerSizes",[35 20]);
+    "LayerSizes",[55 30]);
 
-    
      final_results(i, :) = {features featurelabels};
     
      if Plot_CFNMatrix
@@ -35,6 +37,6 @@ for k = epochs
      i = i + 1;
 %     fig = plotconfusion(lab, predicted);
 %     fig.CurrentAxes.Title.String = sprintf("epochlengthsec = %0.1f", k);
-%     plt.Title = sprintf("epochlengthsec = %s", k);
-%     title(fig.axes, sprintf("epochlengthsec = %s", k));
 end
+model = Mdl;
+save('MLModel/CNNmodel.mat', 'model', 'mu_train', 'sigma_train', '-append');

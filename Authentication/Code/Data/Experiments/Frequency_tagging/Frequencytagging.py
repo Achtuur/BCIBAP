@@ -10,9 +10,6 @@ import random
 # [] = optional
 # Usage: python Frequencytagging.py -pw password -freq frequency [-time] time
 
-# import rhinoscriptsytnax as rs
-
-
 
 
 def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color = '101'):

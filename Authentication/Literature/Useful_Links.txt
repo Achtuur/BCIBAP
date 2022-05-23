@@ -1,0 +1,23 @@
+- This website discusses pre-processing steps for EEG data and links a lot of articles:
+https://www.researchgate.net/post/What-are-the-preprocessing-methods-to-enhance-EEG-data-for-general-purpose
+
+- Open-source Python package for exploring, visualizing, and analyzing human neurophysiological data: MEG, EEG, sEEG, ECoG, NIRS, and more
+https://mne.tools/dev/index.html
+
+- This website discusses a pipeline for standardized preprocessing of EEG's
+https://www.frontiersin.org/articles/10.3389/fninf.2015.00016/full
+
+- This video discusses fundamentals of wavelet transform
+https://www.youtube.com/watch?v=y7KLbd7n75g&ab_channel=SteveBrunton
+
+- This website explains how figures of EEG typically look, and explains how to draw conclusions from such a figure, (and gives medical context to it)
+https://www.ncbi.nlm.nih.gov/books/NBK390346/#:~:text=EEG%20uses%20the%20principle%20of,neighboring%20or%20distant%20reference%20electrode.
+
+- Paper on using many WT motherwaves and then using Evolutionary algorithm to select relevant features
+https://journals.sagepub.com/doi/10.1177/1550147720911009
+
+-Paper on using db2 4th level Wavelet transform decomposition and extracting statistical features from it
+https://dergipark.org.tr/tr/download/article-file/1948167
+
+-Paper on classification using neural networks( used now as comparison for computational expense)
+Satapathy, SK, Jagadev, AK, Dehuri, S. Weighted majority voting based ensemble of classifiers using different machine learning techniques for classification of EEG signal to detect epileptic seizure. Informatica 2017; 41(1): 99–110

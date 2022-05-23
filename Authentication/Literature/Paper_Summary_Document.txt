@@ -1,0 +1,130 @@
+PREPROCESSING:
+- paper_on_preprocessing_eeg.pdf
+This paper discusses a standardized pipeline for preprocessing of EEG signals. It discusses why standardized data is important and types of noise which occur in the measurements:
+1. Line Noise: This is noise caused by the interference of Power Lines on the gamma band in the 50-60 Hz range;
+2. Bad/outlier channels: Sometimes, a recorded is simply useless for whatever reason, but this can be detected and disregarded;
+Conclusion:
+Approach is able to preprocess data and detect problems with dataset that can cause downstream issues. There is also something about
+classification but this is discussed briefly.
+
+Classification_of_Mental_Task_From_EEG_Signals_Using_Immune_Feature_Weighted_Support_Vector_Machines
+This paper describes an addition to regular SVM. The idea is to determine weights for each feature using something called the immune algorithm. This concept is called immune feature weight SVM or IFWSVM.
+This method is especially useful on EEG signals due to the onstationary and nonlinear features found in these signals.
+Conclusion: IFWSVM works better for EEG signals than regular SVM.
+
+- paper_comparision_wavelet_fft.pdf
+This paper discusses an alternative to the Fast Fourier Transform, the Wavelet Transform, which is a tradeoff between showing the frequency components somewhat accurately, while keeping information about when these frequencies occur in the time domain.
+Conclusion: 
+The wavelet transform works better for detecting abnormal brain activity (seizures)
+
+- paper_that_compares_preprocessing_methods.pdf
+This is a great paper which discusses the techniques to remove artifacts from EEG. This included:
+ - independent component analysis, which means splitting op the components into subcomponents which consist of only one non gausian signal
+ - wavelet analysis (see other papers)
+ - machine learning methods
+
+Motor_Imagery_EEG_Signals_Classification_Based_on_Mode_Amplitude_and_Frequency_Components_Using_Empirical_Wavelet_Transform
+This paper compares 7 classification methods for EEG signals used for an BCI based on motor imagery.
+The accuracy for these methods is quite high for motor signals. might be useful to look into using these classification methods also on other types of signals that can be used for an BCI.  
+
+Rapid Brain Responses to Familiar vs. Unfamiliar Music – an EEG and Pupillometry study
+This paper describes an experiment. In the experiment the subjects passively listened to 750 ms long music snippets from music that they were familair with or not. In the EEG the difference in perception if it was familiar or not became visible after 350 ms. 
+This paper could be relevant for is if the device could be integrated in earphones.
+Verifying the user could be done in just over a second, which is quite fast. Due to the fact that the listening can be passive (for this experiment all listening was passive), this verification could be done at random intervals in which the device is used.
+
+
+IN-EAR VS SCALP:
+Dry-Contact_Electrode_Ear-EEG
+This paper compares ear-EEG with normal EEG for four standard EEG paradigms. The electrodes set-up was done in four ways: scalp-scalp (normal EEG), ear-scalp, between ears, within ear.
+It has four parts:
+1. Describes the dry-contact ear-EEG platform
+2. Describes experimental set up
+3. Describes experimental paradigms and signal processing methods
+4. Describes evaluation methods for skin impedance
+Important conclusions:
+Both auditory and visual steady-state responses are visible and statistically relevant using within-ear EEG.
+For the mismatch paradigm, the within-ear electrodes did not deliver statistically significant results. The between ears set-up did provide a image of the first 2 negative and first positive potential differences that where also seen in the normal EEG.
+For the alpha band paradigm, both the ear-scalp and the within-ear configurations. The ear-scalp had a clearer result.
+General conclusion:
+"We believe that the prototyped dry-contact ear-EEG platform represents an important technological advancement in user-friendliness, because it eliminates the need for gel in the electrode-skin interface"
+
+A Study of Evoked Potentials From Ear-EEG
+This paper is very similair to the "Dry-Contact_Electrode_Ear-EEG" paper and also drawes the same conclusion that for most applications the ear-electrodes are useful.
+
+REACTION PER STIMULANCE:
+
+Words and pseudowords elicit distinct patterns of 30-Hz EEG responses in humans
+The title is basically the summary. this might be useful for authentication by letting the subject remember a series of nonsense and normal words in a order that only he knows. It can be quite easily picked up from temporal information what the order of the words is, which can act as a password.
+
+Individual Classification of Emotions Using EEG
+Classification between 4 different emotions that are elicited using video's is obtained with an accuracy of 97%. This is done by using signal processing and machine learning on signals from an EEG.
+
+Rapid Memory Reactivation Revealed by Osicllatory Entrainment
+The article is about an experiment in which researchers tagged certain memories of subjects. This was done by making the subjects look at words with a flickering background that has a certain frequency. When the words are later shown to them without the flickering, the same activation that was caused by the frequency is still visible in an EEG.
+This could be really useful by calibrating the device by tagging a word or other memory and showing this word again when trying to log in somewhere. I have not yet found many papers supporting this paper.
+
+Assessing the utility of frequency tagging for tracking memory-based reactivation of word representations
+Quite like the "Rapid Memory Reactivation Revealed by Osicllatory Entrainment" paper, so extra evidence that frequency tagging might be a viable option.
+
+Probing cortical excitability using rapid frequency tagging
+This paper provides prove that frequency tagging is also possible at higher frequencies. 
+
+EEG-Based_Synchronized_Brain-Computer_Interfaces_A_Model_for_Optimizing_the_Number_of_Mental_Tasks
+This paper researchers the optimal number of mental tasks that can be distinquished using an EEG-base BCI. The mental tasks that were used are: simple calculation, imagining finger movement, mentally turning an object and imaginging a song.
+Conclusions that are important for us:
+- 3 or 4 is for most people the optimal number of mental tasks
+- The optimal number of tasks vary per person
+- The signal processing also varies per person; of the 4 participants there were 3 that could use SVM the best and the fourth person responded best to LDA.
+- The average optimal bit rate that was achieved was 0.19 bit/s
+
+NIPS-2003-increase-information-transfer-rates-in-bci-by-csp-extension-to-multi-class-Paper
+Quite an old paper, so not relevant for discovering new techniques. It does however give a nice overview of calculating and optimizing the information transfer rate (ITR) for BCI.
+conclusions that are important for us:
+- 3 or 4 is for most people the optimal number of mental tasks
+- Letting subjects choose their own tasks from a larger number of optional tasks may improve the accuray, because what tasks work best differs between subjects.
+- Training can improve ITR, but this can take up to 300 hours.
+
+
+IDENTIFICATION:
+Paper on classifying EEG single channel SSVEP-based BCI through SVM:
+This paper compares using optimized support vector machine(SVM) ML model to other state of the art models for classication.
+The Introduction explains EEG on a basic level, which makes it very understandable
+The sections after that detail the other state-of-the-art approaches, the system & experiment setup, and results & conclusions.
+Important conclusions:
+The SVM approach provides way better performance for the smaller time windows(2, 3, 4 seconds), compared to the other approaches.
+pretraining the ML model on evolutionary algorithm is a well performing choice
+
+
+Paper on three-factor passthought identification:
+This paper discusses three factor identification in one step: 
+with inherence(unique features of your person(fingerprint e.g.)): your brain waves
+with possesion(having something): the earpiece
+with knowledge(knowing something): a certain secret thought
+It is done with data from wet electrode earpieces, custom made to a person.
+Section 2 discusses other papers that already explored eeg for authentication. which is interesting later on for us.
+The paper discusses the performance of authentication through accuracy and False Acceptance Rate(FAR) across 9 different mental tasks(all tasks without external stimuli).
+Most important conclusions: 
+99.82% authentication accuracy, with 0 FAR. Imposter attack was explored, but superficially.
+Further research:
+Dry electrodes, imposter attacks, not person specific but more generic earpods.
+
+Paper on in-ear eeg biometrics for feasible and readily collectable real-world person authentication:
+This paper discusses a design for an in-ear eeg capable of authentication, based on 4 main pillars:
+1) Collectability (easy to set up in-ear dry electrode eeg)
+2) Uniqueness & permanence (subject dependent eeg features)
+3) Reproducibility (measurements with different subjects over different and multiple days)
+4) Fast response (classification is performed by fast non-parametric/paramteric approaches(cosine distance, LDA, SVM)
+Important conclusions:
+This paper provides proof-of-concept for feasible, collectable and reproducible eeg biometrics.
+Accuracy of 95.7% was achieved in the experiment setups(albeit binary classification setups, and 60s time window).
+Further investigation suggestions: 
+evoked responses, sub ideal measurement conditions (fatigue, sleepiness, alcohol)
+
+
+Paper on Mental Task Recognition by EEG Signals: A Novel Approach with ROC Analysis:
+This paper describes a different way of feature extraction for building the EEG classifier. They make reference to and use of benchmarked datasets from colorado state university, which might be good data for us to resort to in case collecting data ourselves goes sideways. They also report on the entire process of building this classifier, which might prove useful for us as well. 
+
+A Review of Processing Methods and Classification Algorithm for EEG Signal:
+This paper discusses different methods of preprocessing, feature selection and classification qualitatively, by giving an oversight of the advantages and disadvantages of each technique in tabular form.
+
+

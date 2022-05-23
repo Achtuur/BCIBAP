@@ -36,7 +36,9 @@ class PreprocessingPipeline():
         clean_data = self.perform_notch_filter(clean_data, 50, 30, 250)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
-            
+
+
+ 
         # ASR if pipeline has calibrated data
         # if self.cal_data is not None:
         #     if v:

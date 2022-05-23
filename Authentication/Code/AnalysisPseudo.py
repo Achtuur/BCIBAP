@@ -14,6 +14,8 @@ if platform.system() == "Windows":
     sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
     sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
     sys.path.append(str(Path('Data/ExperimentResults').resolve()))
+    sys.path.append(str(Path('Data').resolve()))
+    sys.path.append(str(Path('PipelineComponents/Classification').resolve()))
 else:
     sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
     sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))

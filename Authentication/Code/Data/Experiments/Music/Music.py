@@ -39,9 +39,15 @@ my_parser.add_argument('-name',
 my_parser.add_argument('-known',
                         required=True,
                         metavar='known song',
-                        type=int,
+                        type=str,
                         help='The number of the known song'
 )
+my_parser.add_argument('-take',
+                        required=True,
+                        metavar='take',
+                        type=str,
+                        help='the nth time this experiment takes place' 
+                    )
 args = my_parser.parse_args()
 
 def get_song_amount():
@@ -57,8 +63,8 @@ def get_song_amount():
 songs_amount = get_song_amount() #amount of songs in the songs folder
 songtime = args.song_dur #duration of song in seconds, max number is duration of song minus a minute
 pause = args.pause #time between song fragments, at least 3
-known_song = args.known #number of the song that is known by the user
-
+known_songs = args.known #number of the song that is known by the user
+known_songs = list(known_songs)
 songs = [0 for i in range(songs_amount)]
 
 for i in range(1, songs_amount + 1):
@@ -75,6 +81,12 @@ data = [0 for i in range(songs_amount)]
 
 file = Path('./experiment_song_order')
 
+date = str(datetime.now())[0:10]
+filename = f'.\\results\\{args.name}_{date}_music_take{args.take}'
+if os.path.exists(f'{filename}.csv'):
+    print('filename already exists')
+    exit()
+
 times = [0 for i in range(songs_amount)]
 bitjes = [0 for i in range(songs_amount)]
 j = 0
@@ -82,7 +94,7 @@ exp_song_order = [i for i in range(1, songs_amount+1)]
 random.shuffle(exp_song_order)
 for index, num in enumerate(exp_song_order):
     songname = Path(f'./songs/song_samples/song{str(num)}.mp3')
-    if songname == Path(f'./songs/song_samples/song{known_song}.mp3'):
+    if str(num) in known_songs:
         bitjes[index] = 1
     else:
         bitjes[index] = 0
@@ -100,7 +112,8 @@ for index, num in enumerate(exp_song_order):
 all_data = [data, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
-file = Path(f'./experiment_song_order/{args.name}.csv')
+
+file = Path(f'{filename}.csv')
 with open(file, 'w') as f:
     # using csv.writer method from CSV package
     write = csv.writer(f)

@@ -3,20 +3,49 @@ import random
 import csv
 from datetime import datetime, timedelta
 import numpy as np
+import argparse
+import os
 
-duration = 5 #time for each emotion in seconds
-amount =  4 #amount of emotions that is shown
-test = 1
+my_parser = argparse.ArgumentParser(description="Code to run emotion experiment")
+my_parser.add_argument('-disp',
+                        required=False,
+                        default=5,
+                        metavar='-display time',
+                        type=int,
+                        help='The duration each word is shown'    
+                    )
+my_parser.add_argument('-len',
+                        required=False,
+                        default=10,
+                        metavar='-length',
+                        type=int,
+                        help='The amount of words to show'    
+                    )
+my_parser.add_argument('-name',
+                        required=True,
+                        metavar='subject name',
+                        type=str,
+                        help='M or F followed by a number'  
+                    )
+my_parser.add_argument('-take',
+                        required=True,
+                        metavar='take',
+                        type=str,
+                        help='the nth time this experiment takes place' 
+                    )
+args = my_parser.parse_args()
 
-emotions = [0] * amount
+duration = args.disp #time for each emotion in seconds
+amount =  args.len #amount of emotions that is shown
 
-if test == 0:
-    for i in range(amount):
-        print(f'Emotion {i + 1}')
-        emotions[i] = input()
-else:
-    print('test')
-    
+emotions = ['amused','disgusted','sad','neutral']
+
+data = []
+bitjes = []
+for j in range(0, amount):
+    task = random.randint(0, len(emotions) - 1)
+    data.append(emotions[task])
+    bitjes.append(task)
 
 #Showing the words
 def refresh_label(label, word):
@@ -29,27 +58,25 @@ root.configure(bg='white')
 label = tk.Label(text='', font=("Helvetica", 120))
 label.pack(anchor=tk.CENTER, expand=tk.TRUE)
 
-for i, emotion in enumerate(emotions):
+for i, emotion in enumerate(data):
     # binding word required because of the loop
     label.after(1000*duration * i, lambda w= emotion: label.configure(text=w))
 
-filename = 'Simon_17-05-2022_em_test'
+date = str(datetime.now())[0:10]
+filename = f'.\\timestamps\\{args.name}_{date}_emotions_take{args.take}'
+if os.path.exists(f'{filename}.csv'):
+    print('filename already exists')
+    exit()
 
-filename = f'.\\timestamps\\{filename}'
-fo = open(filename, "w")
-fo.close()
 
-times = [0] * len(emotions)
+times = []
 increment = timedelta(seconds = duration)
-j = 0
-for i in range(0, len(emotions)):
+for j, i in enumerate(range(0, len(bitjes))):
     time = datetime.now() + increment * i
-    times[j] = time.strftime("%H:%M:%S.%f")
-    times[j] = times[j][:12]
-    j = j + 1
+    times.append(time.strftime("%H:%M:%S.%f")[:12])
 
-bitjes = [0] * len(emotions)
-all_data = [emotions, bitjes, times]
+
+all_data = [data, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
 with open(f'{filename}.csv', 'w') as f:

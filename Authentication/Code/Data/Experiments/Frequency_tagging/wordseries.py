@@ -4,7 +4,7 @@ import numpy as np
 import tkinter as tk
 from datetime import datetime
 from datetime import timedelta
-
+import os
 from pathlib import Path
 
 # This is to easily run the script from the command line
@@ -28,11 +28,11 @@ my_parser.add_argument('-pw2',
                         help='The 2nd password to tag'    
                     )
 
-my_parser.add_argument('-file', 
+my_parser.add_argument('-name', 
                         required=True,
-                        metavar='-file name',
+                        metavar='subject',
                         type=str,
-                        help='The name of the file'
+                        help='The name of the subject'
 )
 
 my_parser.add_argument('-wl',
@@ -48,6 +48,12 @@ my_parser.add_argument('-dur',
                         type=int,
                         help='The duration of each word',
                         default=5
+                    )
+my_parser.add_argument('-take',
+                        required=True,
+                        metavar='take',
+                        type=str,
+                        help='the nth time this experiment takes place' 
                     )
 
 args = my_parser.parse_args()
@@ -113,7 +119,11 @@ for i in words:
         bitjes[j] = 0
     j = j + 1
 
-file = Path(f'./results/{args.file}.csv') 
+date = str(datetime.now())[0:10]
+filename = f'.\\results\\{args.name}_{date}_ft_take{args.take}'
+if os.path.exists(f'{filename}.csv'):
+    print('filename already exists')
+    exit()
 
 
 #Create timestamps for words
@@ -129,7 +139,7 @@ for i in range(0, len(words)):
 all_data = [words, bitjes, times]
 all_data = np.array(all_data).T.tolist()
 
-with open(file, 'w') as f:
+with open(f'{filename}.csv', 'w') as f:
     # using csv.writer method from CSV package
     write = csv.writer(f)
     write.writerows(all_data)

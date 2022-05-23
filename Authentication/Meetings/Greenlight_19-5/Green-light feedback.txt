@@ -1,0 +1,33 @@
+- Performance during the project: +
+Communication on using the heaset
+Being present at a meeting you book yourself
+
+- Reporting on the project: -
+1st slide was already requirements, 
+we should have more introduction into the project, 
+more gradual top down approach when presenting!
+More specific timelines for future steps
+
+- Theoretical justification: ++
+Results are irreproachable, justifying technical choices
+
+- Performance: + 
+Presentation is good/informative. only more ease into it.
+answers to all questions.
+plots need to be labelled!
+Slides bigger, readable!
+
+Overall: +, pass
+
+comments:
+-Design choice, backed up by numbers(bcus engineers), backed up by literature!
+
+
+
+
+presentatie:
+https://docs.google.com/presentation/d/1SVNset9-XHvYUYRCudb_c3H4BFodVnfnNI6iFtB5kLQ/edit?usp=sharing
+
+
+
+

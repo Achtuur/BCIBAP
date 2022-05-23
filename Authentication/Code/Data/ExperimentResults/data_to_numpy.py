@@ -8,11 +8,11 @@ import os
 RECORDINGS_CROP_DICTIONARY = {
         # M1
         'M1_CALIBRATION' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_calibration.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_calibration.npy'),
                 'crop' : (250*15, 250*75)
         },
         'M1_PSEUDO' : {
-                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_Wessel_pseudo.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/M1_10_05_2022/OpenBCISession_M1_pseudo.npy'),
                 'crop' : (1570, 1570+(250*50*5))
         }, 
         # SAM
@@ -104,6 +104,7 @@ if __name__ == '__main__':
         for recording_to_crop in RECORDINGS_CROP_DICTIONARY.values():
                 numpy_data = np.load(recording_to_crop['path'])
                 cropped_numpy_data = numpy_data[recording_to_crop['crop'][0]:recording_to_crop['crop'][1]]
+                print(f"File: {recording_to_crop['path'].stem}\nOld shape: {numpy_data.shape}\nNew shape: {cropped_numpy_data.shape}")
                 np.save(recording_to_crop['path'], cropped_numpy_data)
                 
         

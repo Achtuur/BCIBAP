@@ -1,0 +1,33 @@
+upcoming deadlines:
+- Friday(27-05) draft essay ethics
+- Next week friday(03-06) business plan
+
+Update groups:
+Average confidence level: 60%
+- Stimulus:
+	- LTSpice sucks, the model is not finished, tomorrow meeting with Tiago for tips/advice
+	- PCB can be done quick once LTSpice is finished
+	- Thesis writing (1 week planned)
+	- FPGA testing later on
+- SignalProcessing:
+	- PCA needs to be integrated(in and of itself is finished)
+	- Wavelet is being integrated as well
+	- In general, reviewing and substantiating all choices
+	- Ethics draft this week as well
+	- Thesis writing (starting on it today, draft end of the week)
+- Phantom:
+	- Go to lab this afternoon from 1300, going to see what it's going to be like
+	- Thesis draft is already almost in place
+	- From the results, they're going to have a lot of work still
+	
+- Authentication:
+	- Gathering data is priority right now, for 1 experiment focus.
+	- Once data is gathered, we can produce results.
+	- Starting on the thesis this week(especially preprocessing part)
+	- 
+-
+TODO: 
+- Bonne: Next meeting with Dante, plan the thesis defence (preferably wednesday)
+- Sam: email people businessplan
+- For the thesis: template from brightspace for everybody
+- For Ethics: read the assignment thoroughly!! Template from Phantom group

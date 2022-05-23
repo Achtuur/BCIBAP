@@ -38,7 +38,7 @@ class Models():
             # },
             "SVC": {
                 'C' : [1, 10, 100],
-                'kernel' : ["poly"],
+                'kernel' : ["rbf"],
                 'random_state' : [42]
             }#,
             # "LogisticRegression": {
@@ -79,9 +79,9 @@ class Models():
 
     def test_this_file(self):
         A, B = mnist.load_data(path='mnist.npz')
-        X_train, Y_train = A
+        # X_train, Y_train = A
         X_test, Y_test = B
-        X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.25)
+        X_train, X_val, Y_train, Y_val = Models.train_val_split(X_test, Y_test, test_size = 0.9)
         X_train = Models.reshape(X_train)
         X_val = Models.reshape(X_val)
         self.KFOLD_CV(X_train, Y_train, X_val, Y_val)

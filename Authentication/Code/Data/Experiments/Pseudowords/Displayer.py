@@ -7,6 +7,7 @@ from datetime import timedelta
 import numpy as np
 from Listgenerator import listgenerator
 from pathlib import Path
+import os
 
 # This is to easily run the script from the command line
 # [] = optional
@@ -31,17 +32,21 @@ my_parser.add_argument('-len',
                     )
 my_parser.add_argument('-name',
                         required=True,
-                        metavar='-file name',
+                        metavar='subject name',
                         type=str,
                         help='The file name'
 )
+my_parser.add_argument('-take',
+                        required=True,
+                        metavar='take',
+                        type=str,
+                        help='the nth time this experiment takes place' 
+                    )
 args = my_parser.parse_args()
 
 display_time = args.disp 
 length = args.len
 words, bitjes = listgenerator(length)
-
-words = words.append('FINISHED')
 
 def refresh_label(label, word):
     label.configure(text=word)
@@ -68,9 +73,12 @@ for i in range(0, len(words)):
     j = j + 1
 
 
+date = str(datetime.now())[0:10]
+filename = f'.\\results\\{args.name}_{date}_pseudo_take{args.take}'
+if os.path.exists(f'{filename}.csv'):
+    print('filename already exists')
+    exit()
 
-
-file = Path(f'./results/{args.name}.csv')
 
 all_data = [words, bitjes, times]
 
@@ -78,7 +86,7 @@ all_data = np.array(all_data).T.tolist()
     
 
 
-with open(file, 'w') as f:
+with open(f'{filename}.csv', 'w') as f:
       
     # using csv.writer method from CSV package
     write = csv.writer(f)

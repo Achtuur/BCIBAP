@@ -8,32 +8,28 @@ import os
 RECORDINGS_CROP_DICTIONARY = {
         # M1
         'Joos_ft1_take1' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Joos_2022-05-23_ft1_take1.csv'),
+                'path' : Path('Data\ExperimentResults\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_stage1_take1.npy'),
                 'crop' : (538, 538 + 20000)
         },
         'Joos_ft1_take2' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Joos_2022-05-23_ft1_take2.csv'),
+                'path' : Path('Code\Data\ExperimentResults\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_stage1_take2.npy'),
                 'crop' : (678, 678 + 20000)
         },
         'Sam_ft1_take1' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Sam_2022-05-23_ft1_take1.csv'),
+                'path' : Path('Code\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_stage1_take1.npy'),
                 'crop' : (4984, 4984 + 20000)
         },
         'Sam_ft1_take2' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Sam_2022-05-23_ft1_take2.csv'),
+                'path' : Path('Code\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_stage1_take2.npy'),
                 'crop' : (1393, 1393 + 20000)
         },
         'Simon_ft1_take1' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon_2022-05-23_ft1_take1.csv'),
+                'path' : Path('Code\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_stage1_take1.npy'),
                 'crop' : (809, 809 + 20000)
         },
         'Simon_ft1_take2' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon_2022-05-23_ft1_take2.csv'),
-                'crop' : ()
-        },
-        'Simon_ft_6hz_take1' : {
-                'path' : Path('Code/Data/Experiments/Frequency_tagging/results/Step1/Simon6hz_2022-05-23_ft1_take1.csv'),
-                'crop' : ()
+                'path' : Path('Code\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_stage1_take2.npy'),
+                'crop' : (1168, 1168 + 20000)
         }
 }
 

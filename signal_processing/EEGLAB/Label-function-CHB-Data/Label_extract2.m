@@ -11,7 +11,7 @@
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 %   Channelsout: vector containing indices of channels to be used
 %   rounding_err: number of samples lost per file due to rounding
-function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path, EpochDurationSeconds, FileIndices)
+function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices)
 %% testvalues
 %     dataset = 'chb04';
 %     eegpath = AddPath();
@@ -21,7 +21,7 @@ function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path, Epoch
 %     EpochDurationSeconds = 3;
 %% Read txt file and create arrays with file and channel info
 %Read summary as plain txt
-Txt = fileread(path);
+Txt = fileread(path2summary);
 FileIndices = sort(FileIndices);
 
 %split Txt by blank lines

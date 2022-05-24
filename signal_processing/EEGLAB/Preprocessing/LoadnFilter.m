@@ -7,14 +7,14 @@
 %       - path2edf: Path to edf file
 %  OPTIONAL:
 %       - locutoff: [number], bottom cutoff frequency (Hz) for filter on eeg data, default 0.5
-%       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 25
-%       - forder: filter order
+%       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 50
+%       - forder: filter order, default 1000
 %       - showplots: [true/false], show plots of before/after filtering, default 'off'
 %       - channellist: [number], vector with channels to be included, use 0 to include all channels, default 0
 %% OUTPUTS:
 %       - filtered_data: MATLAB matrix with a size of nChannels x
 %       TimeRecorded * Fs
-function filtered_data = LoadnFilter(path2edf, varargin)
+function [filtered_data, unfiltered_data] = LoadnFilter(path2edf, varargin)
 %% test vars (comment out nargin/varargin stuff)
 %     eegpath = AddPath();
 %     dataset = 'chb04';
@@ -43,10 +43,10 @@ path2edf = strrep(path2edf, '\', filesep);
 %% varargin
     if nargin < 3
        g.locutoff = 0.5; %default values for locutoff and hicutoff
-       g.hicutoff = 40;
+       g.hicutoff = 50;
        g.showplots = 0;
        g.channellist = 0;
-       g.forder = 70;
+       g.forder = 1000;
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
@@ -67,7 +67,7 @@ EEG = pop_biosig(path2edf, 'channels', g.channellist);
 
 %% create EEGLAB set
 [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfread', 'overwrite', 'on');
-
+unfiltered_data = EEG.data;
 
 %% Plot raw EEG data
 if g.showplots

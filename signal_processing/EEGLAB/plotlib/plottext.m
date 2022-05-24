@@ -25,15 +25,15 @@ BIGFONTSIZE = g.fontsize+5; %define some constants for fontsize
 MEDIUMFONTSIZE = g.fontsize+3;
 SMALLFONTSIZE = g.fontsize;
 
-if isprop(gca, 'XTickLabel')
-    a = get(gca,'XTickLabel');
-    set(gca,'XTickLabel',a,'FontName','Times','fontsize', SMALLFONTSIZE)
-end
+% if isprop(gca, 'XTickLabel')
+%     a = get(gca,'XTickLabel');
+%     set(gca,'XTickLabel',a,'FontName','Times','fontsize', SMALLFONTSIZE)
+% end
 
-if isprop(gca, 'YTickLabel')
-    a = get(gca,'YTickLabel');
-    set(gca,'YTickLabel',a,'FontName','Times','fontsize', SMALLFONTSIZE)
-end
+% if isprop(gca, 'YTickLabel')
+%     a = get(gca,'YTickLabel');
+%     set(gca,'YTickLabel',a,'FontName','Times','fontsize', SMALLFONTSIZE)
+% end
     
 
 title(tit, 'interpreter', 'latex', 'fontsize', BIGFONTSIZE); %add title

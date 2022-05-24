@@ -40,7 +40,7 @@ class Filter():
         except IndexError:
             pass
 
-        # Value was empirically chosen
+        # Value of threshold was empirically chosen, separates blinking artefact from rest of data
         threshold = threshold_val if threshold_val else 1500
 
         try:

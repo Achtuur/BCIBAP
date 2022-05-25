@@ -14,7 +14,12 @@ plotline(ax, [3 2]);
 plotcolor(ax(1:2), 2);
 plotcolor(ax(3), 'tudelft');
 plottext(ax, 'title', {'legend1', 'legend2', 'legend3'}, 'Time [$s$]', 'Voltage [$V$]', 'fontsize', 10, 'legendloc', 'northeast');
-figsize(fig, 's'); %try 'm', 'b', 'o'/'r'
+figsize(fig, 'o'); %try 'm', 'b', 'o'/'r'
 xlim([0 2*pi]);
 ylim([-1 1]);
+
+%% Save image
+location = "./images/exampleimage"; %folder + filename without extension
+extension = ".png";
+SaveImage(fig, location, extension);
 

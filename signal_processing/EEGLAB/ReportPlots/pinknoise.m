@@ -1,9 +1,9 @@
 %% init
 clc; clear; close all;
 eegpath = AddPath();
-dataset = 'chb03';
+dataset = 'chb04';
 path2dataset = eegpath + "sample_data/" + dataset;
-FileIndices = 1;
+FileIndices = 5;
 EpochDurationSeconds = 3;
 path2summary = path2dataset + "/" + dataset + "-summary.txt";
 FileIndicesstr = "01";
@@ -52,11 +52,11 @@ set(gca, 'XScale', 'log')
 plotline(ax, [1 1 2]);
 plotcolor(ax(1), 'red');
 plotcolor(ax(2), 'green');
-plotcolor(ax(3), 'purple');
+plotcolor(ax(3), 'tudelft');
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
     {'Unfiltered data', 'Filtered data (cutoff [0.5 50] Hz)', sprintf("$%d/f$", c)}, ...
     'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 8, 'legendloc', 'best');
-figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
+figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
 
 %% Save image

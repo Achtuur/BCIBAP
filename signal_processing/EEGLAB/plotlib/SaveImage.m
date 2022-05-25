@@ -5,8 +5,8 @@ if ~contains(extension, '.')
 end
 
 if strcmp(extension, ".eps")
-   saveas(fig, location + "." + extension, 'epsc'); 
+   saveas(fig, location + extension, 'epsc'); 
 else
-   saveas(fig, location + "." + extension); 
+   saveas(fig, location + extension); 
 end
 end

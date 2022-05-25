@@ -92,14 +92,16 @@ Channels = Channels(3:end); %first two entries contain irrelevant text
 EarLabels = {'FT9', 'FT7', 'T7', 'TP7', 'TP9', 'FC5', 'C5', 'CP5', ... %Left preauricular
              'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6'}; %Right preauricular
 
-ChannelsOut = [];
+ChannelsOut.index = [];
+ChannelsOut.label = {};
 for k = 1:length(Channels)
     matches = regexp(Channels{k}, 'Channel\s\d+:\s(?<Electrode>[a-zA-Z0-9]+)\-(?<Reference>[a-zA-Z0-9]+)', 'names');
     % matches is struct containing:
     %   matches.Electrode: name of electrode (label left of the ':')
     %   matches.Reference: name of the reference electrode (label right of the ':')
     if any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
-       ChannelsOut = [ChannelsOut k]; %append to channels
+       ChannelsOut.index = [ChannelsOut.index k]; %append to channels
+       ChannelsOut.label = {ChannelsOut.label{:}, matches.Electrode};
     end
 end
 end %func end

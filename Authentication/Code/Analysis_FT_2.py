@@ -5,6 +5,7 @@ import csv
 import matplotlib.pyplot as plt
 from pathlib import Path
 from sklearn.preprocessing import normalize
+from numpy.fft import rfft, rfftfreq
 
 
 if platform.system() == "Windows":
@@ -75,12 +76,6 @@ if __name__ == "__main__":
 
     EXPERIMENTS = []
 
-    # EXP = ExperimentWrapper('Simon', 'ft')
-    # EXP.set_experiment_data(Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_6hz.npy'))
-    # EXP.set_experiment_description_file(Path('./Data/Experiments/Frequency_tagging/results/Step1/Simon6hz_2022-05-23_ft1_take1.csv'))
-
-    # EXPERIMENTS.append(EXP)
-
     EXPERIMENT_SAM_TAKE_1 = ExperimentWrapper('Sam1', 'ft')
     EXPERIMENT_SAM_TAKE_1.set_experiment_data(Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_stage1_take1.npy'))
     EXPERIMENT_SAM_TAKE_1.set_experiment_description_file(Path('./Data/Experiments/Frequency_tagging/results/Step1/Sam_2022-05-23_ft1_take1.csv'))
@@ -124,79 +119,18 @@ if __name__ == "__main__":
         data_filtered = PreprocessingPipeline(experiment_data).start()
 
         # Specific experiment Filtering
-        data_filtered = Filter.band_pass_filter(data_filtered, 4, (1,10), 250)
+        data_filtered = Filter.band_pass_filter(data_filtered, 4, (10,20), 250)
 
-        data_intervals = crop(data_filtered, 2, 250)
-        powers = []
-        for data_interval in data_intervals:
-            data = Filter.remove_bad_channels(data_interval)
-            if data is not None:
-                powers.append(average_power(data))
-                # powers.append(front_back_ratio(data))
-            else:
-                print('Interval deleted')
-                powers.append(-1000)
-            
+        data_intervals = crop(data_filtered, 2, 250, (0,250))
+
+        data_intervals = map(lambda x: Filter.remove_bad_channels(x), data_intervals)  
         labels = get_labels(experiment.get_experiment_description_file())
 
-        powers = normalize(np.array(list(map(lambda x: [x], powers))), axis=0).tolist()
-
-        # Dit is voor nu nog heel gebeund allemaal
-        # Calculate means
-        mean_no_flash = 0
-        mean_flash = 0
-        for label, power in zip(labels, powers):
-            if label == 0:
-                mean_no_flash += power[0]
-            else:
-                mean_flash += power[0]
-        mean_no_flash /= 20
-        mean_flash /= 20
-        print(f'Average no flash: {mean_no_flash} Average flash: {mean_flash}')
-
-        powers_new = []
-        for label, power in zip(labels, powers):
-            if label == 0:
-                powers_new.append(power[0]/mean_no_flash)
-            else:
-                powers_new.append(power[0]/mean_flash)
-
-        powers = powers_new
-
-        # # relate powers to the average surrounding it.
-        # old_powers = powers
-        # for i in range(1,len(powers)-1):
-        #     powers[i] = (powers[i-1] + powers[i+1]) / (2 *  np.mean(old_powers))
-        # powers[0] = powers[0] / np.mean(old_powers)
-        # powers[-1] = powers[-1] / np.mean(old_powers)
-        
-        experiment_powers.append(powers)
-        experiment_labels.append(labels)
-    
-    fig, axs = plt.subplots(2,3)
-    for index, (powers, labels) in enumerate(zip(experiment_powers, experiment_labels)):
-
-        # Some index magic to get the right subplot
-        row = index // 3
-        if index <= 2:
-            col = index
-        else:
-            col = index - 3
-
-        for i, label in enumerate(labels):
-            if label == 0:
-                axs[row, col].axvline(x=i, color="orange", linestyle='--')
-            else:
-                axs[row, col].axvline(x=i, color="blue", linestyle='--')
-        
-        axs[row, col].plot(powers)
-        
-        axs[row, col].axvline(x=-10, color="orange", linestyle='--', label='No flash')
-        axs[row, col].axvline(x=-10, color="blue", linestyle='--', label='Flash')
-        
-        axs[row, col].set_xlim(left=0)
-
-    handles, labels = axs[0,0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc='upper right') 
-
-    plt.show(block=True)
+        for interval, label in zip(data_intervals, labels):
+            if interval is not None:
+                y = rfft(interval[:,6])
+                if label == 0:
+                    plt.plot(y, color="blue")
+                else:
+                    plt.plot(y, color="orange")
+        plt.show(block=True)

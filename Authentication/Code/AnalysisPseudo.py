@@ -40,19 +40,13 @@ from SVM import svm_classifier
 from Kfold_CV import Models
 # Auxillary functions
 def get_labels(path_experiment, label_column = 1):
-    path = path_experiment
-    
-    with open(path, newline = '') as f:
+    with open(path_experiment, newline = '') as f:
+        labels = []
         csv_reader = csv.reader(f, delimiter=',')
-        data = list(csv_reader)
-
-    labels = []
-    
-    for label in data: 
-        if not label: 
-            continue
-        else:
-            labels.append(int(label[label_column]))
+        for row in csv_reader:
+            labels.append(row[1])
+            next(csv_reader)
+        labels.pop(-1)    
     return labels
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ def average_power(data):
     for channel in range(data.shape[1]):
         powers.append(np.sum(square(data[:, channel]) / data.shape[0]))
     
-    return np.mean(np.array(powers))
+    return np.mean(np.array(powers)), np.array(powers).reshape(8, 1)
 
 def gen_average_power_plot(data):
     data_task_1, data_rest_1, data_task_2, data_rest_2 = data

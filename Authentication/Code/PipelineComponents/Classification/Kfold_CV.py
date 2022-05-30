@@ -27,45 +27,49 @@ class Models():
             }
         # TODO Specify hyper-parameters for each model in a dictionary format
         self.model_parameters = {
-            # "DecisionTreeClassifier": {
-            #     'max_depth' : [None],
-            #     'min_samples_leaf' : [2],
-            #     'random_state' : [42]
-            # },
-            # "KNeighborsClassifier": {
-            #     'n_neighbors' : [3],
-            #     'weights' : ["distance"]
-            # },
-            "SVC": {
-                'C' : [1, 10, 100],
-                'kernel' : ["rbf"],
+            "DecisionTreeClassifier": {
+                'max_depth' : [None],
+                'min_samples_leaf' : [2],
                 'random_state' : [42]
-            }#,
-            # "LogisticRegression": {
-            #     'C' : [10],
-            #     'penalty' : ["none"],
-            #     'random_state' : [42]
-            # }
+            },
+            "KNeighborsClassifier": {
+                'n_neighbors' : [1, 3, 5, 10],
+                'weights' : ["distance"]
+            },
+            "SVC": {
+                'C' : [0.001, 0.01, 0.1, 0.2, 1, 2, 3],
+                'kernel' : ["linear"],
+                'random_state' : [42]
+            },
+            "LogisticRegression": {
+                'C' : [1, 10, 100],
+                'penalty' : ["l2"],
+                'random_state' : [42]
+            }
             }
 
     def KFOLD_CV(self, train_data, train_labels, val_data, val_labels):
         i=0
-        accuracies = np.empty((4)) #HARDCODED SHAPE
+        accuracies = np.empty((4)) #HARDCODED SHAPE, change if you try more models
+        grid_searches = []
         for name, parameters in self.model_parameters.items():
             model = self.models[name]
-
+            # KFold cross validation, set K when initializing class
             cv = KFold(n_splits=self.n_splits, random_state=self.random_state, shuffle=True)
+            # Do the model tuning, using training and validation data
             grid_search = GridSearchCV(model, parameters, cv=cv, n_jobs=-1, verbose=False, scoring="accuracy").fit(train_data, train_labels)
             self.searches.append(grid_search)
             self.results.append(grid_search.cv_results_)
-            # TODO Find out how to access the best model and its parameters
+            # access the best model and its parameters
             best_par = grid_search.best_params_
             best_score = grid_search.best_score_
             acc = accuracy_score(val_labels, grid_search.predict(val_data))
             accuracies[i] = acc
             i +=1
             print(f'for model {name}:best score is {best_score}, parameters: {best_par}')
-        return grid_search, accuracies
+            grid_searches.append(grid_search)
+        return grid_searches, accuracies #returns the gridsearch object for each model
+        #grid search object holds under best_estimator_ a model retrained on best hyperparameters, on the entirety of train and validation data
 
     @staticmethod
     def train_val_split(X, y, test_size=0.8):
@@ -88,15 +92,27 @@ class Models():
 
 
 if __name__ == "__main__":
-    #TODO DATA IMPORT
 
-    # model_obj = Models()
-    # X_train, X_val, Y_train, Y_val = Models.train_val_split(X, y)
-    # results = model_obj.KFOLD_CV(X_train, Y_train, X_val, Y_val)
-
-    #TEST
+    #model class object
     model = Models()
-    model.test_this_file()
+
+    #YOU STILL HAVE TO PUT IN YOUR OWN DATA!
+    #YOU STILL HAVE TO PUT IN YOUR OWN DATA!
+    #YOU STILL HAVE TO PUT IN YOUR OWN DATA!
+
+    #train test split
+    X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 0.2)
+    #train val split
+    X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.2)
+
+    #ML
+    model = Models()
+    gridsearch, acc = model.KFOLD_CV(X_train, Y_train, X_val, Y_val)
+    best_model = gridsearch.best_estimator_
+    Y_predict = best_model.predict(X_test)
+    tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
+    print(((tn+tp)/(fp+fn+tp+tn))*100)
+    
     
 
 

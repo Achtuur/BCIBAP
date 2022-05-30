@@ -80,12 +80,12 @@ def extract_bands(fft_vals, fft_freq, plot=False):
 if __name__ == "__main__":
     # Initialise config variables
     f_sampling = 250
-    # t_window = 10
+    t_window = 10
 
     # Regular data
-    data_path = Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_first_mental_experiment.npy')
+    data_path = Path('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_stage1_take2.npy')
     # The relevant data interval is 1:23 - 2:42
-    data = np.load(data_path)[250*83:250*163]
+    data = np.load(data_path)[250*10:250*90]
     data = PreprocessingPipeline(data).start()
     
     # Split intervals

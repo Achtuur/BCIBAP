@@ -2,6 +2,9 @@
 from pathlib import Path
 import sys
 import platform
+from extract import do_fft, get_bands
+from AnalysisMentalTaskCyril import average_power
+from Filters import Filter
 if platform.system() == "Windows":
     sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
 else:
@@ -16,8 +19,14 @@ from PreprocessingPipeline import PreprocessingPipeline
 from pprint import pprint
 class FeaturePipeline():
 
-    def __init__(self, input_data):
+    def __init__(self, input_data, f_sampling):
         self.input_data = input_data
+        self.f_sampling = f_sampling
+    def perform_bands_power(self, eeg_data):
+        vals, freq = do_fft(eeg_data, self.f_sampling, plot=False)
+        eeg_bands = get_bands(vals, freq, plot=False)
+        return eeg_bands
+
 
     def perform_wavelet(self, eeg_data, plot=False):
         data_dwt = []
@@ -34,18 +43,24 @@ class FeaturePipeline():
         return stats_dwt
 
     def start(self, plot=False):
-        eeg_data = self.input_data
-        dwt_data = self.perform_wavelet(eeg_data, plot=plot)
-        stats_dwt = self.perform_statistics(dwt_data)
-        return stats_dwt
+        filtered_data = self.input_data
+        for segment in filtered_data:
+            bands = self.perform_bands_power(segment)
+            av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
+            features = np.concatenate((bands, av_per_channel), axis=1)
+            # dwt_data = self.perform_wavelet(eeg_data, plot=plot)
+            # stats_dwt = self.perform_statistics(dwt_data)
+
+        return features
 
 
 
 if __name__ == "__main__":
-    pass
-    # # Initialise config variables
-    # f_sampling = 250
-    # t_window = 10
+    # pass
+    # Initialise config variables
+    f_sampling = 250
+    t_window = 10
+
 
     # # Calibration Data
     # cal_data_path = Path('Data/ExperimentResults/recorded_data/recordings_numpy/Sam_10_05_2022/OpenBCISession_Sam_calibration.npy')

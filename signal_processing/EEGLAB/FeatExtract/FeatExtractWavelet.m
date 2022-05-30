@@ -67,10 +67,10 @@ for k = 1:nChannels
     stdAlphaEpochs= zeros(nEpochs, 1);
     stdBetaEpochs= zeros(nEpochs, 1);
     
-    energyDeltaEpochs= zeros(nEpochs, 1);
-    energyThetaEpochs = zeros(nEpochs, 1);
-    energyAlphaEpochs= zeros(nEpochs, 1);
-    energyBetaEpochs= zeros(nEpochs, 1);
+    energyDeltaEpochs=zeros(nEpochs,1);
+    energyThetaEpochs=zeros(nEpochs,1);
+    energyAlphaEpochs=zeros(nEpochs,1);
+    energyBetaEpochs=zeros(nEpochs,1);
     
     entropyDeltaEpochs= zeros(nEpochs, 1);
     entropyThetaEpochs =zeros(nEpochs, 1);

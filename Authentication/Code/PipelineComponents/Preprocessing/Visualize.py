@@ -1,3 +1,4 @@
+from cProfile import label
 import numpy as np
 from numpy.fft import rfft, rfftfreq
 import matplotlib.pyplot as plt
@@ -19,11 +20,11 @@ class DataPlot():
         try:
             fig, axs = plt.subplots(num_col,1)
             for i in range(num_col):
-                axs[i].plot(data[:,i], linewidth=0.25)
+                axs[i].plot(data[:,i], linewidth=0.25, label="EEG signal")
+            return fig, axs, plt
         except TypeError:
-            plt.plot(data[:], linewidth=0.25)
-
-        plt.show(block=True)
+            plt.plot(data[:], linewidth=0.25, label="EEG signal")
+            return plt
 
     @staticmethod
     def eeg_spectrum_plot(data: np.ndarray):
@@ -39,7 +40,7 @@ class DataPlot():
                 y = np.abs(get_fft(data[:,i]))
                 axs[i].plot(y)
 
-        except TypeError:
+        except IndexError:
             y = np.abs(get_fft(data[:]))
             plt.plot(y)
 

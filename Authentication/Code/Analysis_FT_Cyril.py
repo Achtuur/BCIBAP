@@ -1,0 +1,44 @@
+import sys
+import platform
+import numpy as np
+import csv
+import matplotlib.pyplot as plt
+from pathlib import Path
+from sklearn.preprocessing import normalize
+from numpy.fft import rfft, rfftfreq
+
+
+if platform.system() == "Windows":
+    sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
+    sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
+    sys.path.append(str(Path('Data/ExperimentResults').resolve()))
+    sys.path.append(str(Path('Data').resolve()))
+    sys.path.append(str(Path('PipelineComponents/Classification').resolve()))
+else:
+    sys.path.append(str(Path('./PipelineComponents/Preprocessing').resolve()))
+    sys.path.append(str(Path('./PipelineComponents/FeatureExtraction').resolve()))
+    sys.path.append(str(Path('./PipelineComponents/Classification').resolve()))
+    sys.path.append(str(Path('./Data/ExperimentResults').resolve()))
+    sys.path.append(str(Path('./Data').resolve()))
+
+from ExperimentWrapper import ExperimentWrapper
+
+from PreprocessingPipeline import PreprocessingPipeline
+from Visualize import DataPlot 
+from Filters import Filter
+from crop import crop
+
+
+if __name__ == "__main__":
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_cyril_10hz_30s_take1.npy')
+    data_filtered = PreprocessingPipeline(data).start()[500:-500]
+    data_cropped = crop(data_filtered, 2, 250)
+    data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
+    data_cropped = [x for x in data_cropped if x is not None]
+    data_artifacts_removed = np.concatenate(data_cropped)
+    
+    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[100:600]
+    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[100:600]
+    plt.plot(f, y_fft)
+    plt.show(block=True)
+    

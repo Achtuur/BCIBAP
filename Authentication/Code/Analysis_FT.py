@@ -41,11 +41,17 @@ def pow_plot(data, labels):
         for data_interval in cropped_data:
             data_interval = Filter.band_pass_filter(data_interval, 4, (12, 18), 250)
             result.append(average_power(data_interval))
-    plt.plot(result, label="Power")
-    plt.xlabel('Time [s]')
-    plt.ylabel('Power [uV^2]')
-    plt.title('Power vs Time')
-    plt.plot(av, '--', label="Average Power over interval")
+    fig, ax = plt.subplots(constrained_layout=True)
+    ax.plot(result, label="Power")
+    ax.set_xticks(np.arange(5, 405, step = 10), labels)
+    secax = ax.secondary_xaxis("top")
+    secax.set_xticks(np.arange(0, 401, step = 25), np.arange(0, 81, step=5))
+    secax.set_xlabel('Time [s]')
+    ax.set_xlabel('data_labels')
+    ax.set_ylabel('Power [uV^2]')
+    ax.set_title('Power vs Time')
+    ax.set_xlim(-1, 400)
+    ax.plot(av, '--', label="Average Power over interval")
     # plt.plot(np.linspace(0, 400, len(labels)), labels, label="labels")
     plt.legend()
     plt.show(block=True)
@@ -99,12 +105,12 @@ if __name__ == "__main__":
         for segment in cropped_data:
             filtered_data.append(Filter.remove_bad_channels(segment))
         # pow_plot(filtered_data, labels)
-        
+
         #feature extraction
         features_data = FeaturePipeline(filtered_data, f_sampling).start()
 
         #data with labels and concatenation
-        setje = combine_data_and_labels(filtered_data, labels)
+        setje = combine_data_and_labels(features_data, labels)
         if index==0:
             full = setje
         else:
@@ -115,8 +121,8 @@ if __name__ == "__main__":
 
     #flatten data for ML
     data, labels = zip(*full)
-    print(len(data), data[0])
-    data = np.array(data).reshape(200, 4000)
+    print(len(data), data[0].shape)
+    data = np.array(data)
     print(type(data), data.shape)
 
     #train test split

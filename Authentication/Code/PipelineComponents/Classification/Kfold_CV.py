@@ -15,7 +15,7 @@ from keras.datasets import mnist
 class Models():
 
     def __init__(self):
-        self.n_splits = 5
+        self.n_splits = 10
         self.random_state =42
         self.results =[]
         self.searches =[]
@@ -33,16 +33,16 @@ class Models():
                 'random_state' : [42]
             },
             "KNeighborsClassifier": {
-                'n_neighbors' : [1, 3, 5, 10],
+                'n_neighbors' : [1, 3, 5, 10, 50],
                 'weights' : ["distance"]
             },
             "SVC": {
-                'C' : [0.001, 0.01, 0.1, 0.2, 1, 2, 3],
+                'C' : [1, 10],
                 'kernel' : ["linear"],
                 'random_state' : [42]
             },
             "LogisticRegression": {
-                'C' : [1, 10, 100],
+                'C' : [9, 10, 11, 12, 13],
                 'penalty' : ["l2"],
                 'random_state' : [42]
             }

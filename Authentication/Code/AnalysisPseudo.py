@@ -44,8 +44,8 @@ def get_labels(path_experiment, label_column = 1):
         labels = []
         csv_reader = csv.reader(f, delimiter=',')
         for row in csv_reader:
-            labels.append(row[1])
-            next(csv_reader)
+            if row: 
+                labels.append(row[1])
         labels.pop(-1)    
     return labels
 

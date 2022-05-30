@@ -40,17 +40,21 @@ class FeaturePipeline():
         for channel in range(len(dwt_data)):
             _ , result_lst = Wavelet.stats(dwt_data[channel])
             stats_dwt.append(result_lst)
-        return stats_dwt
+        return np.array(stats_dwt)
 
     def start(self, plot=False):
-        filtered_data = self.input_data
-        for segment in filtered_data:
+        for i, segment in enumerate(self.input_data):
             bands = self.perform_bands_power(segment)
             av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
-            features = np.concatenate((bands, av_per_channel), axis=1)
-            # dwt_data = self.perform_wavelet(eeg_data, plot=plot)
-            # stats_dwt = self.perform_statistics(dwt_data)
-
+            # dwt_data = self.perform_wavelet(segment, plot=plot)
+            # stats_dwt = self.perform_statistics(dwt_data).reshape(1, 240)
+            # print(bands.shape)
+            if i==0:
+                features = np.concatenate((bands, av_per_channel), axis=1).reshape(1, 48)
+                # features = av_per_channel.reshape(1, 8)[:,6:]
+            else: 
+                features = np.vstack((features, np.concatenate((bands, av_per_channel), axis=1).reshape(1, 48)))
+                # features = np.vstack((features, av_per_channel.reshape(1, 8)[:,6:]))
         return features
 
 

@@ -5,7 +5,9 @@ from numpy.fft import rfftfreq
 
 
 # b, a = signal.iirnotch(50, 30, 250)
-b, a = signal.butter(4, 1, 'high', fs=250)
+# b, a = signal.butter(4, 1, 'high', fs=250)
+b, a = signal.butter(4, (1,100), 'bandpass', fs=250)
+
 w,h = signal.freqz(b, a)
 w *= (125 / np.pi) 
 

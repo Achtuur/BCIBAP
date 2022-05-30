@@ -19,6 +19,9 @@ else
             'fontsize' 'integer' [0 inf] 8;
             'legendloc' 'string' legendlocs 'best'
             }, 'plottext');
+    if ischar(g) %error
+       error('One of varargin is invalid'); 
+    end
 end
 
 BIGFONTSIZE = g.fontsize+5; %define some constants for fontsize

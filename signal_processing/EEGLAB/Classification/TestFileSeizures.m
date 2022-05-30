@@ -12,6 +12,7 @@
 EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+channellist = channellist.index;
 temp = [];
 for k = 1 : size(labels, 1) %loop through rows of labels
     labelarr = labels{k, 2};

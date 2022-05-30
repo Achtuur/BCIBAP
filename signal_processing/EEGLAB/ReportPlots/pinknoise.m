@@ -1,9 +1,10 @@
+%% Show pink noise (1/f noise)
 %% init
 clc; clear; close all;
 eegpath = AddPath();
-dataset = 'chb04';
+dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
-FileIndices = 5;
+FileIndices = 1;
 EpochDurationSeconds = 3;
 path2summary = path2dataset + "/" + dataset + "-summary.txt";
 FileIndicesstr = "01";
@@ -52,15 +53,15 @@ set(gca, 'XScale', 'log')
 plotline(ax, [1 1 2]);
 plotcolor(ax(1), 'red');
 plotcolor(ax(2), 'green');
-plotcolor(ax(3), 'tudelft');
+plotcolor(ax(3), 'purple');
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
-    {'Unfiltered data', 'Filtered data (cutoff [0.5 50] Hz)', sprintf("$%d/f$", c)}, ...
+    {'Unfiltered data', 'Bandpass filtered data (cutoffs at 0.5 and 50 Hz)', sprintf("$%d/f$ (pink noise)", c)}, ...
     'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 8, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
 
 %% Save image
-% location = GetPath2Images() + "pinknoiseplot";
-% extension = ".png";
-% SaveImage(fig, location, extension);
+location = GetPath2Images() + "pinknoiseplot";
+extension = "eps";
+SaveImage(fig, location, extension);
 % close all;

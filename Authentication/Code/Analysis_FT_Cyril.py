@@ -30,15 +30,20 @@ from crop import crop
 
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_cyril_10hz_30s_take1.npy')
+    data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')
     data_filtered = PreprocessingPipeline(data).start()[500:-500]
     data_cropped = crop(data_filtered, 2, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
     
-    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[100:600]
-    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[100:600]
+    y_fft = np.abs(rfft(data_artifacts_removed[:,7]))[200:1000]
+    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[200:1000]
     plt.plot(f, y_fft)
     plt.show(block=True)
     
+    # data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')
+    # y_fft = np.abs(rfft(data[:,6]))[200:1000]
+    # f = rfftfreq(data.shape[0], 1/250)[200:1000]
+    # plt.plot(f, y_fft)
+    # plt.show(block=True)

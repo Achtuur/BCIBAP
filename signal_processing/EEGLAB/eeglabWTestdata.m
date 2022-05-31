@@ -1,6 +1,6 @@
 clear; clc;
 eegpath = AddPath();
-dataset = 'chb03';
+dataset = 'chb04';
 path2dataset = eegpath + "sample_data\" + dataset + "\";
 FileIndices = 4;
 indexstr = sprintf("%d", FileIndices);

@@ -9,8 +9,10 @@
 %       - locutoff: [number], bottom cutoff frequency (Hz) for filter on eeg data, default 0.5
 %       - hicutoff: [number], top cutoff frequency (Hz) for filter on eeg data, default 50
 %       - forder: filter order, default 1000
-%       - showplots: [true/false], show plots of before/after filtering, default 'off'
+%       - showplots: [true/false], show plots of before/after filtering, default 'false'
 %       - channellist: [number], vector with channels to be included, use 0 to include all channels, default 0
+%       - ASR: [true/false], do ASR, default 'true'
+%       - TestSinWave: [period, phase, randrange] replace EEG data with a sin wave with certain period and phase and random variance, default []
 %% OUTPUTS:
 %       - filtered_data: MATLAB matrix with a size of nChannels x
 %       TimeRecorded * Fs
@@ -43,17 +45,21 @@ path2edf = strrep(path2edf, '\', filesep);
 %% varargin
     if nargin < 3
        g.locutoff = 0.5; %default values for locutoff and hicutoff
-       g.hicutoff = 50;
+       g.hicutoff = 30;
        g.showplots = 0;
        g.channellist = 0;
-       g.forder = 1000;
+       g.forder = 10;
+       g.ASR = 0;
+       g.TestSinWave = [];
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
             'locutoff' 'integer' [0 Inf] 0.5;
-            'hicutoff' 'integer' [0 Inf] 50; %take lo/hi cutoff from function argument input
-            'forder' 'integer' [0 inf] 1000;
-            'showplots' 'integer' [0 inf] 0
+            'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
+            'forder' 'integer' [0 inf] 30;
+            'showplots' 'integer' [0 inf] 0;
+            'ASR' 'integer' [0 inf] 0
+            'TestSinWave' 'integer' [0 inf] [];
             }, 'LoadnFilter');
     end
 %% Read and filter data
@@ -64,6 +70,16 @@ end
 %% read file using biosig
 path2edf = convertStringsToChars(path2edf);
 EEG = pop_biosig(path2edf, 'channels', g.channellist);
+
+%% Replace sin wave (if enabled) doesnt work
+if ~isempty(g.TestSinWave)
+   T = g.TestSinWave(1); %period
+   phi = g.TestSinWave(2); %phase
+   rnd = g.TestSinWave(3); %rand range
+   x = linspace(0, 10*pi, size(EEG.data, 2)); % x vector same length as loaded eeg data
+   EEG.data = 0.1*sin(2*pi/T * x + phi) + rnd * [zeros(size(EEG.data, 1), 10000), rand(size(EEG.data, 1), size(EEG.data, 2)-10000) - rnd];
+end
+
 
 %% create EEGLAB set
 [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfread', 'overwrite', 'on');
@@ -79,7 +95,9 @@ end
 [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
 
 %% ASR
-% [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+if g.ASR
+    [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+end
 
 %% Plot filtered EEG data
 if g.showplots

@@ -7,6 +7,7 @@
 %   overwrite: overwrite .mat file instead of reading it when available (default false)
 %   channellist: channels to include in read data, use value 0 to include all channels (default 0)
 %   rounding_err: vector containing amount of samples to remove per file when loading. Each entry in vector should correspond to a FileIndex (default 0)
+%   ASR: do ASR when loading data (default 0)
 %% Outputs
 %   filtered_data: matrix containing preprocessed data from .edf files. (These can become quite long!!)
 %   Local storage:
@@ -23,6 +24,7 @@ function filtered_data = LoadData(path2dataset, FileIndices, varargin)
 %     g.overwrite = false;
 %     g.channellist = 0;
 %     g.rounding_err = linspace(0,0,max(FileIndices));
+%     g.ASR = 0;
 %%
 
 
@@ -36,11 +38,13 @@ if nargin > 2
             'rounding_err' 'integer' [0 inf] linspace(0,0,length(FileIndices));
             'channellist' 'integer' [0 inf] 0;
             'overwrite' 'integer' [0 Inf] 0;
+            'ASR' 'integer' [0 Inf] 0;
             }, 'LoadData'); 
 else
     g.channellist = 0;
     g.rounding_err = linspace(0,0,length(FileIndices));
     g.overwrite = false;
+    g.ASR = 0;
 end
 
 scriptpath = mfilename('fullpath'); %get path to current script
@@ -76,7 +80,7 @@ for i = FileIndices
     end
     file = sprintf('%s%s_%s.edf',path2dataset, chb, istr); %path to file of recording
     if isfile(file)
-        newData =  LoadnFilter(file, 'channellist', g.channellist);
+        newData =  LoadnFilter(file, 'channellist', g.channellist, 'ASR', g.ASR);
         lim = size(newData, 2) - floor(g.rounding_err(j)); %discard samples that attribute to rounding error
         newData = newData(:, 1 : lim); 
         j = j + 1;

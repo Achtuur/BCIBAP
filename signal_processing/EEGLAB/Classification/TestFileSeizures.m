@@ -2,10 +2,10 @@
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb04';
+    dataset = 'chb03';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = 5;
+    FileIndices = 1:6;
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
@@ -27,7 +27,7 @@ if length(SeizureEpochs) == 0
 end
 
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 for k = 1:size(epochs,1) %only take epochs with seizures
     temp = epochs{k,1};

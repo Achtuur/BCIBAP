@@ -48,7 +48,7 @@ fprintf("Got labels, took %.3f seconds", toc(t));
 %% get filtered data
 t = tic;
 disp("Loading data...");
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features

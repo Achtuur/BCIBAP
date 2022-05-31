@@ -12,11 +12,12 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
-
-[filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut);
-
-filtered_data = filtered_data(1,:); % take one channel
-unfiltered_data = unfiltered_data(1,:);
+ChannelsOut = ChannelsOut.index;
+[filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
+                                                    'locutoff', 0.5, 'hicutoff', 30, 'forder', 30);
+ch = 6;
+filtered_data = filtered_data(ch,:); % take one channel
+unfiltered_data = unfiltered_data(ch,:);
 filsmall_piece = filtered_data(1, 600000 : 620000);
 unfilsmall_piece = unfiltered_data(1, 600000 : 620000); %relatively clean data
 yunfil = unfilsmall_piece;
@@ -55,7 +56,7 @@ plotcolor(ax(1), 'red');
 plotcolor(ax(2), 'green');
 plotcolor(ax(3), 'purple');
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
-    {'Unfiltered data', 'Bandpass filtered data (cutoffs at 0.5 and 50 Hz)', sprintf("$%d/f$ (pink noise)", c)}, ...
+    {'Unfiltered data', 'Bandpass filtered data (cutoffs at 0.33 and 30 Hz)', sprintf("$%d/f$ (pink noise)", c)}, ...
     'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 8, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 

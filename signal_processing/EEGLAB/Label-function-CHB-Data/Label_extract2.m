@@ -19,6 +19,10 @@ function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summar
 %     FileIndices = [1 2 28 9];
 %     path = path + dataset + "-summary.txt";
 %     EpochDurationSeconds = 3;
+%% warning due to variable changes
+warning("ChannelsOut has been changed to a struct. If you have errors with ChannelsOut replace it by ChannelsOut.index");
+
+
 %% Read txt file and create arrays with file and channel info
 %Read summary as plain txt
 Txt = fileread(path2summary);

@@ -29,6 +29,7 @@ disp('Getting labels of data');
 t = tic;
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+channellist = channellist.index;
 temp = [];
 for k = 1 : size(labels1, 1) %loop through rows of labels
     labelarr = labels1{k, 2};
@@ -47,7 +48,7 @@ fprintf("Got labels, took %.3f seconds", toc(t));
 %% get filtered data
 t = tic;
 disp("Loading data...");
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features

@@ -11,17 +11,21 @@
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 %   Channelsout: vector containing indices of channels to be used
 %   rounding_err: number of samples lost per file due to rounding
-function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path, EpochDurationSeconds, FileIndices)
+function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices)
 %% testvalues
 %     dataset = 'chb04';
 %     eegpath = AddPath();
-%     path = eegpath + "\sample_data\" + dataset + "\";
+%     path2summary = eegpath + "\sample_data\" + dataset + "\";
 %     FileIndices = [1 2 28 9];
-%     path = path + dataset + "-summary.txt";
+%     path2summary = path2summary + dataset + "-summary.txt";
 %     EpochDurationSeconds = 3;
+%% warning due to variable changes
+warning("ChannelsOut has been changed to a struct. If you have errors with ChannelsOut replace it by ChannelsOut.index");
+
+
 %% Read txt file and create arrays with file and channel info
 %Read summary as plain txt
-Txt = fileread(path);
+Txt = fileread(path2summary);
 FileIndices = sort(FileIndices);
 
 %split Txt by blank lines
@@ -97,14 +101,16 @@ Channels = Channels(3:end); %first two entries contain irrelevant text
 EarLabels = {'FT9', 'FT7', 'T7', 'TP7', 'TP9', 'FC5', 'C5', 'CP5', ... %Left preauricular
              'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6'}; %Right preauricular
 
-ChannelsOut = [];
+ChannelsOut.index = [];
+ChannelsOut.label = {};
 for k = 1:length(Channels)
     matches = regexp(Channels{k}, 'Channel\s\d+:\s(?<Electrode>[a-zA-Z0-9]+)\-(?<Reference>[a-zA-Z0-9]+)', 'names');
     % matches is struct containing:
     %   matches.Electrode: name of electrode (label left of the ':')
     %   matches.Reference: name of the reference electrode (label right of the ':')
     if any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
-       ChannelsOut = [ChannelsOut k]; %append to channels
+       ChannelsOut.index = [ChannelsOut.index k]; %append to channels
+       ChannelsOut.label = {ChannelsOut.label{:}, matches.Electrode};
     end
 end
 end %func end

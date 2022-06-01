@@ -36,22 +36,27 @@ Fs = regexpnum(blocks{1}, '\d+(?=\s\Hz)'); %get sampling frequency from first bl
 % Number of Seizures in File: 0
 Files = cell(1); 
 Channels = blocks{2}; %channel info is always in blocks{2}
+idxarray = zeros(1,length(Files));
 i = 1;
 for k = 2 : length(blocks)
     if contains(blocks{k}, ".edf", 'IgnoreCase', ispc) %add only strings that contain a file block
         Files{i} = blocks{k};
+        idxarray(i) = str2double(Files{i}(18:19));
         i = i + 1;
     end
 end
 %% Get seizure labels
 maxLoop = min(length(FileIndices), length(Files));
-loop = FileIndices;
+for i = 1:length(FileIndices)
+    loop(i) = find(idxarray == FileIndices(i));
+end
 if length(loop) < 1
    loop = 1 : length(Files); 
 end
 LabelsOut = cell(maxLoop, 2);
 i = 1; %index for labelsout
 rounding_err = zeros(1, maxLoop);
+
 for k = loop
    fileblock = splitlines(Files{k});
    % fileblock{1} contains file name

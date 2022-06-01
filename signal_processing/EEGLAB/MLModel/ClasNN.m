@@ -9,6 +9,8 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
+HyperTune = 0;
+HyperEvalNum = 50;
 matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
@@ -24,13 +26,20 @@ for k = epochs
     XTest = X(test(cvp),:);
     YTest = Y(test(cvp));
 
-    Mdl = fitcnet(XTrain,YTrain, ...
-    "LayerSizes",[55 30]);
-
+    if HyperTune
+        figure()
+        Mdl = fitcnet(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
+        "HyperparameterOptimizationOptions", ...
+        struct("AcquisitionFunctionName","expected-improvement-plus", ...
+        "MaxObjectiveEvaluations",HyperEvalNum))
+    else
+        Mdl = fitcnet(XTrain,YTrain,"Layersizes",300,"Activations","none",...
+            "Standardize",true,"Lambda",9.7118e-05);
+    end
      final_results(i, :) = {features featurelabels};
     
      if Plot_CFNMatrix
-         figure(i)
+         figure
          confusionchart(YTest,predict(Mdl,XTest),'RowSummary','row-normalized')
      end
      models{i} = Mdl;

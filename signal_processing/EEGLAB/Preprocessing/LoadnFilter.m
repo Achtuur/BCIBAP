@@ -79,7 +79,7 @@ end
 [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
 
 %% ASR
-% [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+%[EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
 
 %% Plot filtered EEG data
 if g.showplots

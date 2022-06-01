@@ -2,10 +2,10 @@
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb04';
+    dataset = 'chb06';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = 5;
+    FileIndices = SeizFileIndices(dataset);
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
@@ -13,6 +13,7 @@ EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
 temp = [];
+test = labels;
 for k = 1 : size(labels, 1) %loop through rows of labels
     labelarr = labels{k, 2};
     labelarr = labelarr(:); %force column vector
@@ -36,6 +37,7 @@ end
 [feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
 disp('Classifying data...');
+t = tic;
 sensitivity = 0;
 TN = 0; FP = 0;
 for k = 1:size(feat, 1)
@@ -50,7 +52,8 @@ for k = 1:size(feat, 1)
     end
     sensitivity = TN/(TN+FP);
 end
-disp("Done classifying");
+t = toc(t);
+fprintf("Done classifying, took %.3f seconds\n", t);
 disp("TN: " + TN + ", FP: " + FP);
 disp("Sensitivity = " + 100 * sensitivity + "%");
 % end

@@ -50,6 +50,9 @@ nChannels = size(EarDataEpochs, 1);
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+% For testing purposes only !!!!
+% nChannels = 1;
+
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
     t = tic;

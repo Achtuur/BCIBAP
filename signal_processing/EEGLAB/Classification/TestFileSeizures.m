@@ -36,23 +36,14 @@ end
 % epochs = epochs(SeizureEpochs, :);
 [feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
-disp('Classifying data...');
-sensitivity = 0;
-TN = 0; FP = 0;
-outputclass = Classify(path2model, cell2mat(feat)); %classify all epochs
 
-% for k = 1:size(feat, 1)
-%     outputclass = Classify(path2model, cell2mat(feat(k, :)));
-%     if ~iscell(outputclass)
-%        outputclass = {outputclass}; 
-%     end
-%     if outputclass{1} == '2' || outputclass{1} == 2
-%        TN = TN + 1;
-%     else
-%        FP = FP + 1;
-%     end
-%     sensitivity = TN/(TN+FP);
-% end
+%% Classify
+disp('Classifying data...');
+outputclass = Classify(path2model, cell2mat(feat)); %classify all epochs
+TN = length(find(outputclass == 2));
+FP = length(find(outputclass ~= 2));
+sensitivity = TN/(TN+FP);
+
 disp("Done classifying");
 disp("TN: " + TN + ", FP: " + FP);
 disp("Sensitivity = " + 100 * sensitivity + "%");

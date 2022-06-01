@@ -2,10 +2,10 @@
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb03';
+    dataset = 'chb04';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = 1:6;
+    FileIndices = [5];
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
@@ -31,7 +31,7 @@ filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 for k = 1:size(epochs,1) %only take epochs with seizures
     temp = epochs{k,1};
-   epochs(k,1) = {temp(SeizureEpochs,:)};
+    epochs(k,1) = {temp(SeizureEpochs,:)};
 end
 % epochs = epochs(SeizureEpochs, :);
 [feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
@@ -39,18 +39,20 @@ end
 disp('Classifying data...');
 sensitivity = 0;
 TN = 0; FP = 0;
-for k = 1:size(feat, 1)
-    outputclass = Classify(path2model, cell2mat(feat(k, :)));
-    if ~iscell(outputclass)
-       outputclass = {outputclass}; 
-    end
-    if outputclass{1} == '2' || outputclass{1} == 2
-       TN = TN + 1;
-    else
-       FP = FP + 1;
-    end
-    sensitivity = TN/(TN+FP);
-end
+outputclass = Classify(path2model, cell2mat(feat)); %classify all epochs
+
+% for k = 1:size(feat, 1)
+%     outputclass = Classify(path2model, cell2mat(feat(k, :)));
+%     if ~iscell(outputclass)
+%        outputclass = {outputclass}; 
+%     end
+%     if outputclass{1} == '2' || outputclass{1} == 2
+%        TN = TN + 1;
+%     else
+%        FP = FP + 1;
+%     end
+%     sensitivity = TN/(TN+FP);
+% end
 disp("Done classifying");
 disp("TN: " + TN + ", FP: " + FP);
 disp("Sensitivity = " + 100 * sensitivity + "%");

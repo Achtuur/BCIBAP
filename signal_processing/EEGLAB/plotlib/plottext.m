@@ -24,7 +24,7 @@ else
     end
 end
 
-BIGFONTSIZE = g.fontsize+5; %define some constants for fontsize
+BIGFONTSIZE = g.fontsize+8; %define some constants for fontsize
 MEDIUMFONTSIZE = g.fontsize+3;
 SMALLFONTSIZE = g.fontsize;
 

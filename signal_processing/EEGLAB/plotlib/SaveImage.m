@@ -1,7 +1,7 @@
 function SaveImage(fig, location, extension)
 %% create location folder if doesn't exist yet
-%imgpath = strrep(mfilename('fullpath'), mfilename, '') + "/Images/"; %remove filename to obtain path to folder where script is run
-mkdir(location);
+imgpath = strrep(mfilename('fullpath'), mfilename, '') + "/Images/"; %remove filename to obtain path to folder where script is run
+mkdir(imgpath);
 
 %% save image
 if ~contains(extension, '.')

@@ -15,9 +15,9 @@ function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summar
 %% testvalues
 %     dataset = 'chb04';
 %     eegpath = AddPath();
-%     path = eegpath + "\sample_data\" + dataset + "\";
+%     path2summary = eegpath + "\sample_data\" + dataset + "\";
 %     FileIndices = [1 2 28 9];
-%     path = path + dataset + "-summary.txt";
+%     path2summary = path2summary + dataset + "-summary.txt";
 %     EpochDurationSeconds = 3;
 %% warning due to variable changes
 warning("ChannelsOut has been changed to a struct. If you have errors with ChannelsOut replace it by ChannelsOut.index");
@@ -49,7 +49,7 @@ for k = 2 : length(blocks)
 end
 %% Get seizure labels
 maxLoop = min(length(FileIndices), length(Files));
-loop = FileIndices;
+loop = FileIndices2LoopIndices(Files, FileIndices);
 if length(loop) < 1
    loop = 1 : length(Files); 
 end

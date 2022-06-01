@@ -14,7 +14,7 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
 ChannelsOut = ChannelsOut.index;
 locutoff = 0.5;
-hicutoff = 30;
+hicutoff = 40;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
                                                     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
 ch = 6;

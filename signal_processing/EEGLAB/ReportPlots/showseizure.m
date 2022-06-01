@@ -26,7 +26,7 @@ function showSeizure(ASR, forder)
     [Fs, LabelsOut, ChannelsOut, ~] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
     ChannelsOut = ChannelsOut.index;
     [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', ASR, ...
-                                                    'locutoff', 0.25, 'hicutoff', 30, 'forder', forder);
+                                                    'locutoff', 0, 'hicutoff', 40, 'forder', forder);
 
     ch = 1;
     filtered_data = filtered_data(ch,:); % take one channel

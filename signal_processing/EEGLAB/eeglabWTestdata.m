@@ -17,7 +17,7 @@ path2edf = strrep(path2edf,'/', filesep); %make sure every dash in path works fo
 path2edf = strrep(path2edf, '\', filesep);
 
 eeglab;
-EEG = pop_biosig(path2edf, 'channels', channellist);
+EEG = pop_biosig(path2edf, 'channels', channellist.index);
         
 %create EEGLAB set
 [ALLEEG, EEG, CURRENTSET] = pop_newset([], EEG, 1, 'setname', 'edfread', 'overwrite', 'on');

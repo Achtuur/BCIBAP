@@ -54,7 +54,7 @@ path2edf = strrep(path2edf, '\', filesep);
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-            'locutoff' 'integer' [0 Inf] 0.25;
+            'locutoff' 'integer' [0 Inf] 0;
             'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
             'forder' 'integer' [0 inf] 100;
             'showplots' 'integer' [0 inf] 0;
@@ -92,7 +92,12 @@ end
 
 %% filter EEG data
 %     [EEG, ~, ~] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff);%, 'filtorder', g.forder);
-[EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming');
+if g.locutoff == 0 %low cutoff 0 -> use lowpass
+    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', g.hicutoff, 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'lowpass');
+else %low cutoff ~= 0 -> use bandpass
+    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'bandpass');
+end
+
 
 %% ASR
 if g.ASR

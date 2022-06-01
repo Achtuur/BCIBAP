@@ -88,7 +88,7 @@ function showSeizure(ASR, forder)
     plotcolor(ax(3), 'purple');
     plotcolor(ax(4), 'orange');
     plottext(ax, 'EEG data including an epileptic seizure', leg, ...
-        'Time [S]', 'Voltage [$\mu V$]', 'fontsize', 8, 'legendloc', 'northeast');
+        'Time [S]', 'Voltage [$\mu V$]', 'fontsize', 10, 'legendloc', 'northeast');
     figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
     perclim = 0.05; %percentage of limit that is taken extra/reduced

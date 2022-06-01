@@ -13,8 +13,10 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 %% get data
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
 ChannelsOut = ChannelsOut.index;
+locutoff = 0.5;
+hicutoff = 30;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
-                                                    'locutoff', 0.5, 'hicutoff', 30, 'forder', 30);
+                                                    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel
 unfiltered_data = unfiltered_data(ch,:);
@@ -55,14 +57,21 @@ plotline(ax, [1 1 2]);
 plotcolor(ax(1), 'red');
 plotcolor(ax(2), 'green');
 plotcolor(ax(3), 'purple');
+
+if locutoff == 0 %lowpass
+    fildata_legend = sprintf("Lowpass filtered data (cutoff at %.1f Hz)", hicutoff);
+else %bandpass
+    fildata_legend = sprintf("Bandpass filtered data (cutoffs at %.2f and %.2f Hz)", locutoff, hicutoff);
+end
+
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
-    {'Unfiltered data', 'Bandpass filtered data (cutoffs at 0.33 and 30 Hz)', sprintf("$%d/f$ (pink noise)", c)}, ...
-    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 8, 'legendloc', 'best');
+    {'Unfiltered data', fildata_legend, sprintf("Pink noise ($%d/f$)", c)}, ...
+    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
 
 %% Save image
-location = GetPath2Images() + "pinknoiseplot";
+location = GetPath2Images() + mfilename;
 extension = "eps";
 SaveImage(fig, location, extension);
 % close all;

@@ -5,12 +5,26 @@ FileIndices = 1;
 
 % epochs = 0.5 : 0.25 : 4;
 epochs = 3.25;
-final_results = cell(size(epochs, 2), 2);
 i = 1;
 for k = epochs
-    [lab, predicted, feature_out] = TrainModel(dataset, path2dataset, FileIndices, k);
-    final_results(i, :) = {lab predicted};
+    [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
     
+    %% Create model
+    disp('Creating model...');
+    tic;
+
+    [lab, predicted, savepath] = CreateModel(X, Y, featurelabels);
+
+    t = toc;
+    fprintf("Done creating model, took %.3f seconds\n", t);
+    %% Save model
+    disp('Saving Model');
+    tic;
+
+%     save(savepath, 'Fs', 'EpochLengthSec', '-append');
+
+    t = toc;
+    fprintf("Done saving model, took %.3f seconds\n", t);
 %     figure(i)
 %     i = i + 1;
 %     fig = plotconfusion(lab, predicted);

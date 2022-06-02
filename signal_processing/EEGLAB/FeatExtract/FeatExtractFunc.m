@@ -23,6 +23,7 @@ function [features, labels] = FeatExtractFunc(EarDataEpochs, Fs, EpochLengthSec)
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 L = Fs*EpochLengthSec;
+EarDataEpochs = EarDataEpochs{1,1}; %take first channel for testing
 %% FOURIER TRANSFORM
 nfft = 2^nextpow2(L); %zero padding
 Y = fft(EarDataEpochs', L);  % compute fft of each epoch , zero padding is an option in second argument

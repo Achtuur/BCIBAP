@@ -28,8 +28,13 @@ from Visualize import DataPlot
 from Filters import Filter
 from crop import crop
 
+def get_boundary_indexes(frequencies):
+    start = np.abs(frequencies - 5.0).argmin()
+    end = np.abs(frequencies - 50.0).argmin()
+    return start, end
+
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_cyril_10hz-60sec.npy')
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_10hz_50.npy')
     data_filtered = PreprocessingPipeline(data).start()
     data_cropped = crop(data_filtered, 2, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
@@ -38,7 +43,8 @@ if __name__ == "__main__":
     
     y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
     f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
-    plt.plot(f, y_fft)
+    start, end = get_boundary_indexes(f)
+    plt.plot(f[start:end], y_fft[start:end])
     plt.show(block=True)
     
     # data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')

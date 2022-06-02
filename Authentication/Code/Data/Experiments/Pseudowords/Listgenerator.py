@@ -20,21 +20,16 @@ def listgenerator(length, orderd = True):
 
     j = 0
 
-    if orderd:
-        words = echt + pseudo
-        bitjes = ([1] * len(echt)) + ([0] * len(pseudo))
-    else:
-        words = [0] * length
-        bitjes = [0] * length
-        for i in numbers:   
-            n = random.randint(1,2)
-            if n == 1:
-                words[j] = echt[i]
-                bitjes[j] = 1
-            else:
-                words[j] = pseudo[i]
-                bitjes[j] = 0
-            j = j + 1
+
+    words = echt + pseudo
+    bitjes = ([1] * len(echt)) + ([0] * len(pseudo))
+
+    if orderd == False:
+        c = list(zip(words, bitjes))
+
+        random.shuffle(c)
+
+        words, bitjes = zip(*c)
     
     return words, bitjes
 

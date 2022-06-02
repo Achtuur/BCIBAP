@@ -26,30 +26,47 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
     frame = tk.Frame(root)
     frame.pack()
 
-    L1 = tk.Label(frame, text="Amount of words")
-    L1.pack( side = tk.RIGHT)
-    E1 = tk.Entry(frame, bd =5)
-    E1.pack(side = tk.RIGHT)
+    slider_label = tk.Label(frame, text = 'randomize:')
+    slider_label.pack(side = tk.LEFT)
+    slider = tk.Scale(
+    frame,
+    from_=0,
+    to=1,
+    orient='horizontal',  # horizontal
+    )   
+    slider.pack(side = tk.LEFT)
 
-    L2 = tk.Label(frame, text="Amount of miliseconds")
+    L1 = tk.Label(frame, text="Amount of words:")
+    L1.pack( side = tk.LEFT)
+    E1 = tk.Entry(frame, bd =5)
+    E1.pack(side = tk.LEFT)
+
+    L2 = tk.Label(frame, text="Amount of miliseconds:")
     L2.pack( side = tk.LEFT)
     E2 = tk.Entry(frame, bd =5)
     E2.pack(side = tk.LEFT)
 
-    L3 = tk.Label(frame, text="Filename")
-    L3.pack( side = tk.BOTTOM)
+    L3 = tk.Label(frame, text="Filename:")
+    L3.pack( side = tk.LEFT)
     E3 = tk.Entry(frame, bd =5)
-    E3.pack(side = tk.BOTTOM)
+    E3.pack(side = tk.LEFT)
 
 
 
-    def displaytkinter(length, display_time, filename, orderd = True):
-        length = int(E1.get())
+    def displaytkinter(length, display_time, filename, orderd):
+        orderd = slider.get()
+        print(orderd)
+        if orderd == 1:
+            orderd = False
+        else:
+            orderd = True
+        length = int(E1.get()) 
         display_time = int(E2.get())
         filename = E3.get()
+        print(filename)
         print(length)
 
-
+        
         words, bitjes = listgenerator(length, orderd)
         def refresh_label(label, word):
             label.configure(text=word)
@@ -65,9 +82,9 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
 
         times = []
 
-        increment = timedelta(seconds = display_time)
+        increment = timedelta(milliseconds = display_time)
         j = 0
-        for index, word in enumerate(words):
+        for index in range(length):
             time = datetime.now() + increment * index
             times.append(time.strftime("%H:%M:%S.%f")[:12])
 
@@ -75,7 +92,7 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
 
         date = str(datetime.now())[0:10]
         filename = f'.\\results\\{filename}'
-        if os.path.exists(f'{filename}.csv'):
+        if os.path.exists(f'\\results{filename}.csv'):
             print('filename already exists')
             exit()
 
@@ -86,25 +103,26 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
             
 
 
-        with open(f'{filename}.csv', 'w') as f:
-            
-            # using csv.writer method from CSV package
-            write = csv.writer(f)
-            write.writerows(all_data)
+        # with open(f'{filename}.csv', 'w') as f:
+        #     # using csv.writer method from CSV package
+        #     write = csv.writer(f)
+        #     write.writerows(all_data)
 
 
     
     showwords = tk.Button(frame,
                    text="Start",
-                   command=partial(displaytkinter, length, display_time, filename))
+                   command=partial(displaytkinter, length, display_time, filename, orderd))
     showwords.pack(side=tk.LEFT)
+
+
 
     root.mainloop()
 
-    return
+    return words, bitjes, times, filename
 
 if __name__ == '__main__':
-    words, bitjes, times = Displayer()
+    words, bitjes, times, filename = Displayer()
 
     all_data = [words, bitjes, times]
 

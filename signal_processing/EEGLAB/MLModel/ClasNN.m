@@ -1,7 +1,7 @@
 eegpath = AddPath();
-dataset = 'chb03';
-path2dataset = eegpath + "sample_data\" + dataset + "\";
-FileIndices = [1:6];
+% dataset = 'chb03';
+% path2dataset = eegpath + "sample_data\" + dataset + "\";
+% FileIndices = SeizFileIndices(dataset);
 Plot_CFNMatrix = 1;
 
 epochs = 0.5 : 0.25 : 4;
@@ -9,14 +9,35 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
+datasets = ["03"];
+
+for i = 1:length(datasets)
+    dataset = append("chb",datasets(i));
+    path2dataset = eegpath + "sample_data\" + dataset + "\";
+    FileIndices = SeizFileIndices(dataset);
+    [featuresTemp,YTemp,featurelabelsTemp] = getFeatures(dataset, path2dataset, FileIndices, k);
+    if i == 1
+        features = featuresTemp;
+        Y = YTemp;
+        featurelabels = featurelabelsTemp;
+    else
+        features = [features; featuresTemp];
+        Y = [Y; YTemp];
+        featurelabels = [featurelabels; featurelabelsTemp];
+    end
+end
+
+[X, mu_train, sigma_train] = NormalizeFeat(features);
+
 HyperTune = 0;
-HyperEvalNum = 50;
-matfile('MLModel/CNNmodel.mat', 'Writable', true);
+HyperEvalNum = 100;
+%matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
-    [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
+    % [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
+    
     %% train model
-    X = cell2mat(X);
+    %X = cell2mat(X);
     %Y = cell2mat(Y);
     % Train CNN here
     rng("default") % For reproducibility of the partition
@@ -27,19 +48,18 @@ for k = epochs
     YTest = Y(test(cvp));
 
     if HyperTune
-        figure()
         Mdl = fitcnet(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
         "HyperparameterOptimizationOptions", ...
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))
     else
         Mdl = fitcnet(XTrain,YTrain,"Layersizes",300,"Activations","none",...
-            "Standardize",true,"Lambda",9.7118e-05);
+            "Standardize",true,"Lambda",0.00024864);
     end
      final_results(i, :) = {features featurelabels};
     
      if Plot_CFNMatrix
-         figure
+         figure()
          confusionchart(YTest,predict(Mdl,XTest),'RowSummary','row-normalized')
      end
      models{i} = Mdl;

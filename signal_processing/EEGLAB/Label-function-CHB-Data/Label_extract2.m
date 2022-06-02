@@ -108,7 +108,7 @@ for k = 1:length(Channels)
     % matches is struct containing:
     %   matches.Electrode: name of electrode (label left of the ':')
     %   matches.Reference: name of the reference electrode (label right of the ':')
-    if any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
+    if ~isempty(matches) && any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
        ChannelsOut.index = [ChannelsOut.index k]; %append to channels
        ChannelsOut.label = {ChannelsOut.label{:}, matches.Electrode};
     end

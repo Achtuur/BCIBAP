@@ -2,7 +2,7 @@
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb06';
+    dataset = 'chb03';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
@@ -14,7 +14,7 @@ summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
 channellist = channellist.index;
 temp = [];
-test = labels;
+
 for k = 1 : size(labels, 1) %loop through rows of labels
     labelarr = labels{k, 2};
     labelarr = labelarr(:); %force column vector
@@ -28,7 +28,7 @@ if length(SeizureEpochs) == 0
 end
 
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 for k = 1:size(epochs,1) %only take epochs with seizures
     temp = epochs{k,1};

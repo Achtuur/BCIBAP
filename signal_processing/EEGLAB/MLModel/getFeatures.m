@@ -15,7 +15,8 @@
 %   maybe remove features from output?
 
 %% Function start
-function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+% function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
 %     clc; clear;
 %     eegpath = AddPath();
@@ -48,7 +49,7 @@ fprintf("Got labels, took %.3f seconds", toc(t));
 %% get filtered data
 t = tic;
 disp("Loading data...");
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
@@ -64,21 +65,34 @@ t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);
 
 %% Normalize features
-disp('Normalising features...');
-t = tic;
-for k = 1 : size(features, 2) %loop through features
-    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
-    features_norm = num2cell(temp);
-end
-t = toc(t);
-fprintf("Normalised features, took %.3f seconds\n", t);
+% disp('Normalising features...');
+% t = tic;
+% 
+% matfeat = cell2mat(features);
+% idx = isnan(matfeat);
+% NaNrows = unique(rem(find(idx==1),length(features)));
+% NaNrows(NaNrows == 0) = length(features); %fix bottom column
+% matfeat(NaNrows,:) = NaN;
+% for k = NaNrows'
+%     matfeat(k, :) = mean(matfeat,'omitnan');
+% end
+% 
+% % makes wrong measurements means
+% for k = 1:size(matfeat, 2)
+%     i = isnan(matfeat(:,k));
+%     j = ~i;
+%     matfeat(i, k) = mean(matfeat(j,k), 'omitnan');
+% end
+% 
+% [temp, mus, stds] = zscore(matfeat);
+% features_norm = num2cell(temp);
+% 
+% t = toc(t);
+% fprintf("Normalised features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
-if 0 && EegFeature %remove '0 &&' when finished
-    for k = 1 : size(filtered_data, 1) %loop through channels
-        filtered_data(:,k) = zscore(filtered_data(:,k));
-    end
-end
 
+features = cell2mat(features);
+%features_norm = cell2mat(features_norm);
 end
 

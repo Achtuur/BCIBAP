@@ -21,13 +21,18 @@ L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
 
+epochsDec=zeros(2406,384);
+for i=1:2406
+    epochsDec(i,:)=decimate(EarDataEpochs(i,:),2);
+end
+
 %% Discrete Wavelet Transform (DWT)
 % figure(1)
 % [c,l]=wavedec(epoch1,5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
-% a5= appcoef(c,l,'db4');
-% [d1,d2,d3,d4,d5]=detcoef(c,l,[1 2 3 4 5]);
+% a4= appcoef(c,l,'db4');
+% [d1,d2,d2,d4,d4]=detcoef(c,l,[1 2 3 4 5]);
 % subplot(6, 1, 1)
-% plot(a5);
+% plot(a4);
 % title('Approximation at Level 5') %0-4Hz
 % subplot(6, 1, 2)
 % plot(d1)
@@ -36,13 +41,13 @@ nChannels = size(EarDataEpochs, 1);
 % plot(d2)
 % title('Detail Coefficients at Level 2');%32-64Hz
 % subplot(6, 1, 4)
-% plot(d3)
+% plot(d2)
 % title('Detail Coefficients at Level 3');%16-32Hz
 % subplot(6, 1, 5)
 % plot(d4)
 % title('Detail Coefficients at Level 4');%8-16Hz
 % subplot(6, 1, 6)
-% plot(d5)
+% plot(d4)
 % title('Detail Coefficients at Level 5'); %4-8Hz
 % 
 
@@ -92,7 +97,6 @@ for k = 1:nChannels
     kurtosisAlphaEpochs=zeros(nEpochs, 1);
     kurtosisBetaEpochs=zeros(nEpochs, 1);
     
-
     varDeltaEpochs=zeros(nEpochs, 1);
     varThetaEpochs=zeros(nEpochs, 1);
     varAlphaEpochs=zeros(nEpochs, 1);
@@ -157,54 +161,54 @@ for k = 1:nChannels
 
 for i = 1:nEpochs
     CurChannelEpoch = EarDataEpochs{k, 1};
-    [c,l]=wavedec(CurChannelEpoch(i,:),5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
+    [c,l]=wavedec(CurChannelEpoch(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
     a5= appcoef(c,l,'db4');
-    [d1,d2,d3,d4,d5]=detcoef(c,l,[1 2 3 4 5]);
+    [d1,d2,d3,d4]=detcoef(c,l,[1 2 3 4]);
    
-    meanDeltaEpochs(i,1)= mean(a5) ;
-    meanThetaEpochs(i,1) = mean(d5);
-    meanAlphaEpochs(i,1) = mean(d4);
-    meanBetaEpochs(i,1) = mean(d3);
+    meanDeltaEpochs(i,1)= mean(a4) ;
+    meanThetaEpochs(i,1) = mean(d4);
+    meanAlphaEpochs(i,1) = mean(d3);
+    meanBetaEpochs(i,1) = mean(d2);
 
-    meanAbsDeltaEpochs(i,1) = mean(abs(a5)) ;
-    meanAbsThetaEpochs(i,1) = mean(abs(d5)) ;
-    meanAbsAlphaEpochs(i,1) = mean(abs(d4)) ;
-    meanAbsBetaEpochs(i,1) = mean(abs(d3)) ;
+    meanAbsDeltaEpochs(i,1) = mean(abs(a4)) ;
+    meanAbsThetaEpochs(i,1) = mean(abs(d4)) ;
+    meanAbsAlphaEpochs(i,1) = mean(abs(d3)) ;
+    meanAbsBetaEpochs(i,1) = mean(abs(d2)) ;
 
-    stdDeltaEpochs(i,1)= std(a5);
-    stdThetaEpochs(i,1) = std(d5);
-    stdAlphaEpochs(i,1)= std(d4);
-    stdBetaEpochs(i,1)=std(d3);
+    stdDeltaEpochs(i,1)= std(a4);
+    stdThetaEpochs(i,1) = std(d4);
+    stdAlphaEpochs(i,1)= std(d3);
+    stdBetaEpochs(i,1)=std(d2);
 
-    energyDeltaEpochs(i,1)= sum(a5.^2);
-    energyThetaEpochs(i,1) = sum(d5.^2);
-    energyAlphaEpochs(i,1)= sum(d4.^2);
-    energyBetaEpochs(i,1)= sum(d3.^2);
+    energyDeltaEpochs(i,1)= sum(a4.^2);
+    energyThetaEpochs(i,1) = sum(d4.^2);
+    energyAlphaEpochs(i,1)= sum(d3.^2);
+    energyBetaEpochs(i,1)= sum(d2.^2);
     
-    entropyDeltaEpochs(i,1)= approximateEntropy(a5);
-    entropyThetaEpochs(i,1) =approximateEntropy(d5);
-    entropyAlphaEpochs(i,1)= approximateEntropy(d4);
-    entropyBetaEpochs(i,1)= approximateEntropy(d3);
+    entropyDeltaEpochs(i,1)= approximateEntropy(a4);
+    entropyThetaEpochs(i,1) =approximateEntropy(d4);
+    entropyAlphaEpochs(i,1)= approximateEntropy(d3);
+    entropyBetaEpochs(i,1)= approximateEntropy(d2);
     
-    powerDeltaEpochs(i,1)= sum(a5.^2)/length(a5);
-    powerThetaEpochs(i,1) = sum(d5.^2)/length(d5);
-    powerAlphaEpochs(i,1)= sum(d4.^2)/length(d4);
-    powerBetaEpochs(i,1)= sum(d3.^2)/length(d3);
+    powerDeltaEpochs(i,1)= sum(a4.^2)/length(a4);
+    powerThetaEpochs(i,1) = sum(d4.^2)/length(d4);
+    powerAlphaEpochs(i,1)= sum(d3.^2)/length(d3);
+    powerBetaEpochs(i,1)= sum(d2.^2)/length(d2);
     
-    skewnessDeltaEpochs(i,1)= skewness(a5);
-    skewnessThetaEpochs(i,1)=skewness(d5);
-    skewnessAlphaEpochs(i,1)=skewness(d4);
-    skewnessBetaEpochs(i,1)=skewness(d3);
+    skewnessDeltaEpochs(i,1)= skewness(a4);
+    skewnessThetaEpochs(i,1)=skewness(d4);
+    skewnessAlphaEpochs(i,1)=skewness(d3);
+    skewnessBetaEpochs(i,1)=skewness(d2);
     
-    kurtosisDeltaEpochs(i,1)=kurtosis(a5);
-    kurtosisThetaEpochs(i,1)=kurtosis(d5);
-    kurtosisAlphaEpochs(i,1)=kurtosis(d4);
-    kurtosisBetaEpochs(i,1)=kurtosis(d3);
+    kurtosisDeltaEpochs(i,1)=kurtosis(a4);
+    kurtosisThetaEpochs(i,1)=kurtosis(d4);
+    kurtosisAlphaEpochs(i,1)=kurtosis(d3);
+    kurtosisBetaEpochs(i,1)=kurtosis(d2);
     
-    varDeltaEpochs(i,1)=var(a5);
-    varThetaEpochs(i,1)=var(d5);
-    varAlphaEpochs(i,1)=var(d4);
-    varBetaEpochs(i,1)=var(d3);   
+    varDeltaEpochs(i,1)=var(a4);
+    varThetaEpochs(i,1)=var(d4);
+    varAlphaEpochs(i,1)=var(d3);
+    varBetaEpochs(i,1)=var(d2);   
 end 
     %% label features
     

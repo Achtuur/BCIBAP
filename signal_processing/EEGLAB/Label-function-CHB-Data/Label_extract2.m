@@ -11,7 +11,7 @@
 %   LabelsOut: vector containing labels for seizure in a cell array. Every row is structured as {filename, labels}
 %   Channelsout: vector containing indices of channels to be used
 %   rounding_err: number of samples lost per file due to rounding
-function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices)
+function [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsampling)
 %% testvalues
 %     dataset = 'chb04';
 %     eegpath = AddPath();
@@ -32,7 +32,7 @@ FileIndices = sort(FileIndices);
 blocks = strsplit(Txt, '\n\s*\n', 'DelimiterType', 'RegularExpression', 'CollapseDelimiters',false);
 % blocks{1} has sampling rate
 Fs = regexpnum(blocks{1}, '\d+(?=\s\Hz)'); %get sampling frequency from first block
-
+Fs = Fs/downsampling;
 %Files contains the blocks like:
 % File Name: chb04_01.edf
 % File Start Time: 18:01:25

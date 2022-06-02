@@ -39,12 +39,14 @@ if nargin > 2
             'channellist' 'integer' [0 inf] 0;
             'overwrite' 'integer' [0 Inf] 0;
             'ASR' 'integer' [0 Inf] 0;
+            'downsample' 'integer' [0 inf] 1;
             }, 'LoadData'); 
 else
     g.channellist = 0;
     g.rounding_err = linspace(0,0,length(FileIndices));
     g.overwrite = false;
     g.ASR = 0;
+    g.downsample = 1;
 end
 
 scriptpath = mfilename('fullpath'); %get path to current script
@@ -80,7 +82,7 @@ for i = FileIndices
     end
     file = sprintf('%s%s_%s.edf',path2dataset, chb, istr); %path to file of recording
     if isfile(file)
-        newData =  LoadnFilter(file, 'channellist', g.channellist, 'ASR', g.ASR);
+        newData =  LoadnFilter(file, 'channellist', g.channellist, 'ASR', g.ASR, 'downsample', g.downsample);
         lim = size(newData, 2) - floor(g.rounding_err(j)); %discard samples that attribute to rounding error
         newData = newData(:, 1 : lim); 
         j = j + 1;

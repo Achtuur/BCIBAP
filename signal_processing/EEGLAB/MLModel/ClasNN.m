@@ -9,8 +9,10 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
-datasets = ["03"];
-
+datasets = ["04"];
+temp = 0;
+save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
+clear temp;
 for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";

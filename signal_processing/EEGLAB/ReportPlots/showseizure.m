@@ -9,7 +9,7 @@ forder = 10:4:50;
 
 %forder 30 for ASR
 showSeizure(0, 30); %no ASR
-showSeizure(1, 30); %yes ASR
+% showSeizure(1, 30); %yes ASR
 
 function showSeizure(ASR, forder)
     %% init
@@ -26,7 +26,7 @@ function showSeizure(ASR, forder)
     [Fs, LabelsOut, ChannelsOut, ~] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
     ChannelsOut = ChannelsOut.index;
     [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', ASR, ...
-                                                    'locutoff', 0.25, 'hicutoff', 30, 'forder', forder);
+                                                    'locutoff', 0, 'hicutoff', 40, 'forder', forder);
 
     ch = 1;
     filtered_data = filtered_data(ch,:); % take one channel
@@ -88,7 +88,7 @@ function showSeizure(ASR, forder)
     plotcolor(ax(3), 'purple');
     plotcolor(ax(4), 'orange');
     plottext(ax, 'EEG data including an epileptic seizure', leg, ...
-        'Time [S]', 'Voltage [$\mu V$]', 'fontsize', 10, 'legendloc', 'northeast');
+        'Time [$s$]', 'Voltage [$\mu V$]', 'fontsize', 10, 'legendloc', 'northeast');
     figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
     perclim = 0.05; %percentage of limit that is taken extra/reduced

@@ -51,15 +51,17 @@ path2edf = strrep(path2edf, '\', filesep);
        g.forder = 10;
        g.ASR = 0;
        g.TestSinWave = [];
+       g.downsample = 1;
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-            'locutoff' 'integer' [0 Inf] 0.5;
-            'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
+            'locutoff' 'integer' [0 Inf] 0;
+            'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
             'forder' 'integer' [0 inf] 100;
             'showplots' 'integer' [0 inf] 0;
             'ASR' 'integer' [0 inf] 0
             'TestSinWave' 'integer' [0 inf] [];
+            'downsample' 'integer' [0 inf] 1;
             }, 'LoadnFilter');
     end
 %% Read and filter data
@@ -113,4 +115,5 @@ end
 [ALLEEG, EEG, CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET, 'setname', 'filtered', 'overwrite', 'on');
 
 filtered_data = EEG.data; %get data from EEG struct
+filtered_data = downsample(filtered_data', g.downsample)';
 end

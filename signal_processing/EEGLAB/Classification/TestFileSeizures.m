@@ -1,17 +1,22 @@
 %% Get seizures from file and test prediction
+clear;
+close all;
+clc;
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb03';
+    dataset = 'chb04';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = SeizFileIndices(dataset);
+%     FileIndices = SeizFileIndices(dataset);
+FileIndices = [5];
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
 EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+downsampling = 2;
+[Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, downsampling); %get labels of where there are seizures
 channellist = channellist.index;
 temp = [];
 
@@ -28,7 +33,8 @@ if length(SeizureEpochs) == 0
 end
 
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, ...
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', downsampling);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 for k = 1:size(epochs,1) %only take epochs with seizures
     temp = epochs{k,1};

@@ -7,7 +7,7 @@
 %
 %% Outputs:
 %    TotalFeatures:
-%   TotalFeatureLabels:
+%    TotalFeatureLabels:
 %
 %% Example:
 %    
@@ -22,10 +22,6 @@ nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entrie
 nChannels = size(EarDataEpochs, 1);
 %EarDataEpochs = decimate(EarDataEpochs,2);                  
 
-epochsDec=zeros(2406,384);
-for i=1:2406
-    epochsDec(i,:)=decimate(EarDataEpochs(i,:),2);
-end
 
 %% Discrete Wavelet Transform (DWT)
 % figure(1)
@@ -56,7 +52,10 @@ end
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+
+
 % For testing purposes only !!!!
+warning('For testing, only take first channel');
 nChannels = 1;
 
 for k = 1:nChannels
@@ -166,7 +165,7 @@ for k = 1:nChannels
 for i = 1:nEpochs
     CurChannelEpoch = EarDataEpochs{k, 1};
     [c,l]=wavedec(CurChannelEpoch(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
-    a5= appcoef(c,l,'db4');
+    a4= appcoef(c,l,'db4');
     [d1,d2,d3,d4]=detcoef(c,l,[1 2 3 4]);
    
     meanDeltaEpochs(i,1)= mean(a4) ;

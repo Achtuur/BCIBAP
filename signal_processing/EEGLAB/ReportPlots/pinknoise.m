@@ -13,21 +13,23 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 %% get data
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
 ChannelsOut = ChannelsOut.index;
-locutoff = 0.5;
+locutoff = 0;
 hicutoff = 40;
-[filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
-                                                    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
+downsample = 2;
+[filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
+    ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
+    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel
 unfiltered_data = unfiltered_data(ch,:);
-filsmall_piece = filtered_data(1, 600000 : 620000);
+filsmall_piece = filtered_data(1, 600000/downsample : 620000/downsample);
 unfilsmall_piece = unfiltered_data(1, 600000 : 620000); %relatively clean data
 yunfil = unfilsmall_piece;
-Yunfil = fft(unfilsmall_piece);
+Yunfil = fft(unfilsmall_piece, 20000*4);
 yfil = filsmall_piece;
-Yfil = fft(filsmall_piece);
+Yfil = fft(filsmall_piece, 20000*4);
 %% x axis
-N = size(yunfil, 2);
+N = size(Yunfil, 2);
 t = linspace(0, N / Fs, N);
 % f = linspace(0, Fs-(Fs/N), N); %0 to Fs
 f = linspace(0, Fs/2, N/2); % -Fs/2 to Fs/2 (use with fftshift)

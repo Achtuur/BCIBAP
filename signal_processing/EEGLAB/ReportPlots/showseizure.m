@@ -9,7 +9,7 @@ forder = 10:4:50;
 
 %forder 30 for ASR
 showSeizure(0, 30); %no ASR
-showSeizure(1, 30); %yes ASR
+% showSeizure(1, 30); %yes ASR
 
 function showSeizure(ASR, forder)
     %% init

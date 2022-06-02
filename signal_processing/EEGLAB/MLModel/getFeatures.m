@@ -18,18 +18,19 @@
 function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 % function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
-%     clc; clear;
-%     eegpath = AddPath();
-%     dataset = 'chb04';
-%     path2dataset = eegpath + "sample_data\" + dataset + "\";
-%     FileIndices = 5;
-%     EpochLengthSec = 3;
+    clc; clear;
+    eegpath = AddPath();
+    dataset = 'chb04';
+    path2dataset = eegpath + "sample_data\" + dataset + "\";
+    FileIndices = 5;
+    EpochLengthSec = 3;
 %% Get labels of data
 disp('Getting labels of data');
-
 t = tic;
+
+fac_downsample = 2; %downsa5mpling factor
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
 channellist = channellist.index;
 temp = [];
 for k = 1 : size(labels1, 1) %loop through rows of labels
@@ -49,7 +50,9 @@ fprintf("Got labels, took %.3f seconds", toc(t));
 %% get filtered data
 t = tic;
 disp("Loading data...");
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0);
+
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1,...
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', fac_downsample);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features

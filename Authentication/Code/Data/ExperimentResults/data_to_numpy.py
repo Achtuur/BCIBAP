@@ -30,6 +30,10 @@ RECORDINGS_CROP_DICTIONARY = {
         'Simon_ft1_take2' : {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_take2.npy'),
                 'crop' : (1168, 1168 + 20000)
+        },
+        'Simon_ft1_6hz' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_6hz.npy'),
+                'crop' : (1828, 1828 + 20000)
         }
 }
 

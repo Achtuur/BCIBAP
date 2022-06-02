@@ -13,6 +13,16 @@ def crop(data: np.ndarray, t_window: int, f_sampling: int, mask: tuple = False):
 
     return cropped_data
 
+def cut(data: np.ndarray, t_window: int, f_sampling: int = 250, offset = 0):
+    if offset != 0:
+        offset_inverse = t_window * f_sampling - offset
+        data = data[offset_inverse: (data.size - offset)]
+    parts = data.size
+    parts = int(parts / (t_window * f_sampling))
+    data_split = np.hsplit(data, parts)
+    print(len(data_split[1]))
+    return data_split
+
 if __name__ == '__main__':
     data = np.arange(0,2000)
     # cropped_data = crop(data, 2, 250)

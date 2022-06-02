@@ -103,10 +103,10 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
             
 
 
-        # with open(f'{filename}.csv', 'w') as f:
-        #     # using csv.writer method from CSV package
-        #     write = csv.writer(f)
-        #     write.writerows(all_data)
+        with open(f'{filename}.csv', 'w') as f:
+            # using csv.writer method from CSV package
+            write = csv.writer(f)
+            write.writerows(all_data)
 
 
     
@@ -119,10 +119,10 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
 
     root.mainloop()
 
-    return words, bitjes, times, filename
+    return words, bitjes, times
 
 if __name__ == '__main__':
-    words, bitjes, times, filename = Displayer()
+    words, bitjes, times = Displayer()
 
     all_data = [words, bitjes, times]
 

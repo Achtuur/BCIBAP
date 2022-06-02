@@ -14,3 +14,5 @@ for i=2:35
     end
 end
 
+% idx = find(cumsum(explained)>95,1);
+% FeatVector

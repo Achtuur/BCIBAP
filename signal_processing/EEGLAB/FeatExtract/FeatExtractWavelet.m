@@ -20,6 +20,7 @@ T = 1/Fs;             % Sampling period
 L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
+%EarDataEpochs = decimate(EarDataEpochs,2);                  
 
 epochsDec=zeros(2406,384);
 for i=1:2406
@@ -55,6 +56,9 @@ end
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+% For testing purposes only !!!!
+nChannels = 1;
+
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
     t = tic;

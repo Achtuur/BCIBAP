@@ -126,7 +126,8 @@ if __name__ == "__main__":
         # Specific experiment Filtering
         data_filtered = Filter.band_pass_filter(data_filtered, 4, (1,10), 250)
 
-        data_intervals = crop(data_filtered, 2, 250)
+        data_intervals = crop(data_filtered, 2, 250, v=True)
+        print(data_intervals[0].shape)
         powers = []
         for data_interval in data_intervals:
             data = Filter.remove_bad_channels(data_interval)

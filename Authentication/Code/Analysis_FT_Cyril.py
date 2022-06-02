@@ -29,15 +29,15 @@ from Filters import Filter
 from crop import crop
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_sam_6hz-60sec.npy')
-    data_filtered = PreprocessingPipeline(data).start()[1000:8000]
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_cyril_10hz-60sec.npy')
+    data_filtered = PreprocessingPipeline(data).start()
     data_cropped = crop(data_filtered, 2, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
     
-    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[100:700]
-    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[100:700]
+    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
+    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
     plt.plot(f, y_fft)
     plt.show(block=True)
     

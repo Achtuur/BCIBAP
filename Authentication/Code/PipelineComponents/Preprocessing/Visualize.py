@@ -23,7 +23,7 @@ class DataPlot():
                 axs[i].plot(data[:,i], linewidth=0.25, label="EEG signal")
             return fig, axs, plt
         except TypeError:
-            plt.plot(data[:], linewidth=0.25, label="EEG signal")
+            plt.plot(data[:], linewidth=1, label="EEG signal")
             return plt
 
     @staticmethod

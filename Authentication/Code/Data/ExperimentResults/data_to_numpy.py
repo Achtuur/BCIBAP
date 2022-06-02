@@ -6,6 +6,7 @@ import os
 
 # Global dictionary constructed from experiment file
 RECORDINGS_CROP_DICTIONARY = {
+        # Old
         # M1
         'Joos_ft1_take1' : {
                 'path' : Path('./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_stage1_take1.npy'),
@@ -30,6 +31,119 @@ RECORDINGS_CROP_DICTIONARY = {
         'Simon_ft1_take2' : {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_take2.npy'),
                 'crop' : (1168, 1168 + 20000)
+        },
+        # New
+        'Sam_exp_cyril_10hz_60' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_60'),
+                'crop' : (7*250, 67*250)
+        },
+        'Sam_exp_cyril_10hz_50' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_50'),
+                'crop' : (2*250, 52*250)
+        },
+        'Sam_exp_cyril_10hz_40' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_40'),
+                'crop' : (2*250, 42*250)
+        },
+        'Sam_exp_cyril_10hz_30' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_30'),
+                'crop' : (3*250, 33*250)
+        },
+        'Sam_exp_cyril_10hz_20' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_20'),
+                'crop' : (2*250, 22*250)
+        },
+        'Sam_exp_cyril_10hz_10' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_10'),
+                'crop' : (2*250, 12*250)
+        },
+        'Sam_exp_cyril_10hz_5' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_10hz_5'),
+                'crop' : (2*250, 7*250)
+        },
+        'Sam_exp_cyril_6hz_60' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_60'),
+                'crop' : (1*250, 61*250)
+        },
+        'Sam_exp_cyril_6hz_50' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_50'),
+                'crop' : (1*250, 51*250)
+        },
+        'Sam_exp_cyril_6hz_40' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_40'),
+                'crop' : (1*250, 41*250)
+        },
+        'Sam_exp_cyril_6hz_30' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_30'),
+                'crop' : (1*250, 29*250)
+        },
+        'Sam_exp_cyril_6hz_20' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_20'),
+                'crop' : (4*250, 24*250)
+        },
+        'Sam_exp_cyril_6hz_10' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_10'),
+                'crop' : (2*250, 12*250)
+        },
+        'Sam_exp_cyril_6hz_5' : {
+                'path' : Path('./recorded_data/recordings_txt/Sam/OpenBCISession_Sam_exp_cyril_6hz_5'),
+                'crop' : (3*250, 8*250)
+        },
+        'Simon_exp_cyril_10hz_60' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_60'),
+                'crop' : (3*250, 63*250)
+        },
+        'Simon_exp_cyril_10hz_50' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_50'),
+                'crop' : (2*250, 52*250)
+        },
+        'Simon_exp_cyril_10hz_40' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_40'),
+                'crop' : (3*250, 43*250)
+        },
+        'Simon_exp_cyril_10hz_30' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_30'),
+                'crop' : (3*250, 33*250)
+        },
+        'Simon_exp_cyril_10hz_20' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_20'),
+                'crop' : (4*250, 24*250)
+        },
+        'Simon_exp_cyril_10hz_10' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_10'),
+                'crop' : (3*250, 13*250)
+        },
+        'Simon_exp_cyril_10hz_5' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_10hz_5'),
+                'crop' : (5*250, 10*250)
+        },
+        'Simon_exp_cyril_6hz_60' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_60'),
+                'crop' : (5*250, 65*250)
+        },
+        'Simon_exp_cyril_6hz_50' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_50'),
+                'crop' : (4*250, 54*250)
+        },
+        'Simon_exp_cyril_6hz_40' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_40'),
+                'crop' : (4*250, 44*250)
+        },
+        'Simon_exp_cyril_6hz_30' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_30'),
+                'crop' : (4*250, 34*250)
+        },
+        'Simon_exp_cyril_6hz_20' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_20'),
+                'crop' : (3*250, 23*250)
+        },
+        'Simon_exp_cyril_6hz_10' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_10'),
+                'crop' : (3*250, 13*250)
+        },
+        'Simon_exp_cyril_6hz_5' : {
+                'path' : Path('./recorded_data/recordings_txt/Simon/OpenBCISession_simon_exp_cyril_6hz_5'),
+                'crop' : (5*250, 10*250)
         }
 }
 

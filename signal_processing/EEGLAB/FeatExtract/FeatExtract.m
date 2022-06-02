@@ -19,6 +19,15 @@ for i=1:rowsEpoch
     x=x+1;
 end
 epoch1= epochs(2,:);
+epoch2= decimate(epoch1,2);
+
+
+epochsDec=zeros(2406,384);
+for i=1:2406
+    epochsDec(i,:)=decimate(epochs(i,:),2);
+end
+
+
 %% TIME DOMAIN SIGNAL
 t = (0:L-1)*T;        % Time vector
 figure(1)
@@ -89,7 +98,7 @@ s= spectrogram(epochs(2,:),hanning(L/3),L/6,2^nextpow2(L/3),Fs,'MinThreshold',-2
 % kurtosisDelta=kurtosis(a5);kurtosisTheta=kurtosis(d5);kurtosisAlpha=kurtosis(d4);kurtosisBeta=kurtosis(d3); 
 % DWT packet decomposition
 
-wpt = wpdec(epoch,5,'db4','shannon');
+wpt = wpdec(epoch1,5,'db4','shannon');
 %plot(wpt)
 signaldelta=read(wpt,'cfs',31);
 signaltheta=read(wpt,'cfs',32);

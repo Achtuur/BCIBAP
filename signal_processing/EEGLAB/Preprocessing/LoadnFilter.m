@@ -54,13 +54,8 @@ path2edf = strrep(path2edf, '\', filesep);
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-<<<<<<< HEAD
             'locutoff' 'integer' [0 Inf] 0;
             'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
-=======
-            'locutoff' 'integer' [0 Inf] 0.5;
-            'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
->>>>>>> origin/SigProChr
             'forder' 'integer' [0 inf] 100;
             'showplots' 'integer' [0 inf] 0;
             'ASR' 'integer' [0 inf] 0

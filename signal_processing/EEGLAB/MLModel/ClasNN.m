@@ -10,12 +10,14 @@ final_results = cell(size(epochs, 2), 2);
 i = 1;
 
 datasets = ["03"];
-
+temp = 0;
+save(eegpath + "\MLModel\CNNmodel.mat", 'i');
+clear temp;
 for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
-    [featuresTemp,YTemp,featurelabelsTemp] = getFeatures(dataset, path2dataset, FileIndices, k);
+    [featuresTemp,YTemp,featurelabelsTemp] = getFeatures(dataset, path2dataset, FileIndices, epochs);
     if i == 1
         features = featuresTemp;
         Y = YTemp;

@@ -1,0 +1,28 @@
+Auth:
+-Focus on writing thesis well, clearly explain the problem we ran into
+-Try to still do the pseudowords thing if time permits
+
+Phantom:
+-Problems with order and delivery
+-6 petri dishes at a time for degassing
+-After the meeting they make them, they need to get to room temperature again
+-Afterwards degassing and then in the fridge
+-Aluminum tape to do the test? Training with Filip at 14:40
+-Then electrical characterization of phantom is gotten, sweet spot needs to be found and used
+-Sweep the parameters
+-Then make the mold
+-Next week changes over time
+-Mention error due to glue and thickness of tape
+-
+Stimulus:
+-forgot something so the voltage is higher, 100V instead of 70V
+-Outliers in impedance are not possible to stimulate anymore due to the small error^
+-Today drawing traces, check sheets, check dimensions, don't trust the footprints because you don't know who made them.
+-
+
+Signal Processing:
+-3 seconds epoch, so 3 seconds to react
+-empirically determined 3 seconds on the data
+-How translatable is this performance to small microcontroller?
+-removing channels already to decrease computation time.
+

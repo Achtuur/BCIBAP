@@ -110,7 +110,7 @@ if __name__ == "__main__":
         features_data = FeaturePipeline(filtered_data, f_sampling).start()
 
         #data with labels and concatenation
-        setje = combine_data_and_labels(features_data, labels)
+        setje = combine_data_and_labels(filtered_data, labels)
         if index==0:
             full = setje
         else:
@@ -122,23 +122,24 @@ if __name__ == "__main__":
     #flatten data for ML
     data, labels = zip(*full)
     print(len(data), data[0].shape)
-    data = np.array(data)
+    data = np.array(data).reshape(200, data[0].shape[0]*data[0].shape[1])
     print(type(data), data.shape)
 
     #train test split
-    X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 0.2)
+    X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 42, 0.3)
     #train val split
-    X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.2)
+    # X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.3)
 
     #ML
     model = Models()
-    gridsearch, acc = model.KFOLD_CV(X_train, Y_train, X_val, Y_val)
-    for i in range(len(gridsearch)):
-        best_model = gridsearch[i].best_estimator_
-        Y_predict = best_model.predict(X_test)
-        tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
-        print(((tn+tp)/(fp+fn+tp+tn))*100)
-    
+    gridsearch, acc = model.KFOLD_CV(X_train, Y_train, X_test, Y_test)
+
+    # for i in range(len(gridsearch)):
+        # best_model = gridsearch[i].best_estimator_
+        # Y_predict = best_model.predict(X_test)
+        # tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
+        # print(((tn+tp)/(fp+fn+tp+tn))*100)
+    # print(gridsearch[3].cv_results_["split4_test_score"])
 
      
         

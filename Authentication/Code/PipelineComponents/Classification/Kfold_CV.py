@@ -15,8 +15,8 @@ from keras.datasets import mnist
 class Models():
 
     def __init__(self):
-        self.n_splits = 10
-        self.random_state =42
+        self.n_splits = 5
+        self.random_state =41
         self.results =[]
         self.searches =[]
         self.models = {
@@ -30,21 +30,21 @@ class Models():
             "DecisionTreeClassifier": {
                 'max_depth' : [None],
                 'min_samples_leaf' : [2],
-                'random_state' : [42]
+                'random_state' : [self.random_state]
             },
             "KNeighborsClassifier": {
-                'n_neighbors' : [1, 3, 5, 10, 50],
+                'n_neighbors' : [4, 5, 6],
                 'weights' : ["distance"]
             },
             "SVC": {
-                'C' : [1, 10],
-                'kernel' : ["linear"],
-                'random_state' : [42]
+                'C' : [0.01, 0.1, 1, 10, 100],
+                'kernel' : ["linear", "poly", "rbf"],
+                'random_state' : [self.random_state]
             },
             "LogisticRegression": {
-                'C' : [9, 10, 11, 12, 13],
+                'C' : [3, 4, 5],
                 'penalty' : ["l2"],
-                'random_state' : [42]
+                'random_state' : [self.random_state]
             }
             }
 
@@ -72,8 +72,8 @@ class Models():
         #grid search object holds under best_estimator_ a model retrained on best hyperparameters, on the entirety of train and validation data
 
     @staticmethod
-    def train_val_split(X, y, test_size=0.8):
-        X_train, X_val, Y_train, Y_val = train_test_split(X, y, test_size = test_size, random_state = 42)
+    def train_val_split(X, y, random_state, test_size=0.8):
+        X_train, X_val, Y_train, Y_val = train_test_split(X, y, test_size = test_size, random_state = random_state)
         return X_train, X_val, Y_train, Y_val
     
     @staticmethod

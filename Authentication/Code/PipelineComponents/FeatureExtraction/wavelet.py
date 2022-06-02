@@ -36,19 +36,36 @@ class Wavelet():
         plt.show()
 
     @staticmethod
-    def stats(coeff):
+    def stats_dwt(coeff):
         statlib = {}
         statlist = []
         for i in range(len(coeff)):
+            MAX = np.max(np.abs(coeff[i]))
+            MIN = np.min(np.abs(coeff[i]))
             MAV = np.mean(np.abs(coeff[i]))
             AVP = np.mean(np.square(coeff[i]))
             SD = np.std(coeff[i])
             VAR = np.var(coeff[i])
             SKEW = sp.stats.skew(coeff[i])
             KURT = sp.stats.kurtosis(coeff[i])
-            statlib[f'D{i}'] = [MAV, AVP, SD, VAR, SKEW, KURT]
-            statlist.append([MAV, AVP, SD, VAR, SKEW, KURT])
+            statlib[f'D{i}'] = [MAV, AVP, SD, VAR, SKEW, KURT, MAX, MIN]
+            statlist.append([MAV, AVP, SD, VAR, SKEW, KURT, MAX, MIN])
         return statlib, statlist
+    
+    @staticmethod
+    def stats(channel):
+        statlist = []
+        MAX = np.max(np.abs(channel))
+        MIN = np.min(np.abs(channel))
+        MAV = np.mean(np.abs(channel))
+        AVP = np.mean(np.square(channel))
+        SD = np.std(channel)
+        VAR = np.var(channel)
+        SKEW = sp.stats.skew(channel)
+        KURT = sp.stats.kurtosis(channel)
+        statlist.append([MAV, AVP, SD, VAR, SKEW, KURT, MAX, MIN])
+        return statlist
+
 
 
 

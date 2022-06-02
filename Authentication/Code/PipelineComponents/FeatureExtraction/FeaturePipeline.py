@@ -35,26 +35,40 @@ class FeaturePipeline():
             data_dwt.append(result) 
         return data_dwt  
 
-    def perform_statistics(self, dwt_data):
+    def perform_statistics_dwt(self, dwt_data):
         stats_dwt = []
         for channel in range(len(dwt_data)):
-            _ , result_lst = Wavelet.stats(dwt_data[channel])
+            _ , result_lst = Wavelet.stats_dwt(dwt_data[channel])
             stats_dwt.append(result_lst)
         return np.array(stats_dwt)
+    
+    def perform_statistics_raw(self, data):
+        stats_dwt = []
+        for channel in range(data.shape[1]):
+            result_lst = Wavelet.stats(data[:, channel])
+            stats_dwt.append(result_lst)
+        return np.array(stats_dwt)
+    
+    def NormalizeData(self, data):
+        return (data - np.min(data)) / (np.max(data) - np.min(data))
 
     def start(self, plot=False):
         for i, segment in enumerate(self.input_data):
-            bands = self.perform_bands_power(segment)
-            av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
-            # dwt_data = self.perform_wavelet(segment, plot=plot)
-            # stats_dwt = self.perform_statistics(dwt_data).reshape(1, 240)
+            # bands = self.perform_bands_power(segment)
+            # av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
+            # dwt_data = self.perform_wavelet(segment[:, 6:], plot=plot)
+            # stats_dwt = self.perform_statistics_dwt(dwt_data).reshape(1, 80)
+            stats = self.perform_statistics_raw(segment).reshape(1, 64)
             # print(bands.shape)
+            # vals, _ = do_fft(segment, self.f_sampling)
             if i==0:
-                features = np.concatenate((bands, av_per_channel), axis=1).reshape(1, 48)
-                # features = av_per_channel.reshape(1, 8)[:,6:]
+                # features = vals.reshape(1, vals.shape[0]*vals.shape[1])
+                # features = av_per_channel.reshape(1, 8)
+                features = stats
             else: 
-                features = np.vstack((features, np.concatenate((bands, av_per_channel), axis=1).reshape(1, 48)))
-                # features = np.vstack((features, av_per_channel.reshape(1, 8)[:,6:]))
+                # features = np.vstack((features, vals.reshape(1, vals.shape[0]*vals.shape[1])))
+                # features = np.vstack((features, av_per_channel.reshape(1, 8)))
+                features = np.vstack((features, stats))
         return features
 
 

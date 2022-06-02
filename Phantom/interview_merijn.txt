@@ -1,0 +1,51 @@
+Algemeen
+        - Hoe komt u aan de 40-50% onveilige wachtwoorden in een gemiddelde organisatie? (dit hebben wij van de website)
+        	A: Product en dienst. Dienst is het meten van de sterkte voor een organisattie. Dit wordt realtime gemeten door mensen wachtwoorden in te laten vullen en die worden dan geanalyseerd. Ook wordt er gezocht naar gestolen wachtwoorden. Kunnen statistieken hierdoor doen. Mensen zeggen vaak ja na deze dienst. Bedrijven willen vaak nog besparen op cyber security. Budgetten zijn er soms nog niet. Deel van de marketing is aantonen dat bedrijven het nodig hebben. Wordt nog veel onderzoek gedaan naar aantonen hoe groot het risico is. Bedrijven willen ook nog zeggen dat ze gehackt zijn want dat is slecht voor het imago. Analogie met alarmsysteem. Vaak niet waar dat er niks te halen vallen, maar je wilt ook niet dat je te hacken bent. Cybersecurity en gebruiksgemak omgekeerde relatie. Zelfde met privacy. Lui en weinig tijd. Te moeilijk en mensen willen het onbewust omzeilen. Te makkelijk en het wordt te onveilig. Privacy is ook belangrijk. Gebruikersgemak: nooit meer verzinnen en onthouden. Privacy is anoniem. 
+	- Waarom heeft u gekozen voor on-the-fly wachtwoord generatie en niet encryptie + opslag?
+		A: Kluis heeft 3 problemen. Is geen security maar gemak.
+			1. Hij slaat al je wachtwoorden op. Dit is niet veilig. Communicatie aspect
+			2. Je kan ook zwakke wachtwoorden opslaan in een kluis. Moet je zelf voor zorgen dat deze gegenereert zijn. Mensen zijn hier vaak te lui voor.
+			3. Het gebruik ervan kan je niet afdwingen. Paar mensen doen het maar meeste niet. Kan voor schijnveiligheid zorgen.
+			4. Er zijn privacy technisch problemen. Komt van buiten de EU, maar daar heeft de EU niet altijd controle over. Privacy shield zorgde ervoor dat US onder onze avg regels viel, maar dit is niet meer zo. Voor grote instanties is dit inderdaad een probleem.
+			
+ 
+Revenue
+	- Uw software is gratis beschikbaar voor privé gebruik maar niet voor organisaties. Waarom heeft uw bedrijf gekozen voor dit verdienmodel?
+		A: Particulieren zijn kritisch. Beoordelen een app in 5 seconden. Kan je dus snel geld verdienen. Als startup heb je niet in een keer een af product, waardoor je dus snel je geld kwijt kan krijgen. Bedrijven zijn hier gevoeliger voor. Die vinden een product dat in ontwikkeling is niet erg, zolang het maar veilig is. Je hebt dan ruimte om geld te verdienen maar wel nog te ontwikkelen. Ook is de wereld complex met techniek. Voor niet technische mensen is dit lastig. Daarom is het een beetje uit nobelheid. Commercieel gezien kunnen particulieren hun organisatie motivieren wat fijn is. Financieel gezien is geld innen bij particulieren lastig. Een bedrijf kan je gewoon een factuur sturen. Voor een miljoen particulieren heb je een miljoen klanten. Bij bedrijven is dit een stuk beter te handelen. Via een bedrijf kan een gebruiker makkelijker getrained worden. Misschien gebruiken ze het dan ook privé. Ze worden dan een soort ambasadeur. 
+	- Wat voor bedrijven heeft u als klant?
+		A:
+	Bedrijf specifiek:
+		- Wat voor pakketten bieden jullie aan bedrijven? 
+			A: Het product is voor iedereen hetzelfde. Ook bieden ze een firewall aan. Dit gaat over restrictie policies voor applicaties. 
+		- Hoe bepaal je een product prijs in deze markt?
+			A: Op website staat de prijs aangegeven. Voor grote organisaties wordt er specifiek een prijs afgesproken. Inzicht in de markt is belangrijk voor een startup. Ze halen meer uit onderlinge gesprekken.
+Markt
+	- Is er veel concurentie in deze markt? Zowel particulier als professioneel
+		A: Urgentie neemt toe. Technisch gezien concureer je met andere oplossingen. Kluis lijkt zo, maar is eigenlijk geen concurentie. Mensen weten dit alleen niet. Wachtwoordkluizen zijn ook al langer op de markt. Mindyourpass is een verlengstuk van bestaande oplossingen zoals SSO. Hier komt de dienst van pas. Organisaties gebruiken veel applicaties met een SSO. Als aangetoond kan worden dat dit niet veilig is, ben je de lul. Mindyourpass kan dus versterken. 
+	- Jullie zijn een startup. Hoe lang heeft het gekost om voet aan de grond te krijgen?
+		A: Naïf in het begin. Is commercieel al 2 jaar bezig, maar nog in een vroege phase. 
+	- Hoe zorgt uw bedrijf voor naamsbekendheid? 
+		A: Bedrijf werkt met ambasadeurs. Hebben nog geen groot marketingsbudget. Mond-tot-mond reclame is belangrijk. Heeft ook contact met mensen uit het veld. Praat ook veel met gemeenten en overheid. Is lastig om te zorgen dat mensen je vertrouwen. Propeert contact te krijgen met technische journalisten. Deze zijn echter een beetje eigenwijs. 
+	- Hoe win je consumentenvertrouwen in deze markt?
+		A: Bij overheden/gemeenten kijken mensen naar elkaar. Als je er 1 hebt kun je de rest ook meekrijgen. Bedrijven zijn een soort eilanden. Die beslissen wel individueel. Bij gemeenten zijn ambasadeurs dus fijn, merijn had hier contacten in. Scan kan mensen overtuigen. Er is ook e-learning die mensen moeten kunnen opleiden zodat iedereen het moet kunnen gebruiken. Bios (baseline iets) zijn richtlijnen voor digitale veiligheid. Moet bijvoorbeeld wachtwoord oplossingen zijn. Daarom gebeurt er dus veel op de markt op dit gebied. 
+	- In welke fases is uw product op de markt gekomen?
+		A: Sinds 2019 commercieel actief. Is veel verandert in die tijd. Productie en werk ziet er anders uit. Zijn veel features toegevoegd. Is nog best in de uittest fase. Wilt graag producten snel uitbrengen zodat je feedback krijgt. Uitzoeken wat de struikelblokken zijn. Het wordt nu bijvoorbeeld volledig automatisch uitgerold, dit was eerst nog niet. Hier kreeg merijn ook heel veel feedback op. Ervaring opgedaan bij 10 klanten en dit gaat nu een stuk makkelijker. Features worden aan iedereen uitgerold. Enkel abbonnement, geen schalen. Bugfixen bijvoorbeeld erg fijn. Allemaal online software. 
+	
+Victor
+- wat is in uw ogen de toegevoegde waarde van 3-way authenticatie
+	A: Als het geen nadeligheid heeft op gebruikersgemak, dan is meer altijd beter. Anders niet. Hier kan je ook goed op marketen. 
+- In welke situaties ziet u het belang van 3-way authenticatie. (zijn er organisaties die hier meer nut aan hebben)
+	A: Kan aangesloten worden op mind your pass. Dan kan je je techniek aansluiten op andere bedrijven. Als er een specifieke infrastructuur moet komen, dan is turbo beveiliging het beste. Grootste nadeel van toepassingen is dat ze niet overal werken. Als het overal werkt, kan je daar de meeste voordelen aan halen. Biometrisch is mindyourpass ook aan het uitrollen. Ze werken nu ook samen met een startup om biometrische 
+- welke markten of gebruikers zouden het meeste voordeel hebben van deze extra beveiliging?
+	A:
+- de voordelen van de 3-way authenticatie via onze methode van gedachte zien we in de snelheid van authenticatie, of dat je minder fysieke handelingen (typen) hoeft te verrichten, hoe ziet u de voordelen en voor wie zouden die volgens u interessant zijn?
+	A:
+- Denkt u dat onze oplossing van toepassing zou kunnen zijn op fysieke beveiliging?
+	A:
+
+Ook verslag sturen. 
+
+
+--------------Overig----------------
+Reactie analyse op diesnt?
+A: Bedrijven zetten er wel eens vraagtekens bij. In het begin lastig. Wel krijgen ze audits waarin ze aantonen dat het legit is. Naar mate je langer bezig gaat het makkelijker. Initieel vertrouwen is belangrijk. Helemaal in deze markt. 

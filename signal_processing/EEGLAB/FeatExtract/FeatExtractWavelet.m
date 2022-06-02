@@ -45,48 +45,48 @@ TotalFeatureLabels = '';
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
 %initialize matrices 
-    meanDeltaEpochs = zeros(size(epochsDec, 1), 1);
-    meanThetaEpochs = zeros(size(epochsDec, 1), 1);
-    meanAlphaEpochs = zeros(size(epochsDec, 1), 1);
-    meanBetaEpochs = zeros(size(epochsDec, 1), 1);
-    meanAbsDeltaEpochs = zeros(size(epochsDec, 1), 1);
-    meanAbsThetaEpochs = zeros(size(epochsDec, 1), 1);
-    meanAbsAlphaEpochs = zeros(size(epochsDec, 1), 1);
-    meanAbsBetaEpochs = zeros(size(epochsDec, 1), 1);
-    stdDeltaEpochs= zeros(size(epochsDec, 1), 1);
-    stdThetaEpochs = zeros(size(epochsDec, 1), 1);
-    stdAlphaEpochs= zeros(size(epochsDec, 1), 1);
-    stdBetaEpochs= zeros(size(epochsDec, 1), 1);
+    meanDeltaEpochs = zeros(nEpochs, 1);
+    meanThetaEpochs = zeros(nEpochs, 1);
+    meanAlphaEpochs = zeros(nEpochs, 1);
+    meanBetaEpochs = zeros(nEpochs, 1);
+    meanAbsDeltaEpochs = zeros(nEpochs, 1);
+    meanAbsThetaEpochs = zeros(nEpochs, 1);
+    meanAbsAlphaEpochs = zeros(nEpochs, 1);
+    meanAbsBetaEpochs = zeros(nEpochs, 1);
+    stdDeltaEpochs= zeros(nEpochs, 1);
+    stdThetaEpochs = zeros(nEpochs, 1);
+    stdAlphaEpochs= zeros(nEpochs, 1);
+    stdBetaEpochs= zeros(nEpochs, 1);
     
-    energyDeltaEpochs= zeros(size(epochsDec, 1), 1);
-    energyThetaEpochs = zeros(size(epochsDec, 1), 1);
-    energyAlphaEpochs= zeros(size(epochsDec, 1), 1);
-    energyBetaEpochs= zeros(size(epochsDec, 1), 1);
+    energyDeltaEpochs= zeros(nEpochs, 1);
+    energyThetaEpochs = zeros(nEpochs, 1);
+    energyAlphaEpochs= zeros(nEpochs, 1);
+    energyBetaEpochs= zeros(nEpochs, 1);
     
-    entropyDeltaEpochs= zeros(size(epochsDec, 1), 1);
-    entropyThetaEpochs =zeros(size(epochsDec, 1), 1);
-    entropyAlphaEpochs= zeros(size(epochsDec, 1), 1);
-    entropyBetaEpochs= zeros(size(epochsDec, 1), 1);
+    entropyDeltaEpochs= zeros(nEpochs, 1);
+    entropyThetaEpochs =zeros(nEpochs, 1);
+    entropyAlphaEpochs= zeros(nEpochs, 1);
+    entropyBetaEpochs= zeros(nEpochs, 1);
     
-    powerDeltaEpochs= zeros(size(epochsDec, 1), 1);
-    powerThetaEpochs = zeros(size(epochsDec, 1), 1);
-    powerAlphaEpochs= zeros(size(epochsDec, 1), 1);
-    powerBetaEpochs= zeros(size(epochsDec, 1), 1);
+    powerDeltaEpochs= zeros(nEpochs, 1);
+    powerThetaEpochs = zeros(nEpochs, 1);
+    powerAlphaEpochs= zeros(nEpochs, 1);
+    powerBetaEpochs= zeros(nEpochs, 1);
     
-    skewnessDeltaEpochs=zeros(size(epochsDec, 1), 1);
-    skewnessThetaEpochs=zeros(size(epochsDec, 1), 1);
-    skewnessAlphaEpochs=zeros(size(epochsDec, 1), 1);
-    skewnessBetaEpochs=zeros(size(epochsDec, 1), 1);
+    skewnessDeltaEpochs=zeros(nEpochs, 1);
+    skewnessThetaEpochs=zeros(nEpochs, 1);
+    skewnessAlphaEpochs=zeros(nEpochs, 1);
+    skewnessBetaEpochs=zeros(nEpochs, 1);
     
-    kurtosisDeltaEpochs=zeros(size(epochsDec, 1), 1);
-    kurtosisThetaEpochs=zeros(size(epochsDec, 1), 1);
-    kurtosisAlphaEpochs=zeros(size(epochsDec, 1), 1);
-    kurtosisBetaEpochs=zeros(size(epochsDec, 1), 1);
+    kurtosisDeltaEpochs=zeros(nEpochs, 1);
+    kurtosisThetaEpochs=zeros(nEpochs, 1);
+    kurtosisAlphaEpochs=zeros(nEpochs, 1);
+    kurtosisBetaEpochs=zeros(nEpochs, 1);
     
-    varDeltaEpochs=zeros(size(epochsDec, 1), 1);
-    varThetaEpochs=zeros(size(epochsDec, 1), 1);
-    varAlphaEpochs=zeros(size(epochsDec, 1), 1);
-    varBetaEpochs=zeros(size(epochsDec, 1), 1);
+    varDeltaEpochs=zeros(nEpochs, 1);
+    varThetaEpochs=zeros(nEpochs, 1);
+    varAlphaEpochs=zeros(nEpochs, 1);
+    varBetaEpochs=zeros(nEpochs, 1);
 
 % for i = 1:size(EarDataEpochs, 1)
 % 
@@ -145,7 +145,7 @@ for k = 1:nChannels
 % end 
 %% DWT
 
-for i = 1:size(epochsDec, 1)
+for i = 1:nEpochs
     
     [c,l]=wavedec(epochsDec(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
     a4= appcoef(c,l,'db4');

@@ -22,8 +22,8 @@ nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entrie
 nChannels = size(EarDataEpochs, 1);
 %EarDataEpochs = decimate(EarDataEpochs,2);                  
 
-epochsDec=zeros(2406,384);
-for i=1:2406
+epochsDec=zeros(length(EarDataEpochs{1}),384);
+for i=1:length(EarDataEpochs{1})
     epochsDec(i,:)=decimate(EarDataEpochs(i,:),2);
 end
 

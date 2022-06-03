@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 def get_fft(data: np.ndarray):
     y_fft = rfft(data)
-    
-    return y_fft
+    f = rfftfreq(data.shape[0], 1/250) 
+    return f, y_fft
 
 class DataPlot():
     @staticmethod
@@ -23,7 +23,7 @@ class DataPlot():
                 axs[i].plot(data[:,i], linewidth=0.25, label="EEG signal")
             return fig, axs, plt
         except TypeError:
-            plt.plot(data[:], linewidth=0.25, label="EEG signal")
+            plt.plot(data[:], linewidth=1, label="EEG signal")
             return plt
 
     @staticmethod
@@ -37,12 +37,12 @@ class DataPlot():
         try:
             fig, axs = plt.subplots(num_col, 1)
             for i in range(num_col):
-                y = np.abs(get_fft(data[:,i]))
-                axs[i].plot(y)
+                f, y = np.abs(get_fft(data[:,i]))
+                axs[i].plot(f, y)
 
         except IndexError:
-            y = np.abs(get_fft(data[:]))
-            plt.plot(y)
+            f, y = np.abs(get_fft(data[:]))
+            plt.plot(f, y)
 
         plt.show(block=True)
         

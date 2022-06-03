@@ -26,15 +26,9 @@ class PreprocessingPipeline():
 
     def start(self, plot=False, v=False):
         clean_data = self.raw_data
-        # High pass filter
-        # if v:
-        #     print("Apply High Pass Filter")
-        # clean_data = self.perform_high_pass_filter(clean_data, 4, 1, 250)
-        # if plot:
-        #     DataPlot.eeg_channels_plot(clean_data)
         if v:
             print("Apply Band Pass Filter")
-        clean_data = self.perform_band_pass_filter(clean_data, 8, (5,40), 250)
+        clean_data = self.perform_band_pass_filter(clean_data, 4, (4,90), 250)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
@@ -44,17 +38,6 @@ class PreprocessingPipeline():
         clean_data = self.perform_notch_filter(clean_data, 50, 60, 250)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
-
-
- 
-        # ASR if pipeline has calibrated data
-        # if self.cal_data is not None:
-        #     if v:
-        #         print("Removing artifacts")
-        #     clean_data = self.remove_artifacts(clean_data)
-        #     if plot:
-        #         DataPlot.eeg_channels_plot(clean_data)
-
 
         return clean_data
 

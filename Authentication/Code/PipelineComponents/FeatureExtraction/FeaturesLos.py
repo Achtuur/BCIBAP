@@ -88,7 +88,7 @@ def get_signal_power(signal):
 # This function assumes single channel data
 def get_frequency_power_per_channel(signal, freq_range: tuple, fs=250):
     # The input data is filtered within the required frequency range specified by freq_range aka (5,7)
-    signal = Filter.band_pass_filter(signal, 4, crit_range=freq_range, fs=fs)
+    # signal = Filter.band_pass_filter(signal, 4, crit_range=freq_range, fs=fs)
     
     # The fft is calculated of the filtered data
     fft_data = np.abs(rfft(signal))
@@ -120,7 +120,7 @@ def get_par_per_channel(signal, freq_range):
     # f-axis used to skip frequency range
     f = rfftfreq(signal.shape[0], 1/250)
     start, end = get_boundary_indexes(f, freq_range)
-    signal_fft = rfft(signal)
+    signal_fft = np.abs(rfft(signal))
 
     left_over_spectrum = np.concatenate((signal_fft[:start], signal_fft[end:]))
     left_over_power = freq_power(left_over_spectrum)

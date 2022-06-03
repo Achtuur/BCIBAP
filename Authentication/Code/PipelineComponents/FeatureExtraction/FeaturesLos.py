@@ -66,6 +66,8 @@ def get_frequency_band_power(signal):
 
     return band_powers
 
+
+
 # This function assumes single channel data
 def get_signal_power_per_channel(signal):
     square = np.vectorize(lambda x: x**2)
@@ -111,6 +113,20 @@ def get_frequency_power(signal, freq_range: tuple):
     for channel in range(signal.shape[1]):
         power_dictionary[str(channel)] = get_frequency_power_per_channel(signal[:,channel], freq_range)
     return power_dictionary
+
+def get_par_per_channel(signal, freq_range):
+    frequency_power = get_frequency_power_per_channel(signal, freq_range)
+
+    # f-axis used to skip frequency range
+    f = rfftfreq(signal.shape[0], 1/250)
+    start, end = get_boundary_indexes(f, freq_range)
+    signal_fft = rfft(signal)
+
+    left_over_spectrum = np.concatenate((signal_fft[:start], signal_fft[end:]))
+    left_over_power = freq_power(left_over_spectrum)
+
+    return frequency_power/left_over_power
+
 
 def cross_channel_power_ratio(signal, num_set: list, denom_set: list):
     numerator_power = 0

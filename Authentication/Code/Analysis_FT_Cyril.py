@@ -28,21 +28,26 @@ from Visualize import DataPlot
 from Filters import Filter
 from crop import crop
 
+# temp
+from FeaturesLos import get_frequency_power_per_channel
+
 def get_boundary_indexes(frequencies):
     start = np.abs(frequencies - 5.0).argmin()
     end = np.abs(frequencies - 50.0).argmin()
     return start, end
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_10hz_50.npy')
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_sam_6hz-60sec.npy')
     data_filtered = PreprocessingPipeline(data).start()
+    # data_filtered = Filter.band_pass_filter(data_filtered,4,(2,10),250)
     data_cropped = crop(data_filtered, 2, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
-    
-    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
+    print(get_frequency_power_per_channel(data_artifacts_removed, (2,10)))
+    y_fft = np.abs(rfft(data_artifacts_removed[:,1]))[:]
     f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
+
     start, end = get_boundary_indexes(f)
     plt.plot(f[start:end], y_fft[start:end])
     plt.show(block=True)

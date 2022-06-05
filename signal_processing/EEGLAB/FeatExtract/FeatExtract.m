@@ -19,7 +19,7 @@ for i=1:rowsEpoch
     x=x+1;
 end
 epoch1= epochs(2,:);
-<<<<<<< Updated upstream
+
 epoch2= decimate(epoch1,2);
 
 epochsDec=zeros(2406,384);
@@ -27,9 +27,9 @@ for i=1:2406
     epochsDec(i,:)=decimate(epochs(i,:),2);
 end
 
-=======
+
 epoch1= decimate(epoch1,2);
->>>>>>> Stashed changes
+
 
 %% TIME DOMAIN SIGNAL
 t = (0:L-1)*T;        % Time vector

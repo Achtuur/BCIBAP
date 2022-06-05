@@ -21,7 +21,6 @@ end
 epoch1= epochs(2,:);
 epoch2= decimate(epoch1,2);
 
-
 epochsDec=zeros(2406,384);
 for i=1:2406
     epochsDec(i,:)=decimate(epochs(i,:),2);

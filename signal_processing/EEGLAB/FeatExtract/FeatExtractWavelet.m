@@ -8,6 +8,7 @@ L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
 
+<<<<<<< Updated upstream
 epochsDec=zeros(2406,384);
 for i=1:2406
     epochsDec(i,:)=decimate(EarDataEpochs(i,:),2);
@@ -42,6 +43,16 @@ end
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+=======
+%% Discrete Wavelet Packet Transform
+TotalFeatures = {};
+TotalFeatureLabels = '';
+
+% For testing purposes only !!!!
+warning('For testing, only take first channel');
+nChannels = 1;
+
+>>>>>>> Stashed changes
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
 %initialize matrices 

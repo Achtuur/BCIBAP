@@ -1,18 +1,28 @@
+%% Syntax:
+% [TotalFeatures,TotalFeatureLabels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
+%% Inputs:
+%       EarDataEpochs: 
+%       Fs: 
+%       EpochLengthSec:
+%
+%% Outputs:
+%    TotalFeatures:
+%    TotalFeatureLabels:
+%
+%% Example:
+%    
+%% See also:
+%    
 function [TotalFeatures,TotalFeatureLabels] = FeatExtractWavelet(EarDataEpochs, Fs, EpochLengthSec)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-%%
+
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
+                 
+%epochsDec=zeros(2406,384);
 
-<<<<<<< Updated upstream
-epochsDec=zeros(2406,384);
-for i=1:2406
-    epochsDec(i,:)=decimate(EarDataEpochs(i,:),2);
-end
 
 %% Discrete Wavelet Transform (DWT)
 % figure(1)
@@ -43,18 +53,19 @@ end
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
-=======
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+
+
 
 % For testing purposes only !!!!
 warning('For testing, only take first channel');
 nChannels = 1;
 
->>>>>>> Stashed changes
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
+    t = tic;
 %initialize matrices 
     meanDeltaEpochs = zeros(nEpochs, 1);
     meanThetaEpochs = zeros(nEpochs, 1);
@@ -69,10 +80,10 @@ for k = 1:nChannels
     stdAlphaEpochs= zeros(nEpochs, 1);
     stdBetaEpochs= zeros(nEpochs, 1);
     
-    energyDeltaEpochs= zeros(nEpochs, 1);
-    energyThetaEpochs = zeros(nEpochs, 1);
-    energyAlphaEpochs= zeros(nEpochs, 1);
-    energyBetaEpochs= zeros(nEpochs, 1);
+    energyDeltaEpochs=zeros(nEpochs,1);
+    energyThetaEpochs=zeros(nEpochs,1);
+    energyAlphaEpochs=zeros(nEpochs,1);
+    energyBetaEpochs=zeros(nEpochs,1);
     
     entropyDeltaEpochs= zeros(nEpochs, 1);
     entropyThetaEpochs =zeros(nEpochs, 1);
@@ -157,10 +168,10 @@ for k = 1:nChannels
 %% DWT
 
 for i = 1:nEpochs
-    
-    [c,l]=wavedec(epochsDec(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
+    CurChannelEpoch = EarDataEpochs{k, 1};
+    [c,l]=wavedec(CurChannelEpoch(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
     a4= appcoef(c,l,'db4');
-    [d1,d2,d2,d4]=detcoef(c,l,[1 2 3 4]);
+    [d1,d2,d3,d4]=detcoef(c,l,[1 2 3 4]);
    
     meanDeltaEpochs(i,1)= mean(a4) ;
     meanThetaEpochs(i,1) = mean(d4);
@@ -221,7 +232,8 @@ end
         meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
         meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
     %    epochs, 'epochs');
-     [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels); 
+     [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);
+     fprintf("Done extracting features from channel %d, took %.3f seconds\n", k, toc(t));
 end
 disp('Done extracting features');
 end

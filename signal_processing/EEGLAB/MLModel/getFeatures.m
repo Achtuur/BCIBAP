@@ -15,6 +15,7 @@
 %   maybe remove features from output?
 
 %% Function start
+function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 % function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
     clc; clear;
@@ -25,10 +26,12 @@
     EpochLengthSec = 3;
 %% Get labels of data
 disp('Getting labels of data');
-tic
+t = tic;
 
+fac_downsample = 2; %downsa5mpling factor
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
+channellist = channellist.index;
 temp = [];
 for k = 1 : size(labels1, 1) %loop through rows of labels
     labelarr = labels1{k, 2};
@@ -36,49 +39,63 @@ for k = 1 : size(labels1, 1) %loop through rows of labels
     temp = [temp; labelarr]; %make labels 1 long column vector where every row is an epoch
 end
 labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure respectively
-
 if isempty(find(labels == 2, 1))
    error("Input data contains no seizures"); 
 end
-t = toc;
+
 clear temp;
 save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
-fprintf("Got labels, took %.3f seconds\n", t);
+fprintf("Got labels, took %.3f seconds", toc(t));
 
 %% get filtered data
-tic;
+t = tic;
 disp("Loading data...");
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 0, 'channellist', channellist, 'rounding_err', rounding_err);
-t = toc;
+
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1,...
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', fac_downsample);
+t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
 
 disp('Getting features...');
-tic;
+t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 % [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 [features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
-t = toc;
+t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);
 
 %% Normalize features
-disp('Normalising features...');
-tic;
-for k = 1 : size(features, 2) %loop through features
-    [temp(:,k), mus(:,k), stds(:,k)] = zscore([features{:,k}]);
-    features_norm = num2cell(temp);
-end
-t = toc;
-fprintf("Normalised features, took %.3f seconds\n", t);
+% disp('Normalising features...');
+% t = tic;
+% 
+% matfeat = cell2mat(features);
+% idx = isnan(matfeat);
+% NaNrows = unique(rem(find(idx==1),length(features)));
+% NaNrows(NaNrows == 0) = length(features); %fix bottom column
+% matfeat(NaNrows,:) = NaN;
+% for k = NaNrows'
+%     matfeat(k, :) = mean(matfeat,'omitnan');
+% end
+% 
+% % makes wrong measurements means
+% for k = 1:size(matfeat, 2)
+%     i = isnan(matfeat(:,k));
+%     j = ~i;
+%     matfeat(i, k) = mean(matfeat(j,k), 'omitnan');
+% end
+% 
+% [temp, mus, stds] = zscore(matfeat);
+% features_norm = num2cell(temp);
+% 
+% t = toc(t);
+% fprintf("Normalised features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
-if 0 && EegFeature %remove '0 &&' when finished
-    for k = 1 : size(filtered_data, 1) %loop through channels
-        filtered_data(:,k) = zscore(filtered_data(:,k));
-    end
-end
 
-% end
+features = cell2mat(features);
+%features_norm = cell2mat(features_norm);
+end
 

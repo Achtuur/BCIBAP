@@ -26,13 +26,13 @@ function plotcolor(axis, colorset, varargin)
     end
     
     colorsets = [
-             58 153 95;     %green
+             58 153 95;    %green
              144 103 167;   %purple
              211 95 96;     %red
              39, 84, 138;   %blue
              201, 149, 71;  %orange
              199, 194, 103; %yellow
-             148, 71, 97;   %pink
+             140, 79, 104;   %pink
              70, 122, 120;  %cyan
              110, 187, 213; %tudelft
              0 0 0          %black
@@ -59,7 +59,7 @@ function n = str2colorset(str)
         n = 5;
     elseif(strcmp(str, 'yellow'))
         n = 6;
-    elseif(strcmp(str, 'pink'))
+    elseif(strcmp(str, 'pink') || strcmp(str, 'magenta'))
         n = 7;
     elseif(strcmp(str, 'cyan'))
         n = 8;

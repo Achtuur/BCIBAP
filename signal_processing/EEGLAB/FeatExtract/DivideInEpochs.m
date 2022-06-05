@@ -30,7 +30,7 @@ epochs_chan = zeros(rowsEpoch,floor(L)); %epochs per channel
 for k = 1:channels
     x = 0;
     for i = 1:rowsEpoch
-        epochs_chan(i,:) = filtered_data(1, (x*L+1) : L*(x+1));
+        epochs_chan(i,:) = filtered_data(k, (x*L+1) : L*(x+1));
         x = x+1;
     end
     epochs(k,1) = {epochs_chan};

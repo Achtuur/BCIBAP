@@ -1,8 +1,8 @@
-function PSD(locutoff, hicutoff, downsample, forder)
+function PSD(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
     hicutoff = 40;
-    downsample = 2;
+    dwnsample = 2;
     forder = 30;
 end
 
@@ -18,12 +18,12 @@ FileIndicesstr = "01";
 path2edf = 'FeatExtract\chb10_01.edf';
                  
 
-% downsample = 2;
+% dwnsample = 2;
 
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 T = 1/Fs;             % Sampling period 
 [EarData, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut.index, 'ASR', 0, ...
-'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', downsample);
+'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', dwnsample);
 
 %% MAKE EPOCHS
 EpochLengthSec = 3; 
@@ -76,7 +76,7 @@ nexttile;
 ax(1) = plot(fWelch,10*log10(psdWelch));
 title('Welch PSD','interpreter' ,'latex','fontsize', 18,'FontWeight','bold')
 legend('PSD estimate', 'interpreter', 'latex', 'fontsize', 8);
-xlim([0 Fs/downsample]) 
+xlim([0 Fs/dwnsample]) 
 ylim([-80 20]);
 axis = gca;
 axis.TickLabelInterpreter = 'latex';
@@ -87,7 +87,7 @@ nexttile
 ax(2) = plot(fPerio,10*log10(psdPerio));
 title('Periodogram PSD','interpreter', 'latex','fontsize', 18,'fontweight','bold')
 legend('PSD estimate', 'interpreter', 'latex', 'fontsize', 8);
-xlim([0 Fs/downsample])
+xlim([0 Fs/dwnsample])
 ylim([-80 20]);
 axis = gca;
 axis.TickLabelInterpreter = 'latex';

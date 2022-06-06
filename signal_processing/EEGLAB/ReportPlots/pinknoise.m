@@ -2,11 +2,11 @@
 %% init
 % clc; clear; close all;
 
-function pinknoise(locutoff, hicutoff, downsample, forder)
+function pinknoise(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
     hicutoff = 40;
-    downsample = 2;
+    dwnsample = 2;
     forder = 30;
 end
 
@@ -20,18 +20,18 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-% downsample = 1;
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
+% dwnsample = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 ChannelsOut = ChannelsOut.index;
 % locutoff = 0.5;
 % hicutoff = 40;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
-    ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
+    ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel
 unfiltered_data = unfiltered_data(ch,:);
-filsmall_piece = filtered_data(1, 600000/downsample : 620000/downsample);
+filsmall_piece = filtered_data(1, 600000/dwnsample : 620000/dwnsample);
 unfilsmall_piece = unfiltered_data(1, 600000 : 620000); %relatively clean data
 yunfil = unfilsmall_piece;
 Yunfil = fft(unfilsmall_piece, 20000*4);

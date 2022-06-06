@@ -4,25 +4,25 @@ close all;
 clc;
 
 %% use common filter constants
-locutoff = 0.5;
+locutoff = 0;
 hicutoff = 30;
-downsample = 2;
+dwnsample = 2;
 forder = 30;
 
 %% pinknoise
-pinknoise(locutoff, hicutoff, downsample, forder);
+pinknoise(locutoff, hicutoff, dwnsample, forder);
 
 %% showfilters
-showfilters(locutoff, hicutoff, downsample, forder);
+showfilters(0.5, hicutoff, dwnsample, forder);
 
 %% showseizure
-showseizure(locutoff, hicutoff, downsample, forder);
+showseizure(locutoff, hicutoff, dwnsample, forder);
 
 %% usedchannelsepochs
-UsedChannelsEpochs(locutoff, hicutoff, downsample, forder);
+UsedChannelsEpochs(locutoff, hicutoff, dwnsample, forder);
 
 %% PSD
-PSD(locutoff, hicutoff, downsample, forder);
+PSD(locutoff, hicutoff, dwnsample, forder);
 
 %% close
-% close all;
+close all;

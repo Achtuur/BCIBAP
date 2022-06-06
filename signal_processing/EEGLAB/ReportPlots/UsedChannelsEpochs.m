@@ -1,11 +1,11 @@
 %% Show used channels (filtered & unfiltered)
 %% init
-function UsedChannelsEpochs(locutoff, hicutoff, downsample, forder)
+function UsedChannelsEpochs(locutoff, hicutoff, dwnsample, forder)
 % clc; clear; close all;
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
     hicutoff = 40;
-    downsample = 2;
+    dwnsample = 2;
     forder = 30;
 end
 eegpath = AddPath();
@@ -18,16 +18,18 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
+[Fs, LabelsOut_nodwnsample, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, 1);
+
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut.index, 'ASR', 1, ...
-'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', downsample);
+'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', dwnsample);
 
 %% get epochs
-[unfil_epochs, L] = DivideInEpochs(unfiltered_data, Fs, EpochDurationSeconds);
+[unfil_epochs, L] = DivideInEpochs(unfiltered_data, Fs*dwnsample, EpochDurationSeconds);
 [fil_epochs, L] = DivideInEpochs(filtered_data, Fs, EpochDurationSeconds);
 N = 4;
-i_noseiz = find(LabelsOut{1,2} == 0, N, 'first');
+i_noseiz = find(LabelsOut_nodwnsample{1,2} == 0, N, 'first');
 i_seiz = find(LabelsOut{1,2} == 1, N , 'first');
 
 for k = 1:size(fil_epochs,1)
@@ -64,13 +66,13 @@ for k = 1:2*plotnChannels
     nexttile
     i = ceil(k/2);
     if mod(k, 2) %odd -> show no seizure
-        yunfil(1,:) = noseiz_unfilepoch(i,:);
+        yunfil(1,:) = downsample(noseiz_unfilepoch(i,:), dwnsample);
         yfil(1,:) = noseiz_filepoch(i,:);
         if i == 1
            title("No seizure"); 
         end
     else %even -> show seizure
-        yunfil(1,:) = seiz_unfilepoch(i,:);
+        yunfil(1,:) = downsample(seiz_unfilepoch(i,:), dwnsample);
         yfil(1,:) = seiz_filepoch(i,:);
         if i == 1
            title("Seizure"); 
@@ -92,7 +94,7 @@ for k = 1:2*plotnChannels
     
     yyaxis left;
     xlim([t(1) t(end)]); %full signal visible
-    ylim([-200 200]); %visual inspection
+    ylim([-150 150]); %visual inspection
 end
 
 title(tiles, "A few epochs of EEG data from some channels around the ear", 'interpreter', 'latex', 'fontsize', 18); %add title

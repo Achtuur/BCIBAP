@@ -1,11 +1,11 @@
 
 %% init
 % clc; clear; close all;
-function showfilters(locutoff, hicutoff, downsample, forder)
+function showfilters(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
     hicutoff = 40;
-    downsample = 2;
+    dwnsample = 2;
     forder = 30;
 end
 eegpath = AddPath();
@@ -19,18 +19,18 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 
 %% get data
-downsample = 1;
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
+dwnsample = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 ChannelsOut = ChannelsOut.index;
 % forder = 30;
 % hicutoff = 40;
 [filtered_data, unfiltered_data, lowpassfilt_coeff] = LoadnFilter(path2edf, 'channellist', ...
-    ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
+    ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
     'locutoff', 0, 'hicutoff', hicutoff, 'forder', forder);
 
 % locutoff = 0.5;
 [filtered_data, unfiltered_data, bandpassfilt_coeff] = LoadnFilter(path2edf, 'channellist', ...
-    ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
+    ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
 
 

@@ -1,17 +1,17 @@
 %% Show performance of ASR (no ASR done here for comparison)
 
 % clc; clear; close all;
-function showseizure(locutoff, hicutoff, downsample, forder)
+function showseizure(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
     hicutoff = 40;
-    downsample = 2;
+    dwnsample = 2;
     forder = 30;
 end
-    showSeizure2(0, forder, locutoff, hicutoff, downsample); %no ASR
-    showSeizure2(1, forder, locutoff, hicutoff, downsample); %yes ASR
+    showSeizure2(0, forder, locutoff, hicutoff, dwnsample); %no ASR
+    showSeizure2(1, forder, locutoff, hicutoff, dwnsample); %yes ASR
 end
-function showSeizure2(ASR, forder, locutoff, hicutoff, downsample)
+function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
     %% init
     eegpath = AddPath();
     dataset = 'chb03';
@@ -23,10 +23,10 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, downsample)
     path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
     %% get data
-    [Fs, LabelsOut, ChannelsOut, ~] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
+    [Fs, LabelsOut, ChannelsOut, ~] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
     ChannelsOut = ChannelsOut.index;
     [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', ASR, ...
-    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', downsample);
+    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', dwnsample);
 
     ch = 1;
     filtered_data = filtered_data(ch,:); % take one channel

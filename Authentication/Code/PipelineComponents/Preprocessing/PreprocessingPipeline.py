@@ -41,7 +41,7 @@ class PreprocessingPipeline():
         # Notch filter
         if v:
             print("Apply Notch Filter")
-        clean_data = self.perform_notch_filter(clean_data, 50, 60, 250)
+        clean_data = self.perform_notch_filter(clean_data, 50, 30, 250)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 

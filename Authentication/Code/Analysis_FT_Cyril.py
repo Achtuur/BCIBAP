@@ -45,11 +45,11 @@ if __name__ == "__main__":
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
     print(get_frequency_power_per_channel(data_artifacts_removed, (2,10)))
-    y_fft = np.abs(rfft(data_artifacts_removed[:,1]))[:]
+    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
     f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
 
     start, end = get_boundary_indexes(f)
-    plt.plot(f[start:end], y_fft[start:end])
+    plt.plot(f, y_fft)
     plt.show(block=True)
     
     # data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')

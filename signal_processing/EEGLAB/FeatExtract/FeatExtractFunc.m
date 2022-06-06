@@ -47,7 +47,7 @@ power = pwelch(EarDataEpochs',hanning(L/3),L/6, Fs,'power');  %[p,f] = pwelch(x,
 %% AVERAGE BAND POWER FOR EEG EPOCHS
 %compute average band power for each EEG channel using 3 different methods
 
-%using the time series input 
+%using the time series input  
 deltaTime = bandpower(EarDataEpochs',Fs,[0.5,4])';
 thetaTime = bandpower(EarDataEpochs',Fs,[4,8])';
 alphaTime = bandpower(EarDataEpochs',Fs,[8,12])';

@@ -67,7 +67,8 @@ class Filter():
                 if value == 0:
                     common_mode = np.add(common_mode, data[:, key])
 
-            common_mode = common_mode / num_good_channels
+            if num_good_channels != 0:
+                common_mode = common_mode / num_good_channels
 
             # Set bad channels to the average
             if sum(list(bad_channels.values())) == data.shape[1]:

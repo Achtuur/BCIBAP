@@ -19,15 +19,24 @@ class PreprocessingPipeline():
         
         return data_high_pass_filtered
 
+    def perform_band_pass_filter(self, eeg_data, order, crit_range, fs):
+        data_band_pass_filtered = Filter.band_pass_filter(eeg_data, order, crit_range, fs)
+
+        return data_band_pass_filtered
+
     def start(self, plot=False, v=False):
         clean_data = self.raw_data
         # High pass filter
+        # if v:
+        #     print("Apply High Pass Filter")
+        # clean_data = self.perform_high_pass_filter(clean_data, 4, 1, 250)
+        # if plot:
+        #     DataPlot.eeg_channels_plot(clean_data)
         if v:
-            print("Apply High Pass Filter")
-        clean_data = self.perform_high_pass_filter(clean_data, 4, 1, 250)
+            print("Apply Band Pass Filter")
+        clean_data = self.perform_band_pass_filter(clean_data, 8, (5,40), 250)
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
-
 
         # Notch filter
         if v:

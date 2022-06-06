@@ -9,7 +9,7 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 
-datasets = ["04"];
+datasets = ["01" "03" "04" "05" "06" "07" "08"];
 temp = 0;
 save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
 clear temp;
@@ -31,8 +31,8 @@ end
 
 [X, mu_train, sigma_train] = NormalizeFeat(features);
 
-HyperTune = 0;
-HyperEvalNum = 100;
+HyperTune = 1;
+HyperEvalNum = 50;
 %matfile('MLModel/CNNmodel.mat', 'Writable', true);
 for k = epochs
 
@@ -50,7 +50,7 @@ for k = epochs
     YTest = Y(test(cvp));
 
     if HyperTune
-        Mdl = fitcnet(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
+        Mdl = fitcsvm(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
         "HyperparameterOptimizationOptions", ...
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))

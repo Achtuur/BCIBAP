@@ -11,7 +11,7 @@
 %    features_out - best scoring features up to uplimit using PCA
 %    i - first i features taken from features_out
 %
-function [FeatVector] = FeatSelectionPCA(features)
+function [features_out, i] = FeatSelectionPCA(features_norm, uplimit)
 %% pca
     [coeff, score, latent, ~, explained, mu]= pca(features_norm);
     s = 0;

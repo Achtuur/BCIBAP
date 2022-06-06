@@ -1,7 +1,13 @@
-%% Show ASR using sine (doesnt really work lol)
+
 %% init
-%% init
-clc; clear; close all;
+% clc; clear; close all;
+function showfilters(locutoff, hicutoff, downsample, forder)
+if ~exist('locutoff', 'var') %snippet in order to run this file separately
+    locutoff = 0.5;
+    hicutoff = 40;
+    downsample = 2;
+    forder = 30;
+end
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -16,14 +22,13 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 downsample = 1;
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
 ChannelsOut = ChannelsOut.index;
-forder = 30;
-locutoff = 0;
-hicutoff = 40;
+% forder = 30;
+% hicutoff = 40;
 [filtered_data, unfiltered_data, lowpassfilt_coeff] = LoadnFilter(path2edf, 'channellist', ...
     ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
-    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
+    'locutoff', 0, 'hicutoff', hicutoff, 'forder', forder);
 
-locutoff = 0.5;
+% locutoff = 0.5;
 [filtered_data, unfiltered_data, bandpassfilt_coeff] = LoadnFilter(path2edf, 'channellist', ...
     ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
@@ -47,7 +52,7 @@ Z_low = Z_low(n);
 Z_band = Z_band(n);
 locut = fshift(find(Z_band > -6, 1));
 %% plot
-fig = figure(1);
+fig = figure();
 linestyle = '-.';
 hold on;
 ax(1) = plot(fshift, Z_low);

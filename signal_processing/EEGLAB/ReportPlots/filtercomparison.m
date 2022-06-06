@@ -34,7 +34,7 @@ N = size(y_low, 2);
 t = linspace(0, N / Fs, N);
 
 %% plot
-fig = figure(1);
+fig = figure();
 hold on;
 ax(1) = plot(t, y_low);
 ax(2) = plot(t, y_band);

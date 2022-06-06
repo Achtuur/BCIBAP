@@ -1,6 +1,13 @@
 %% Show used channels (filtered & unfiltered)
 %% init
-clc; clear; close all;
+function UsedChannelsEpochs(locutoff, hicutoff, downsample, forder)
+% clc; clear; close all;
+if ~exist('locutoff', 'var') %snippet in order to run this file separately
+    locutoff = 0.5;
+    hicutoff = 40;
+    downsample = 2;
+    forder = 30;
+end
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -11,10 +18,10 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
 
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut.index, 'ASR', 1, ...
-                                                    'locutoff', 0.33, 'hicutoff', 30, 'forder', 30);
+'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', downsample);
 
 %% get epochs
 [unfil_epochs, L] = DivideInEpochs(unfiltered_data, Fs, EpochDurationSeconds);
@@ -43,7 +50,7 @@ t = linspace(0, N*L / Fs, L*N);
 t_epoch = EpochDurationSeconds : EpochDurationSeconds : t(end)-1;
 
 %% plot
-fig = figure(1);
+fig = figure();
 figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
 
 plotnChannels = 4;
@@ -85,7 +92,7 @@ for k = 1:2*plotnChannels
     
     yyaxis left;
     xlim([t(1) t(end)]); %full signal visible
-    ylim([-400 400]); %visual inspection
+    ylim([-200 200]); %visual inspection
 end
 
 title(tiles, "A few epochs of EEG data from some channels around the ear", 'interpreter', 'latex', 'fontsize', 18); %add title

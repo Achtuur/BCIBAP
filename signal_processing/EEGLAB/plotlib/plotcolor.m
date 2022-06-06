@@ -15,7 +15,7 @@ function plotcolor(axis, colorset, varargin)
     
     if nargin < 3
         g.colordiff = 25; 
-        g.brightness = 0;
+        g.brightness = 25;
     else
         g = finputcheck( varargin, { ...
             'colordiff' 'integer' [0 255] 25;

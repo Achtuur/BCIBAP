@@ -1,3 +1,5 @@
+%% please give this file a name
+
 clc; clear;
 eegpath = AddPath();
 dataset = 'chb04';

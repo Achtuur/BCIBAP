@@ -1,10 +1,13 @@
-clear;
-close all;
-clc;
+function PSD(locutoff, hicutoff, downsample, forder)
+if ~exist('locutoff', 'var') %snippet in order to run this file separately
+    locutoff = 0.5;
+    hicutoff = 40;
+    downsample = 2;
+    forder = 30;
+end
 
 %% SIGNAL PARAMETERS 
 AddPath();
-clc; clear; close all;
 eegpath = AddPath();
 dataset = 'chb10';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -15,12 +18,12 @@ FileIndicesstr = "01";
 path2edf = 'FeatExtract\chb10_01.edf';
                  
 
-downsample = 2;
+% downsample = 2;
 
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
 T = 1/Fs;             % Sampling period 
 [EarData, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut.index, 'ASR', 0, ...
-                                                    'locutoff', 0.5, 'hicutoff', 40, 'forder', 30, 'downsample', downsample);
+'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder, 'downsample', downsample);
 
 %% MAKE EPOCHS
 EpochLengthSec = 3; 

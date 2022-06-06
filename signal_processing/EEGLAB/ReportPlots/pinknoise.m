@@ -1,6 +1,15 @@
 %% Show pink noise (1/f noise)
 %% init
-clc; clear; close all;
+% clc; clear; close all;
+
+function pinknoise(locutoff, hicutoff, downsample, forder)
+if ~exist('locutoff', 'var') %snippet in order to run this file separately
+    locutoff = 0.5;
+    hicutoff = 40;
+    downsample = 2;
+    forder = 30;
+end
+
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -11,14 +20,14 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-downsample = 1;
+% downsample = 1;
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
 ChannelsOut = ChannelsOut.index;
-locutoff = 0.5;
-hicutoff = 40;
+% locutoff = 0.5;
+% hicutoff = 40;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
     ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
-    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
+    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel
 unfiltered_data = unfiltered_data(ch,:);
@@ -48,7 +57,7 @@ ypink = mag2db(abs(ypink));
 Yfil = mag2db(abs(Yfil));
 Yunfil = mag2db(abs(Yunfil));
 
-fig = figure(1);
+fig = figure();
 hold on;
 ax(1) = semilogx(f, Yunfil);
 ax(2) = semilogx(f, Yfil);

@@ -85,7 +85,7 @@ def tagging(step, chosen_words = 'hoi doei dag', explength = 40, frequency = 15,
     flash_period = frame_period * round(flash_period / frame_period)
     word_period = int(1000/word_rate)
     word_period = flash_period * round(word_period / flash_period)
-    frames_per_flash = 1 #int(flash_period/frame_period)
+    frames_per_flash = int(flash_period/frame_period)
     flash_per_word = int(word_period/flash_period)
     total_backgrounds = frames_per_flash * flash_per_word * len(words)
     

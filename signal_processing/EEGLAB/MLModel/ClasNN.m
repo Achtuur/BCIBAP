@@ -28,7 +28,7 @@ for i = 1:length(datasets)
 %         featurelabels = [featurelabels; featurelabelsTemp];
 %         epochdata = [epochdata; epochsTemp];
 %     else
-    features = featuresTemp;
+    features = FeatSelectionPCA(featuresTemp,95);
     Y = YTemp;
     featurelabels = featurelabelsTemp;
     epochdata = epochsTemp;

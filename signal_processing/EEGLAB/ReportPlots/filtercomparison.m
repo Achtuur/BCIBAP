@@ -11,7 +11,8 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
+downsampling = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsampling);
 ChannelsOut = ChannelsOut.index;
 locutoff = 0;
 hicutoff = 30;
@@ -33,7 +34,7 @@ N = size(y_low, 2);
 t = linspace(0, N / Fs, N);
 
 %% plot
-fig = figure(1);
+fig = figure();
 hold on;
 ax(1) = plot(t, y_low);
 ax(2) = plot(t, y_band);

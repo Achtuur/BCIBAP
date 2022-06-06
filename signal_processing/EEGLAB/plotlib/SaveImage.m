@@ -1,3 +1,5 @@
+%% Saves image in location/Images folder
+
 function SaveImage(fig, location, extension)
 %% create location folder if doesn't exist yet
 imgpath = strrep(mfilename('fullpath'), mfilename, '') + "/Images/"; %remove filename to obtain path to folder where script is run

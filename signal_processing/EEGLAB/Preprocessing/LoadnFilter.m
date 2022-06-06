@@ -16,7 +16,7 @@
 %% OUTPUTS:
 %       - filtered_data: MATLAB matrix with a size of nChannels x
 %       TimeRecorded * Fs
-function [filtered_data, unfiltered_data] = LoadnFilter(path2edf, varargin)
+function [filtered_data, unfiltered_data, filt_coeff] = LoadnFilter(path2edf, varargin)
 %% test vars (comment out nargin/varargin stuff)
 %     eegpath = AddPath();
 %     dataset = 'chb04';
@@ -95,9 +95,9 @@ end
 %% filter EEG data
 %     [EEG, ~, ~] = pop_eegfiltnew(EEG, 'locutoff', g.locutoff, 'hicutoff', g.hicutoff);%, 'filtorder', g.forder);
 if g.locutoff == 0 %low cutoff 0 -> use lowpass
-    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', g.hicutoff, 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'lowpass');
+    [EEG, ~, filt_coeff] = pop_firws(EEG, 'fcutoff', g.hicutoff, 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'lowpass');
 else %low cutoff ~= 0 -> use bandpass
-    [EEG, ~, ~] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'bandpass');
+    [EEG, ~, filt_coeff] = pop_firws(EEG, 'fcutoff', [g.hicutoff, g.locutoff], 'forder', g.forder, 'wtype', 'hamming', 'ftype', 'bandpass');
 end
 
 

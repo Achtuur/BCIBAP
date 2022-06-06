@@ -20,7 +20,8 @@ T = 1/Fs;             % Sampling period
 L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
-%EarDataEpochs = decimate(EarDataEpochs,2);                  
+                 
+%epochsDec=zeros(2406,384);
 
 
 %% Discrete Wavelet Transform (DWT)
@@ -52,6 +53,10 @@ nChannels = size(EarDataEpochs, 1);
 %% Discrete Wavelet Packet Transform
 TotalFeatures = {};
 TotalFeatureLabels = '';
+%% Discrete Wavelet Packet Transform
+TotalFeatures = {};
+TotalFeatureLabels = '';
+
 
 
 % For testing purposes only !!!!
@@ -166,7 +171,7 @@ for i = 1:nEpochs
     CurChannelEpoch = EarDataEpochs{k, 1};
     [c,l]=wavedec(CurChannelEpoch(i,:),4,'db4'); %second argument is level of decomposition and 3rd is vanishing level
     a4= appcoef(c,l,'db4');
-    [d1,d2,d3,d4]=detcoef(c,l,[1 2 3 4]);
+    [d1,d2,d3,d4] = detcoef(c,l,[1 2 3 4]);
    
     meanDeltaEpochs(i,1)= mean(a4) ;
     meanThetaEpochs(i,1) = mean(d4);

@@ -11,7 +11,8 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
+downsampling = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsampling);
 ChannelsOut = ChannelsOut.index;
 locutoff = 0;
 hicutoff = 30;

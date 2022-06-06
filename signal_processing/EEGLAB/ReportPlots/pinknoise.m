@@ -11,11 +11,11 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
+downsample = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, downsample);
 ChannelsOut = ChannelsOut.index;
-locutoff = 0;
+locutoff = 0.5;
 hicutoff = 40;
-downsample = 2;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
     ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
@@ -37,7 +37,7 @@ flog = logspace(0, log10(Fs/2), N/2); %logscale plot
 n = 1 : 1 : N/2;
 
 %% plot
-c = 10000;
+c = 5000;
 ypink = c./f;
 
 % ypink = ypink(n);

@@ -151,6 +151,7 @@ RECORDINGS_CROP_DICTIONARY = {
                 'crop' : (5*250, 10*250)
 >>>>>>> Authentication_Branch
         }
+
 }
 
 def txt_to_numpy(recording_txt_path, filename, subject_name):

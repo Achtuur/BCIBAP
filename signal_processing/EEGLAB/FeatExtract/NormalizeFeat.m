@@ -1,4 +1,4 @@
-function [features_norm, mus, stds] = NormalizeFeat(features)
+function [features_norm] = NormalizeFeat(features)
 %NORMALIZEFEAT Summary of this function goes here
 %   Detailed explanation goes here
 disp('Normalising features...');
@@ -20,7 +20,7 @@ for k = 1:size(matfeat, 2)
     matfeat(i, k) = mean(matfeat(j,k), 'omitnan');
 end
 
-[features_norm, mus, stds] = zscore(matfeat);
+features_norm = normalize(matfeat,'range');
 
 t = toc(t);
 fprintf("Normalised features, took %.3f seconds\n", t);

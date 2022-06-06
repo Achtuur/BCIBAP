@@ -3,7 +3,7 @@ function [FileIndices] = SeizFileIndices(dataset)
 %   Detailed explanation goes here
 switch dataset
     case 'chb01'
-        FileIndices = [1 2 3 4 15 16 18 21 26];
+        FileIndices = [3 4 15 16 18 21 26];
     case 'chb02'
         FileIndices = [19]; %16 and 16+ ruin code
     case 'chb03'

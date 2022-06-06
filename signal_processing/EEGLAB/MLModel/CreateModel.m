@@ -33,7 +33,7 @@ rng default
 nTrees = 100;
 
 % Train the TreeBagger (Random Forest). could use a different model later
-model = TreeBagger(nTrees,Xtrain,Ytrain, 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',15);
+model = TreeBagger(nTrees,Xtrain,Ytrain, 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',30);
 
 Ytest_pred_str = model.predict(Xtest); %fix this confusion matrix so the variable names make sense later
 Ytest_pred = str2double(Ytest_pred_str);

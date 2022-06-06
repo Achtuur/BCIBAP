@@ -48,16 +48,16 @@ path2edf = strrep(path2edf, '\', filesep);
        g.hicutoff = 30;
        g.showplots = 0;
        g.channellist = 0;
-       g.forder = 10;
+       g.forder = 1000;
        g.ASR = 0;
        g.TestSinWave = [];
        g.downsample = 1;
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-            'locutoff' 'integer' [0 Inf] 0;
-            'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
-            'forder' 'integer' [0 inf] 100;
+            'locutoff' 'integer' [0 Inf] 0.5;
+            'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
+            'forder' 'integer' [0 inf] 30;
             'showplots' 'integer' [0 inf] 0;
             'ASR' 'integer' [0 inf] 0
             'TestSinWave' 'integer' [0 inf] [];

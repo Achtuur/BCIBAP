@@ -1,15 +1,14 @@
 %% Get seizures from file and test prediction
 clear;
-close all;
+%close all;
 clc;
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb04';
+    dataset = 'chb10';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-%     FileIndices = SeizFileIndices(dataset);
-FileIndices = [5];
+    FileIndices = SeizFileIndices(dataset);
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
@@ -36,17 +35,21 @@ end
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, ...
     'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', downsampling);
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-for k = 1:size(epochs,1) %only take epochs with seizures
-    temp = epochs{k,1};
-    epochs(k,1) = {temp(SeizureEpochs,:)};
-end
+% for k = 1:size(epochs,1) %only take epochs with seizures
+%     temp = epochs{k,1};
+%     epochs(k,1) = {temp(SeizureEpochs,:)};
+% end
 % epochs = epochs(SeizureEpochs, :);
 [feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
+feat = cell2mat(feat);
+feat = NormalizeFeat(feat);
 
 %% Classify
 disp('Classifying data...');
-outputclass = Classify(path2model, cell2mat(feat)); %classify all epochs
+outputclass = Classify(path2model, feat); %classify all epochs
+figure()
+confusionchart(labels,outputclass)
 TN = length(find(outputclass == 2));
 FP = length(find(outputclass ~= 2));
 sensitivity = TN/(TN+FP);

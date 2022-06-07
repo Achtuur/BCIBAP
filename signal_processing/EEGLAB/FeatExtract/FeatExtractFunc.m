@@ -12,124 +12,161 @@
 %Note that in most of the extraction paths 'epochs' is transposed because then the return value is per epoch instead of per sample of epoch
 
 function [features, labels] = FeatExtractFunc(EarDataEpochs, Fs, EpochLengthSec)
-%% Test variables
-%     path2edf = 'FeatExtract\chb10_01.edf';
-%     Fs = 256;            % Sampling frequency                    
-%     T = 1/Fs;             % Sampling period  
-%     filtered_data = LoadnFilter(path2edf, 'locutoff', 0.5, 'hicutoff', 40, 'showplots', 0);
-%     EarData = filtered_data(1,:) ;
-%     EpochLengthSec = 3;
-%%
+
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
 L = Fs*EpochLengthSec;
-EarDataEpochs = EarDataEpochs{1,1}; %take first channel for testing
-%% FOURIER TRANSFORM
-nfft = 2^nextpow2(L); %zero padding
-Y = fft(EarDataEpochs', L);  % compute fft of each epoch , zero padding is an option in second argument
-%Pxx = abs(fft(x,nfft)).^2/length(x)/Fs;
+nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
+nChannels = size(EarDataEpochs, 1);
+                 
+%epochsDec=zeros(2406,384);
 
-P2 = abs(Y/L); %normalize fft with length of signal
-P1 = P2(1 : L/2+1);  %take frequencies up until nyquist rate (L/2)
-P1(2:end-1) = 2*P1(2:end-1); %times 2 because negative frequencies need to add up with positive ones
-                                   %exclude DC folding frequency
-psd = P1.^2; %(divide by Fs)?
+%%
+TotalFeatures = {};
+TotalFeatureLabels = '';
 
+%% extracting efatures
 
-f = Fs*(0:(L/2))/L;
+% For testing purposes only !!!!
+warning('For testing, only take first channel');
+nChannels = 1;
+for k = 1:nChannels
+    fprintf('Extracting from channel %d...\n', k);
+    t = tic;
+    CurChannelEpoch = EarDataEpochs{k, 1};
+    CurChannelEpoch=CurChannelEpoch';
 
-%% POWER SPECTRAL DENSITY
-nfftWelch = 2^nextpow2(L/3); 
-[psdWelch,fWelch] = pwelch(EarDataEpochs',hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) , outputs single sided
-
-power = pwelch(EarDataEpochs',hanning(L/3),L/6, Fs,'power');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) 
-
-%% AVERAGE BAND POWER FOR EEG EPOCHS
-%compute average band power for each EEG channel using 3 different methods
-
-%using the time series input 
-deltaTime = bandpower(EarDataEpochs',Fs,[0.5,4])';
-thetaTime = bandpower(EarDataEpochs',Fs,[4,8])';
-alphaTime = bandpower(EarDataEpochs',Fs,[8,12])';
-betaTime = bandpower(EarDataEpochs',Fs,[12,30])';
-
-%using Pwelch algorithm
-deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd')';
-thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd')';
-alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd')';
-betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd')';
-totalPwelch = bandpower(psdWelch,fWelch,'psd')';
-
-%using Periodogram algorithm
-[psdPerio,fPerio] = periodogram(EarDataEpochs',hanning(L),nfft,Fs);
-deltaPerio = bandpower(psdPerio,fPerio,[0.5,4],'psd')';
-thetaPerio = bandpower(psdPerio,fPerio,[4,8],'psd')';
-alphaPerio = bandpower(psdPerio,fPerio,[8,12],'psd')';
-betaPerio = bandpower(psdPerio,fPerio,[12,30],'psd')';
     
-%% FEATURES
-%TIME DOMAIN
-%mean value
-% mean = sum(epochs') ./ length(epochs(1,:));
-disp('Calculating mean');
-Mean = mean(EarDataEpochs')';
+    %% FOURIER TRANSFORM
+    nfft = 2^nextpow2(L); %zero padding
 
-%maximum value
-% posEpoch=epochs;
-% posEpoch(posEpoch < 0) = 0; %take rid of negative values (this is extremely slow and unnecessary)
-% maxValue= max(transpose(posEpoch)); 
-disp('Calculating max value');
-maxValue = max(EarDataEpochs')';
-
-%minimum value
-% negEpoch=epochs;
-% negEpoch (negEpoch>0) = 0; %take rid of positive values (this is extremely slow and unnecessary)
-% minValue = min(transpose(abs(negEpoch)));
-disp('Calculating min value');
-minValue = min(EarDataEpochs')';
-
-%energy
-disp('Calculating energy');
-energy = sum(abs(transpose(EarDataEpochs).^2));
-%variance
-disp('Calculating variance');
-variance = var(transpose(EarDataEpochs));
-
-
-%FREQUENCY DOMAIN
-%mean frequency(MNF)
-% disp('Calculating MNF');
-% powerSpectrum = power(1:40, :); %rows is 1Hz, columns is 1 epoch
-% MNF = (sum( powerSpectrum .* (1:1:40)' )) / sum(powerSpectrum); % fix later to work per epoch
-%relative powers
-disp('Calculating relative powers');
-totalPwelch = mean(totalPwelch);
-Pdelta = deltaPwelch / totalPwelch;
-Ptheta = thetaPwelch / totalPwelch;
-Palpha = alphaPwelch / totalPwelch;
-Pbeta  = betaPwelch  / totalPwelch;
-
-%power ratios
-disp('Calculating power ratios');
-delta_theta = Pdelta ./ Ptheta;
-delta_alpha = Pdelta ./ Palpha;
-delta_beta =  Pdelta ./ Pbeta;
-theta_alpha = Ptheta ./ Palpha;
-theta_beta =  Ptheta ./ Pbeta;
-alpha_beta =  Palpha ./ Pbeta;
+    %% POWER SPECTRAL DENSITY
+    nfftWelch = 2^nextpow2(L/3); 
+    [psdWelch,fWelch] = pwelch(CurChannelEpoch,hanning(L/3),L/6,nfftWelch, Fs, 'psd');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) , outputs single sided
     
+    power = pwelch(CurChannelEpoch,hanning(L/3),L/6, nfftWelch,Fs,'power');  %[p,f] = pwelch(x,window,noverlap,nfft,fs) 
 
-disp('labelling features');
+    %% AVERAGE BAND POWER FOR EEG EPOCHS
+    %compute average band power for each EEG channel using 3 different methods
+    
+    %using Pwelch algorithm
+    deltaPwelch = bandpower(psdWelch,fWelch,[0.5,4],'psd')';
+    thetaPwelch = bandpower(psdWelch,fWelch,[4,8],'psd')';
+    alphaPwelch = bandpower(psdWelch,fWelch,[8,12],'psd')';
+    betaPwelch = bandpower(psdWelch,fWelch,[12,30],'psd')';
+    totalPwelch = bandpower(psdWelch,fWelch,'psd')';
+      
+    
+    %% FEATURES
+    
+    %FREQUENCY DOMAIN
+    %mean frequency(MNF)
+    disp('Calculating MNF');
+    vector=1:40;
+     powerSpectrum = power(1:40, :); %rows is 1Hz, columns is 1 epoch
+    for j = 1 : nEpochs
+      res( :,j ) = vector' .* powerSpectrum( :, j );
+    end
+    
+    for j = 1 : nEpochs
+    MNF(j) = (sum( res(:,j))) ./ sum(powerSpectrum(:,j)); % fix later to work per epoch
+    end
+    
+    %relative powers
+    disp('Calculating relative powers');
+    totalPwelch = mean(totalPwelch);
+    Pdelta = deltaPwelch / totalPwelch;
+    Ptheta = thetaPwelch / totalPwelch;
+    Palpha = alphaPwelch / totalPwelch;
+    Pbeta  = betaPwelch  / totalPwelch;
+    
+    %power ratios
+    disp('Calculating power ratios');
+    delta_theta = Pdelta ./ Ptheta;
+    delta_alpha = Pdelta ./ Palpha;
+    delta_beta =  Pdelta ./ Pbeta;
+    theta_alpha = Ptheta ./ Palpha;
+    theta_beta =  Ptheta ./ Pbeta;
+    theta_delta= Ptheta./Pdelta;
+    
+    alpha_beta =  Palpha ./ Pbeta;
+    alpha_delta= Palpha./Pdelta;
+    alpha_theta= Palpha./Ptheta;
+    
+    beta_alpha =  Pbeta ./ Palpha;
+    beta_delta= Pbeta./Pdelta;
+    beta_theta= Pbeta./Ptheta;
+    
+    %energy
+    Edelta = sum(psdWelch(1:4,:).^2);
+    Etheta = sum(psdWelch(4:8,:).^2);
+    Ealpha = sum(psdWelch(8:12,:).^2);
+    Ebeta  = sum(psdWelch(12:30,:).^2);
+    %energy ratios
+    Edelta_theta = Edelta ./ Etheta;
+    Edelta_alpha = Edelta ./ Ealpha;
+    Edelta_beta =  Edelta ./ Ebeta;
+    Etheta_alpha = Etheta ./ Ealpha;
+    Etheta_beta =  Etheta ./ Ebeta;
+    Etheta_delta= Etheta./Edelta;
+    Ealpha_beta =  Ealpha ./ Ebeta;
+    Ealpha_delta= Ealpha./Edelta;
+    Ealpha_theta= Ealpha./Etheta;
+    Ebeta_alpha =  Ebeta ./ Ealpha;
+    Ebeta_delta= Ebeta./Edelta;
+    Ebeta_theta= Ebeta./Etheta;
+    
+    %spectral entropy
+    %totalepochs=totalepochs';
+    se=zeros(29,nEpochs);
+    for j = 1 : nEpochs
+    se(:,j) = pentropy(CurChannelEpoch(:,j),129);
+    end
+    
+    stdentropy=zeros(1,nEpochs);
+    for j = 1 : nEpochs
+    stdentropy(j) = std(se(:,j));
+    end
+
+    minentropy=zeros(1,nEpochs);
+    for j = 1 : nEpochs
+    minentropy(j) = min(se(:,j));
+    end
+
+    stdepoch=zeros(1,nEpochs);
+    for j = 1 : nEpochs
+    stdepoch(j) = std(CurChannelEpoch(:,j));
+    end
+    % stdentropy=zeros(1,2673);
+    % for j = 1 : 2673
+    %stdentropy(j) = std(totalepochs(:,j));
+     %end
+    % 
+    % min=zeros(1,2673);
+    % for j = 1 : 2673
+    % min(j) = min(totalepochs(:,j));
+    % end
+
+    %% label features 
+    
+fprintf('Labelling features from channel %d...\n', k);
 [features, labels] = FeatureLabelsPerEpoch( ...
-    deltaTime, 'deltaTime', thetaTime, 'thetaTime', alphaTime, 'alphaTime', betaTime, 'betaTime', ...
     deltaPwelch, 'deltaPwelch', thetaPwelch, 'thetaPwelch', alphaPwelch, 'alphaPwelch', betaPwelch, 'betaPwelch', ...
-    deltaPerio, 'deltaPerio', thetaPerio, 'thetaPerio', alphaPerio, 'alphaPerio', betaPerio, 'betaPerio', ...
-    Mean, 'mean', maxValue, 'maxValue', minValue, 'minValue', energy, 'energy', variance, 'variance', ...
+    Edelta, 'Edelta', Etheta, 'Etheta', Ealpha, 'Ealpha', Ebeta, 'Ebeta', ...
     Pdelta, 'Pdelta', Ptheta, 'Ptheta', Palpha, 'Palpha', Pbeta, 'Pbeta', ...
     delta_theta, 'delta_theta', delta_alpha, 'delta_alpha', delta_beta, 'delta_beta', ...
-    theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', alpha_beta, 'alpha_beta');%, ...
+    alpha_theta, 'alpha_theta', alpha_delta, 'alpha_delta', alpha_beta, 'alpha_beta', ...
+    beta_theta, 'beta_theta', beta_delta, 'beta_delta', beta_alpha, 'beta_alpha', ...
+    theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', theta_delta, 'theta_delta',...
+    Edelta_theta, 'Edelta_theta', Edelta_alpha, 'Edelta_alpha', Edelta_beta, 'Edelta_beta', ...
+    Ealpha_theta, 'Ealpha_theta', Ealpha_delta, 'Ealpha_delta', Ealpha_beta, 'Ealpha_beta', ...
+    Ebeta_theta, 'Ebeta_theta', Ebeta_delta, 'Ebeta_delta', Ebeta_alpha, 'Ebeta_alpha', ...
+    Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta', Etheta_delta, 'Etheta_delta',...
+    MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy',stdepoch,'stdepoch');%, ...
 %    epochs, 'epochs');
-       
+[TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);
+     fprintf("Done extracting features from channel %d, took %.3f seconds\n", k, toc(t));
+end     
 disp('Done extracting features');
 end
 

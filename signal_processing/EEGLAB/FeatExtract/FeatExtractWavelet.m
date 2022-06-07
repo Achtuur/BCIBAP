@@ -217,6 +217,11 @@ for i = 1:nEpochs
     varThetaEpochs(i,1)=var(d4);
     varAlphaEpochs(i,1)=var(d3);
     varBetaEpochs(i,1)=var(d2);   
+
+     stdDeltaEpochs(i,1)=std(a4);
+    stdThetaEpochs(i,1)=std(d4);
+    stdAlphaEpochs(i,1)=std(d3);
+    stdBetaEpochs(i,1)=std(d2);
 end 
     %% label features
     
@@ -230,6 +235,7 @@ end
         energyDeltaEpochs, 'energyDelta', energyThetaEpochs, 'energyTheta', energyAlphaEpochs, 'energyAlpha',energyBetaEpochs,'energyBeta', ...
         stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta',...
         meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
+        stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta', ...
         meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
     %    epochs, 'epochs');
      [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);

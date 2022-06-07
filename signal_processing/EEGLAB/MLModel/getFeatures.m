@@ -15,8 +15,8 @@
 %   maybe remove features from output?
 
 %% Function start
-function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-% function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+%function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+ %function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
 %% test vars
     clc; clear;
     eegpath = AddPath();
@@ -44,7 +44,7 @@ if isempty(find(labels == 2, 1))
 end
 
 clear temp;
-save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
+%save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
 fprintf("Got labels, took %.3f seconds", toc(t));
 
 %% get filtered data
@@ -97,5 +97,5 @@ fprintf("Got features, took %.3f seconds\n", t);
 
 features = cell2mat(features);
 %features_norm = cell2mat(features_norm);
-end
+%end
 

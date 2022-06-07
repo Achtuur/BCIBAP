@@ -1,5 +1,3 @@
-%% please give this file a name
-
 clc; clear;
 eegpath = AddPath();
 dataset = 'chb04';
@@ -14,20 +12,6 @@ fac_downsample = 2; %downsa5mpling factor
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
 channellist = channellist.index;
-% temp = [];
-% for k = 1 : size(labels1, 1) %loop through rows of labels
-%     labelarr = labels1{k, 2};
-%     labelarr = labelarr(:); %force column vector
-%     temp = [temp; labelarr]; %make labels 1 long column vector where every row is an epoch
-% end
-% labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure respectively
-% if isempty(find(labels == 2, 1))
-%    error("Input data contains no seizures"); 
-% end
-% 
-% clear temp;
-% save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
-% fprintf("Got labels, took %.3f seconds", toc(t));
 
 %% get filtered data
 t = tic;
@@ -171,9 +155,13 @@ for i = 1:nEpochs
     varDeltaEpochs(i,1)=var(a4);
     varThetaEpochs(i,1)=var(d4);
     varAlphaEpochs(i,1)=var(d3);
-    varBetaEpochs(i,1)=var(d2);   
-end 
+    varBetaEpochs(i,1)=var(d2);
 
+    stdDeltaEpochs(i,1)=std(a4);
+    stdThetaEpochs(i,1)=std(d4);
+    stdAlphaEpochs(i,1)=std(d3);
+    stdBetaEpochs(i,1)=std(d2);
+end 
 
 figure(1)
 % 
@@ -192,6 +180,7 @@ scatter(energyDeltaEpochs(148*9:2673,1),energyAlphaEpochs(148*9:2673,1));
         energyDeltaEpochs, 'energyDelta', energyThetaEpochs, 'energyTheta', energyAlphaEpochs, 'energyAlpha',energyBetaEpochs,'energyBeta', ...
         stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta',...
         meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...
+        stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta', ...
         meanAbsDeltaEpochs, 'meanAbsDelta', meanAbsThetaEpochs, 'meanAbsTheta', meanAbsAlphaEpochs, 'meanAbsAlpha', meanAbsBetaEpochs,'meanAbsBeta'); ...
     %    epochs, 'epochs');
 % [FeatVector] = FeatSelectionPCA(features)  
@@ -212,15 +201,3 @@ for i=2:35
 end
 figure(3)
 bar(explained);
-%% LDA
-%X = [features_norm(1:148*9,:); features_norm(148*9:2)];  Y = [zeros(148*9,36); ones(149*9,36)] ;
-%W=LDA(X,Y);
-
-%% mRMR
-% figure(4)
-% %idx = fscmrmr(features_norm,'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36') ;
-% Y=[ones(148*9,1); ones(149*9,1)*2] ;
-% [idx,scores]=fscmrmr(features,Y);
-% bar (idx, scores( idx ));
-% xlabel ( ' Feature ')
-% ylabel ( ' Predictor Score ')

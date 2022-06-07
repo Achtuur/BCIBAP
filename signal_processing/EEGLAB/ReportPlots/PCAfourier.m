@@ -245,7 +245,6 @@ figure(5)
 pentropy(totalepochs(:,5),129)
 seseizure=pentropy(totalepochs(:,5),129);
 
-
 % figure(6)
 % % 
 % scatter(stdepoch(1,1:148*9),stdentropy(1,1:148*9));
@@ -255,13 +254,12 @@ seseizure=pentropy(totalepochs(:,5),129);
 figure(5)
 t = tiledlayout('flow');
 % % Plot in tiles
-nexttile, ax(1)= bar(explained), title('Welch Power Spectral Density Estimate','interpreter' ,'latex','fontsize', 18,'FontWeight','bold'),xlim([0 128]) 
-%nexttile, ax(2)=  plot(fPerio,10*log10(psdPerio)),title('Periodogram Power Spectral Density Estimate','interpreter', 'latex','fontsize', 18,'fontweight','bold'), xlim([0 128])
+nexttile, ax(1)= bar(explained), title('PCA on fourier','interpreter' ,'latex','fontsize', 18,'FontWeight','bold'),xlim([0 40]) 
 plotcolor(ax,'green', 'colordiff',0);
 % % Specify common title, X and Y labels
 % title(t, 'Decomposition of epoch signal','interpreter', 'latex','fontsize', 18)
-xlabel(t, '$Frequency [Hz]$','interpreter', 'latex', 'fontsize',17)
-ylabel(t, '$Power/frequency [dB/Hz]$','interpreter', 'latex','fontsize',17)
+xlabel(t, '$Principal components$','interpreter', 'latex', 'fontsize',17)
+ylabel(t, '$ variance$','interpreter', 'latex','fontsize',17)
 %saveas(gcf,'Pwelch_PerioPsd','epsc')
 
 %% Save image

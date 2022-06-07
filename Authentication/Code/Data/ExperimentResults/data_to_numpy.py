@@ -32,11 +32,10 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_take2.npy'),
                 'crop' : (1168, 1168 + 20000)
         },
-<<<<<<< HEAD
         'Simon_ft1_6hz' : {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_stage1_6hz.npy'),
                 'crop' : (1828, 1828 + 20000)
-=======
+        },
         # New
         'Sam_exp_cyril_10hz_60' : {
                 'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_cyril_10hz_60.npy'),
@@ -149,7 +148,22 @@ RECORDINGS_CROP_DICTIONARY = {
         'Simon_exp_cyril_6hz_5' : {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_6hz_5.npy'),
                 'crop' : (5*250, 10*250)
->>>>>>> Authentication_Branch
+        },
+        'Simon_exp_cyril_6hz_10' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_6hz_10.npy'),
+                'crop' : (3*250, 13*250)
+        },
+        'Joos_exp_pseudo2_take1' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),
+                'crop' : (367, 367 + 40*250)
+        },
+        'Joos_exp_pseudo2_take2' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take2.npy'),
+                'crop' : (649, 649 + 40*250)
+        },
+        'Joos_exp_pseudo2_take3' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take3.npy'),
+                'crop' : (398, 398 + 40*250)
         }
 
 }

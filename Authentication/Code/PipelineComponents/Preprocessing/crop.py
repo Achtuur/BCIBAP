@@ -23,7 +23,7 @@ def cut(data: np.ndarray, t_window: int, f_sampling: int = 250, offset = 0):
     if offset != 0:
         offset_inverse = t_window * f_sampling - offset
         data = data[offset_inverse: (data.size - offset)]
-    parts = data.size
+    parts = data[0].size
     parts = int(parts / (t_window * f_sampling))
     data_split = np.hsplit(data, parts)
     print(len(data_split[1]))

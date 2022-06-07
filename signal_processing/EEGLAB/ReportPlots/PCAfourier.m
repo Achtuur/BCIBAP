@@ -9,7 +9,7 @@ features=NormalizeFeat(features);
 
 [features_outFourier, iFourier,explainedFourier,latentFourier] = FeatSelectionPCA(features, 100);
 [features_outWavelet, iWavelet,explainedWavelet,latentWavelet] = FeatSelectionPCA(featuresWavelet, 100);
-
+fig=figure();
 t = tiledlayout(1,2);
 nexttile;
 % % Plot in tiles
@@ -28,15 +28,15 @@ axis.FontSize = 14;
 nexttile;
 ax(2)= bar(explainedWavelet./100); 
 title('PCA on wavelet','interpreter' ,'latex','fontsize', 18,'FontWeight','bold')
-xlim([0 40])
+xlim([0 36])
 ylim([0 1])
 legend('Individual explained variance', 'interpreter', 'latex', 'fontsize', 8)
 hold on
 stairs(cumsum(latentWavelet)/sum(latentWavelet));
-xlim([0 40])
+xlim([0 36])
 ylim([0 1])
 legend('Cumulative explained variance', 'interpreter', 'latex', 'fontsize', 8)
-plotcolor(ax,'green', 'colordiff',0);
+%plotcolor(ax,'green', 'colordiff',0);
 
 % % Specify common title, X and Y labels
 % title(t, 'Decomposition of epoch signal','interpreter', 'latex','fontsize', 18)

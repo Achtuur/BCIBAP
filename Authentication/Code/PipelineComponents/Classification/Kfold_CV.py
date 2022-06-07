@@ -16,7 +16,7 @@ class Models():
 
     def __init__(self):
         self.n_splits = 5
-        self.random_state =41
+        self.random_state =44
         self.results =[]
         self.searches =[]
         self.models = {
@@ -29,16 +29,16 @@ class Models():
         self.model_parameters = {
             "DecisionTreeClassifier": {
                 'max_depth' : [None],
-                'min_samples_leaf' : [2],
+                'min_samples_leaf' : [1, 2, 3, 4],
                 'random_state' : [self.random_state]
             },
             "KNeighborsClassifier": {
-                'n_neighbors' : [4, 5, 6],
+                'n_neighbors' : [3, 4, 5, 6, 10, 15, 20],
                 'weights' : ["distance"]
             },
             "SVC": {
                 'C' : [0.01, 0.1, 1, 10, 100],
-                'kernel' : ["linear", "poly", "rbf"],
+                'kernel' : ["poly", "rbf"],
                 'random_state' : [self.random_state]
             },
             "LogisticRegression": {

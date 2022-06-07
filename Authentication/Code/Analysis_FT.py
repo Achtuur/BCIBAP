@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 import random
 import sys
 import platform
@@ -11,6 +12,8 @@ from Filters import Filter
 from Visualize import DataPlot
 from combine_data_and_labels import combine_data_and_labels
 from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import normalize
+from sklearn.decomposition import PCA 
 if platform.system() == "Windows":
     sys.path.append(str(Path('PipelineComponents/Preprocessing').resolve()))
     sys.path.append(str(Path('PipelineComponents/FeatureExtraction').resolve()))
@@ -55,6 +58,73 @@ def pow_plot(data, labels):
     # plt.plot(np.linspace(0, 400, len(labels)), labels, label="labels")
     plt.legend()
     plt.show(block=True)
+
+def confusion(gridsearch):
+    # fig, axs = plt.subplots(2, 2)
+    cf_matrix = []
+    for i in range(len(gridsearch)):
+        best_model = gridsearch[i].best_estimator_
+        Y_predict = best_model.predict(X_test)
+        cf_matrix.append(confusion_matrix(Y_test, Y_predict))
+    return cf_matrix
+
+def plot_confusion(cf_matrix, gridsearch):
+    fig, axs = plt.subplots(2, 2)
+    one = sns.heatmap(cf_matrix[0], annot=True, cmap='Blues', ax=axs[0, 0])
+    one.set_title(f'Decision Tree')
+    # axs[0, 0].set_xlabel('Predicted Values')
+    axs[0, 0].set_ylabel('Actual Values ')
+    #     ## Ticket labels - List must be in alphabetical order
+    axs[0, 0].xaxis.set_ticklabels([' ',' '])
+    axs[0, 0].yaxis.set_ticklabels(['False','True'])
+
+    two = sns.heatmap(cf_matrix[1], annot=True, cmap='Blues', ax=axs[0, 1])
+    two.set_title(f'KNN')
+    # axs[0, 1].set_xlabel('Predicted Values')
+    # axs[0, 1].set_ylabel('Actual Values ')
+    #     ## Ticket labels - List must be in alphabetical order
+    axs[0, 1].xaxis.set_ticklabels([' ',' '])
+    axs[0, 1].yaxis.set_ticklabels([' ',' '])
+
+    three =  sns.heatmap(cf_matrix[2], annot=True, cmap='Blues', ax=axs[1, 0])
+    three.set_title(f'SVM')
+    axs[1, 0].set_xlabel('Predicted Values')
+    axs[1, 0].set_ylabel('Actual Values ')
+    #     ## Ticket labels - List must be in alphabetical order
+    axs[1, 0].xaxis.set_ticklabels(['False','True'])
+    axs[1, 0].yaxis.set_ticklabels(['False','True'])
+
+    four = sns.heatmap(cf_matrix[3], annot=True, cmap='Blues', ax=axs[1, 1])
+    four.set_title(f'Logistic Regression')
+    axs[1, 1].set_xlabel('Predicted Values')
+    # axs[1, 1].set_ylabel('Actual Values ')
+    #     ## Ticket labels - List must be in alphabetical order
+    axs[1, 1].xaxis.set_ticklabels(['False','True'])
+    axs[1, 1].yaxis.set_ticklabels([' ',' '])
+        ## Display the visualization of the Confusion Matrix.
+    for ax in axs.flat:
+    #     ax.set(xlabel='Predicted Values', ylabel='Actual Values')
+        ax.label_outer()
+# Hide x labels and tick labels for top plots and y ticks for right plots.
+        
+    plt.show()
+
+def plot_parameter_tuning(gridsearch):
+    kernel = gridsearch[2].cv_results_['param_kernel']
+    Cs = gridsearch[2].cv_results_['param_C']
+    neighbors = gridsearch[1].cv_results_['param_n_neighbors']
+    plt.plot(kernel, gridsearch[2].cv_results_['split0_test_score'], label='split0')
+    plt.plot(kernel, gridsearch[2].cv_results_['split1_test_score'], label='split1')
+    plt.plot(kernel, gridsearch[2].cv_results_['split2_test_score'], label='split2')
+    plt.plot(kernel, gridsearch[2].cv_results_['split3_test_score'], label='split3')
+    plt.plot(kernel, gridsearch[2].cv_results_['split4_test_score'], label='split4')
+    plt.plot(kernel, gridsearch[2].cv_results_['mean_test_score'], c='black', label = 'mean')
+    plt.title("cross validation scores of kernel for SVM(C=1)")
+    plt.xlabel("kernel")
+    plt.ylabel("accuracy score")
+    # plt.xscale("log")
+    plt.legend()
+    
 
 def make_experiments_list():
     
@@ -105,12 +175,12 @@ if __name__ == "__main__":
         for segment in cropped_data:
             filtered_data.append(Filter.remove_bad_channels(segment))
         # pow_plot(filtered_data, labels)
-
         #feature extraction
         features_data = FeaturePipeline(filtered_data, f_sampling).start()
-
+       
+        
         #data with labels and concatenation
-        setje = combine_data_and_labels(filtered_data, labels)
+        setje = combine_data_and_labels(features_data, labels)
         if index==0:
             full = setje
         else:
@@ -122,9 +192,17 @@ if __name__ == "__main__":
     #flatten data for ML
     data, labels = zip(*full)
     print(len(data), data[0].shape)
-    data = np.array(data).reshape(200, data[0].shape[0]*data[0].shape[1])
+    data = np.array(data)#.reshape(200, data[0].shape[0]*data[0].shape[1])
     print(type(data), data.shape)
 
+    #PCA
+    pca = PCA(n_components=40)
+    pca.fit(data.T)
+    for i in range(len(pca.components_)):
+        print(sum(pca.explained_variance_ratio_[:i]))
+    print(f"exp_variance_ratio: {pca.explained_variance_ratio_}")
+    data = pca.components_[:, 10] 
+    print(data.shape)
     #train test split
     X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 42, 0.3)
     #train val split
@@ -133,10 +211,24 @@ if __name__ == "__main__":
     #ML
     model = Models()
     gridsearch, acc = model.KFOLD_CV(X_train, Y_train, X_test, Y_test)
+    for i in range(len(gridsearch)):
+        best_model = gridsearch[i].best_estimator_
+        Y_predict = best_model.predict(X_test)
+        tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
+        TPR = tn/(tn+fp)
+        FAR = fp/(fp+tn)
+        acc = (tp+tn)/(tp+tn+fp+fn)
+        print(f"For algorithm {gridsearch[i].best_estimator_}: TPR = {TPR}, FAR = {FAR}, acc = {acc}.\n")
+    cf_matrix1 = confusion(gridsearch)
+    plot_confusion(cf_matrix1, gridsearch)
+    # print(isinstance(gridsearch[2].cv_results_['param_C'][1], float))
+    # plt.plot(gridsearch[2].cv_results_['param_C'])
+    # plt.show()
+    # plt.plot(gridsearch[2].cv_results_['mean_test_score'])
+    # plt.show()
+    
 
-    # for i in range(len(gridsearch)):
-        # best_model = gridsearch[i].best_estimator_
-        # Y_predict = best_model.predict(X_test)
+    # plt.show()
         # tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
         # print(((tn+tp)/(fp+fn+tp+tn))*100)
     # print(gridsearch[3].cv_results_["split4_test_score"])

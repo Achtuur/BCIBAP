@@ -44,7 +44,7 @@ if isempty(find(labels == 2, 1))
 end
 
 clear temp;
-save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
+%save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
 fprintf("Got labels, took %.3f seconds", toc(t));
 
 %% get filtered data
@@ -62,7 +62,7 @@ t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 % [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 
 t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);
@@ -97,5 +97,5 @@ fprintf("Got features, took %.3f seconds\n", t);
 
 features = cell2mat(features);
 %features_norm = cell2mat(features_norm);
-end
+%end
 

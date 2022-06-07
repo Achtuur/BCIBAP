@@ -1,5 +1,3 @@
-%% please give this file a name
-
 clc; clear;
 eegpath = AddPath();
 dataset = 'chb04';
@@ -14,20 +12,6 @@ fac_downsample = 2; %downsa5mpling factor
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
 channellist = channellist.index;
-% temp = [];
-% for k = 1 : size(labels1, 1) %loop through rows of labels
-%     labelarr = labels1{k, 2};
-%     labelarr = labelarr(:); %force column vector
-%     temp = [temp; labelarr]; %make labels 1 long column vector where every row is an epoch
-% end
-% labels = temp + 1; % +1 so that labels are '1' and '2' for no seizure / seizure respectively
-% if isempty(find(labels == 2, 1))
-%    error("Input data contains no seizures"); 
-% end
-% 
-% clear temp;
-% save('MLModel/CNNmodel.mat', 'Fs', 'EpochLengthSec', '-append');
-% fprintf("Got labels, took %.3f seconds", toc(t));
 
 %% get filtered data
 t = tic;
@@ -174,7 +158,6 @@ for i = 1:nEpochs
     varBetaEpochs(i,1)=var(d2);   
 end 
 
-
 figure(1)
 % 
 scatter(energyDeltaEpochs(1:148*9,1),energyAlphaEpochs(1:148*9,1));
@@ -212,9 +195,6 @@ for i=2:35
 end
 figure(3)
 bar(explained);
-%% LDA
-%X = [features_norm(1:148*9,:); features_norm(148*9:2)];  Y = [zeros(148*9,36); ones(149*9,36)] ;
-%W=LDA(X,Y);
 
 %% mRMR
 % figure(4)

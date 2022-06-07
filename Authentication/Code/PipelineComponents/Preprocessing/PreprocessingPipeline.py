@@ -24,6 +24,11 @@ class PreprocessingPipeline():
 
         return data_band_pass_filtered
 
+    def perform_band_stop_filter(self, eeg_data, order, crit_range, fs):
+        data_band_stop_filtered = Filter.band_stop_filter(eeg_data, order, crit_range, fs)
+
+        return data_band_stop_filtered
+
     def start(self, plot=False, v=False):
         clean_data = self.raw_data
         if v:
@@ -32,12 +37,15 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
-        # Notch filter
+        # # Notch filter
+        # if v:
+        #     print("Apply Notch Filter")
+        # clean_data = self.perform_notch_filter(clean_data, 50, 60, 250)
+        # if plot:
+        #     DataPlot.eeg_channels_plot(clean_data)
         if v:
-            print("Apply Notch Filter")
-        clean_data = self.perform_notch_filter(clean_data, 50, 60, 250)
-        if plot:
-            DataPlot.eeg_channels_plot(clean_data)
+            print("Apply Bandstop filter")
+        clean_data = self.perform_band_stop_filter(clean_data, 4, (48,52),250)
 
         return clean_data
 

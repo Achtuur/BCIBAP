@@ -44,12 +44,16 @@ if __name__ == "__main__":
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
-    print(get_frequency_power_per_channel(data_artifacts_removed, (2,10)))
-    y_fft = np.abs(rfft(data_artifacts_removed[:,1]))[:]
+    print(get_frequency_power_per_channel(data_artifacts_removed[:,6], (2,10)))
+    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
     f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
 
     start, end = get_boundary_indexes(f)
-    plt.plot(f[start:end], y_fft[start:end])
+    plt.plot(f, y_fft)
+    plt.xlim([0,40])
+    plt.title('Frequency spectrum of EEG data during frequency tagging experiment.')
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude [μV]')
     plt.show(block=True)
     
     # data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')

@@ -153,6 +153,11 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_6hz_10.npy'),
                 'crop' : (3*250, 13*250)
         },
+        'Sam_exp_ft2_12hz_2' : {
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_2.npy'),
+                'crop' : (2*250, 65*250)
+        },
+
         'Joos_exp_pseudo2_take1' : {
                 'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),
                 'crop' : (367, 367 + 40*250)

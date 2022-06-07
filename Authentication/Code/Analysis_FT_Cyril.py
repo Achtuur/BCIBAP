@@ -37,7 +37,7 @@ def get_boundary_indexes(frequencies):
     return start, end
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_2.npy')[52*250:53*250, :]
+    data = np.load('')
     data_filtered = PreprocessingPipeline(data).start()
     data_cropped = crop(data_filtered, 1, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))

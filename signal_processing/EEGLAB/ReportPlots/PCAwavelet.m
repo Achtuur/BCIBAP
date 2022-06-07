@@ -1,3 +1,5 @@
+function [explained,latent]=PCAwavelet()
+
 clc; clear;
 eegpath = AddPath();
 dataset = 'chb04';
@@ -201,3 +203,4 @@ for i=2:35
 end
 figure(3)
 bar(explained);
+end

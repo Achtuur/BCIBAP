@@ -82,20 +82,19 @@ for k = 1:nChannels
     
     %power ratios
     disp('Calculating power ratios');
-    delta_theta = Pdelta ./ Ptheta;
+    
     delta_alpha = Pdelta ./ Palpha;
     delta_beta =  Pdelta ./ Pbeta;
-    theta_alpha = Ptheta ./ Palpha;
-    theta_beta =  Ptheta ./ Pbeta;
-    theta_delta= Ptheta./Pdelta;
-    
-    alpha_beta =  Palpha ./ Pbeta;
-    alpha_delta= Palpha./Pdelta;
-    alpha_theta= Palpha./Ptheta;
-    
-    beta_alpha =  Pbeta ./ Palpha;
-    beta_delta= Pbeta./Pdelta;
-    beta_theta= Pbeta./Ptheta;
+    delta_theta=Pdelta./Ptheta;
+    theta_alpha=Ptheta./Palpha;
+    theta_beta=Ptheta./Pbeta;
+    alpha_beta=Palpha./Pbeta;
+
+%     theta_delta= Ptheta./Pdelta;
+%     alpha_theta= Palpha./Ptheta;
+%     beta_alpha =  Pbeta ./ Palpha;
+%     beta_delta= Pbeta./Pdelta;
+%     beta_theta= Pbeta./Ptheta;
     
     %energy
     Edelta = sum(psdWelch(1:4,:).^2);
@@ -103,18 +102,12 @@ for k = 1:nChannels
     Ealpha = sum(psdWelch(8:12,:).^2);
     Ebeta  = sum(psdWelch(12:30,:).^2);
     %energy ratios
-    Edelta_theta = Edelta ./ Etheta;
     Edelta_alpha = Edelta ./ Ealpha;
     Edelta_beta =  Edelta ./ Ebeta;
-    Etheta_alpha = Etheta ./ Ealpha;
-    Etheta_beta =  Etheta ./ Ebeta;
-    Etheta_delta= Etheta./Edelta;
-    Ealpha_beta =  Ealpha ./ Ebeta;
-    Ealpha_delta= Ealpha./Edelta;
-    Ealpha_theta= Ealpha./Etheta;
-    Ebeta_alpha =  Ebeta ./ Ealpha;
-    Ebeta_delta= Ebeta./Edelta;
-    Ebeta_theta= Ebeta./Etheta;
+    Edelta_theta=Edelta./Etheta;
+    Etheta_alpha=Etheta./Ealpha;
+    Etheta_beta=Etheta./Ebeta;
+    Ealpha_beta=Ealpha./Ebeta;
     
     %spectral entropy
     %totalepochs=totalepochs';
@@ -155,13 +148,9 @@ fprintf('Labelling features from channel %d...\n', k);
     Edelta, 'Edelta', Etheta, 'Etheta', Ealpha, 'Ealpha', Ebeta, 'Ebeta', ...
     Pdelta, 'Pdelta', Ptheta, 'Ptheta', Palpha, 'Palpha', Pbeta, 'Pbeta', ...
     delta_theta, 'delta_theta', delta_alpha, 'delta_alpha', delta_beta, 'delta_beta', ...
-    alpha_theta, 'alpha_theta', alpha_delta, 'alpha_delta', alpha_beta, 'alpha_beta', ...
-    beta_theta, 'beta_theta', beta_delta, 'beta_delta', beta_alpha, 'beta_alpha', ...
-    theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', theta_delta, 'theta_delta',...
+      alpha_beta, 'alpha_beta', theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', ...
     Edelta_theta, 'Edelta_theta', Edelta_alpha, 'Edelta_alpha', Edelta_beta, 'Edelta_beta', ...
-    Ealpha_theta, 'Ealpha_theta', Ealpha_delta, 'Ealpha_delta', Ealpha_beta, 'Ealpha_beta', ...
-    Ebeta_theta, 'Ebeta_theta', Ebeta_delta, 'Ebeta_delta', Ebeta_alpha, 'Ebeta_alpha', ...
-    Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta', Etheta_delta, 'Etheta_delta',...
+     Ealpha_beta, 'Ealpha_beta', Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta',  ...
     MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy',stdepoch,'stdepoch');%, ...
 %    epochs, 'epochs');
 [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);

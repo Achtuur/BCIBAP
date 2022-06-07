@@ -15,9 +15,11 @@ function plotcolor(axis, colorset, varargin)
     
     if nargin < 3
         g.colordiff = 25; 
+        g.brightness = 25;
     else
         g = finputcheck( varargin, { ...
-            'colordiff' 'integer' [0 inf] []
+            'colordiff' 'integer' [0 255] 25;
+            'brightness' 'integer' [0 255] 25;
             }, 'plotcolor');
     end
     
@@ -39,7 +41,7 @@ function plotcolor(axis, colorset, varargin)
              ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
     %clr = zeros(length(axis), 3);
     for i = 1:length(axis)
-       clr = colorsets(colorset,  :) + i*g.colordiff/255;
+       clr = colorsets(colorset,  :) + (i-1)*g.colordiff/255 + g.brightness/255;
        clr(clr > 1) = 1; %set colors above 1 to 1
        axis(i).Color = clr;
     end

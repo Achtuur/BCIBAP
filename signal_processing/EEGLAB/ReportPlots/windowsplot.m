@@ -74,8 +74,15 @@ plottext(ax, 'Magnitude Spectrum for different types of Window functions', { ...
     sprintf('Hamming (truncated at %.1f dB)', trunc_ham), ...
     sprintf('Blackman (truncated at %.1f dB)', trunc_blk), ...
     sprintf('Kaiser (truncated at %.1f dB)', trunc_kai)...
-    }, 'Normalised radian frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
+    }, 'frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
+xt = [-2.5 : 0.5 : 2.5];
+axis = gca;
+axis.TickLabelInterpreter = 'latex';
+axis.FontSize = 14;
+xticks(xt);
+xticklabels(xt + " $f_s$");
+
 ylim([-125 50]);
 xlim([-2.5 2.5]);
 %% Save image

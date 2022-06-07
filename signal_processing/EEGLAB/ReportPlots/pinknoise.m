@@ -1,6 +1,15 @@
 %% Show pink noise (1/f noise)
 %% init
-clc; clear; close all;
+% clc; clear; close all;
+
+function pinknoise(locutoff, hicutoff, dwnsample, forder)
+if ~exist('locutoff', 'var') %snippet in order to run this file separately
+    locutoff = 0.5;
+    hicutoff = 40;
+    dwnsample = 2;
+    forder = 30;
+end
+
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -11,18 +20,18 @@ FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
 %% get data
-[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices);
+% dwnsample = 1;
+[Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 ChannelsOut = ChannelsOut.index;
-locutoff = 0;
-hicutoff = 40;
-downsample = 2;
+% locutoff = 0.5;
+% hicutoff = 40;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
-    ChannelsOut, 'ASR', 0, 'downsample', downsample, ...
-    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
+    ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
+    'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel
 unfiltered_data = unfiltered_data(ch,:);
-filsmall_piece = filtered_data(1, 600000/downsample : 620000/downsample);
+filsmall_piece = filtered_data(1, 600000/dwnsample : 620000/dwnsample);
 unfilsmall_piece = unfiltered_data(1, 600000 : 620000); %relatively clean data
 yunfil = unfilsmall_piece;
 Yunfil = fft(unfilsmall_piece, 20000*4);
@@ -37,7 +46,7 @@ flog = logspace(0, log10(Fs/2), N/2); %logscale plot
 n = 1 : 1 : N/2;
 
 %% plot
-c = 10000;
+c = 5000;
 ypink = c./f;
 
 % ypink = ypink(n);
@@ -48,7 +57,7 @@ ypink = mag2db(abs(ypink));
 Yfil = mag2db(abs(Yfil));
 Yunfil = mag2db(abs(Yunfil));
 
-fig = figure(1);
+fig = figure();
 hold on;
 ax(1) = semilogx(f, Yunfil);
 ax(2) = semilogx(f, Yfil);

@@ -5,9 +5,10 @@ dataset = 'chb04';
 path2dataset = eegpath + "sample_data\" + dataset + "\";
 FileIndices = 5;
 EpochLengthSec = 3;
+dwnsample = 2;
 %% Get labels of data
 summarypath = path2dataset + dataset + "-summary.txt";
-[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices); %get labels of where there are seizures
+[Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, dwnsample); %get labels of where there are seizures
 
 temp = [];
 for k = 1 : size(labels1, 1) %loop through rows of labels
@@ -22,7 +23,7 @@ if isempty(find(labels == 2, 1))
 end
 
 %% get filtered data
-filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist, 'rounding_err', rounding_err);
+filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1, 'channellist', channellist.index, 'rounding_err', rounding_err, 'downsample', dwnsample);
 
 %% Get features
 % normalise filtered_data
@@ -44,6 +45,9 @@ feature_out=cell2mat(feature_out);
 features_norm = zscore(feature_out);
 
 %% pca
+features_out = PCAselect(features_norm, 95);
+
+
 [coeff,score,latent,~,explained,mu]= pca(features_norm);
 FeatVector=coeff(:,1:18)'*features_norm'; %take first 18 principal components since they account for 95%variance
 

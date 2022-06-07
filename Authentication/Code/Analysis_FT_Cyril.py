@@ -37,16 +37,18 @@ def get_boundary_indexes(frequencies):
     return start, end
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_sam_6hz-60sec.npy')
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_2.npy')[52*250:53*250, :]
     data_filtered = PreprocessingPipeline(data).start()
+    _,_, plt = DataPlot.eeg_channels_plot(data_filtered)
+    plt.show(block=True)
     # data_filtered = Filter.band_pass_filter(data_filtered,4,(2,10),250)
-    data_cropped = crop(data_filtered, 2, 250)
+    data_cropped = crop(data_filtered, 1, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]
     data_artifacts_removed = np.concatenate(data_cropped)
-    print(get_frequency_power_per_channel(data_artifacts_removed[:,6], (2,10)))
-    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))[:]
-    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)[:]
+    # print(get_frequency_power_per_channel(data_artifacts_removed[:,6], (2,10)))
+    y_fft = np.abs(rfft(data_artifacts_removed[:,6]))
+    f = rfftfreq(data_artifacts_removed.shape[0], 1/250)
 
     start, end = get_boundary_indexes(f)
     plt.plot(f, y_fft)

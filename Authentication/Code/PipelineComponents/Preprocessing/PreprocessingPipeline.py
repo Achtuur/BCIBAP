@@ -37,12 +37,6 @@ class PreprocessingPipeline():
         if plot:
             DataPlot.eeg_channels_plot(clean_data)
 
-        # # Notch filter
-        # if v:
-        #     print("Apply Notch Filter")
-        # clean_data = self.perform_notch_filter(clean_data, 50, 60, 250)
-        # if plot:
-        #     DataPlot.eeg_channels_plot(clean_data)
         if v:
             print("Apply Bandstop filter")
         clean_data = self.perform_band_stop_filter(clean_data, 4, (48,52),250)

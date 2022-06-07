@@ -159,15 +159,15 @@ RECORDINGS_CROP_DICTIONARY = {
         },
 
         'Joos_exp_pseudo2_take1' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),
                 'crop' : (367, 367 + 40*250)
         },
         'Joos_exp_pseudo2_take2' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take2.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo2_1s_take2.npy'),
                 'crop' : (649, 649 + 40*250)
         },
         'Joos_exp_pseudo2_take3' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take3.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo2_1s_take3.npy'),
                 'crop' : (398, 398 + 40*250)
         }
 

@@ -17,12 +17,13 @@
 %% Function start
 %function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
  %function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-%% test vars
+function [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures()
+% test vars
     clc; clear;
     eegpath = AddPath();
-    dataset = 'chb04';
+    dataset = 'chb08';
     path2dataset = eegpath + "sample_data\" + dataset + "\";
-    FileIndices = 5;
+    FileIndices = SeizFileIndices(dataset);
     EpochLengthSec = 3;
 %% Get labels of data
 disp('Getting labels of data');
@@ -61,8 +62,9 @@ disp('Getting features...');
 t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-% [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+ [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[featuresWavelet, featurelabelsWavelet] = FeatExtractWavelet(epochs,Fs,EpochLengthSec);
+
 
 t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);
@@ -96,6 +98,7 @@ fprintf("Got features, took %.3f seconds\n", t);
 %% Normalizes EEG data and adds it to features, TODO
 
 features = cell2mat(features);
+featuresWavelet=cell2mat(featuresWavelet);
 %features_norm = cell2mat(features_norm);
 %end
 

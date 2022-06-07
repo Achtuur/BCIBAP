@@ -184,11 +184,16 @@ for j = 1 : 2673
 se(:,j) = pentropy(totalepochs(:,j),129);
 end
 
-% stdentropy=zeros(1,2673);
-% for j = 1 : 2673
-% stdentropy(j) = std(totalepochs(:,j));
-% end
-% 
+stdentropy=zeros(1,2673);
+for j = 1 : 2673
+stdentropy(j) = std(totalepochs(:,j));
+end
+
+minentropy=zeros(1,2673);
+for j = 1 : 2673
+minentropy(j) = min(totalepochs(:,j));
+end
+
 % min=zeros(1,2673);
 % for j = 1 : 2673
 % min(j) = min(totalepochs(:,j));

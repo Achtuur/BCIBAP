@@ -123,6 +123,15 @@ for k = 1:nChannels
     se(:,j) = pentropy(CurChannelEpoch(:,j),129);
     end
     
+    stdentropy=zeros(1,nEpochs);
+    for j = 1 : nEpochs
+    stdentropy(j) = std(CurChannelEpoch(:,j));
+    end
+
+    minentropy=zeros(1,nEpochs);
+    for j = 1 : nEpochs
+    minentropy(j) = min(CurChannelEpoch(:,j));
+    end
     % stdentropy=zeros(1,2673);
     % for j = 1 : 2673
     %stdentropy(j) = std(totalepochs(:,j));
@@ -148,7 +157,7 @@ fprintf('Labelling features from channel %d...\n', k);
     Ealpha_theta, 'Ealpha_theta', Ealpha_delta, 'Ealpha_delta', Ealpha_beta, 'Ealpha_beta', ...
     Ebeta_theta, 'Ebeta_theta', Ebeta_delta, 'Ebeta_delta', Ebeta_alpha, 'Ebeta_alpha', ...
     Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta', Etheta_delta, 'Etheta_delta',...
-    MNF,'MNF');%, ...
+    MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy');%, ...
 %    epochs, 'epochs');
 [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);
      fprintf("Done extracting features from channel %d, took %.3f seconds\n", k, toc(t));

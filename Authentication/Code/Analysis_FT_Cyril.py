@@ -39,9 +39,6 @@ def get_boundary_indexes(frequencies):
 if __name__ == "__main__":
     data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_2.npy')[52*250:53*250, :]
     data_filtered = PreprocessingPipeline(data).start()
-    _,_, plt = DataPlot.eeg_channels_plot(data_filtered)
-    plt.show(block=True)
-    # data_filtered = Filter.band_pass_filter(data_filtered,4,(2,10),250)
     data_cropped = crop(data_filtered, 1, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
     data_cropped = [x for x in data_cropped if x is not None]

@@ -193,6 +193,10 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_10.npy'),
                 'crop' : (4*250, 74*250)
         },
+        'Sam_exp_ft2_calibration' : {
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_calibration.npy'),
+                'crop' : (2*250, 52*250)
+        },
 
         'Joos_exp_pseudo2_take1' : {
                 'path' : Path('./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),

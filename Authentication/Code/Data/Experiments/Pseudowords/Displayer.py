@@ -111,29 +111,22 @@ def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
 
     
     showwords = tk.Button(frame,
-                   text="Start",
-                   command=partial(displaytkinter, length, display_time, filename, orderd))
+                text="Start",
+                command=partial(displaytkinter, length, display_time, filename, orderd))
     showwords.pack(side=tk.LEFT)
 
 
 
     root.mainloop()
-
-    return words, bitjes, times
+       
+    
+    return 
 
 if __name__ == '__main__':
-    words, bitjes, times = Displayer()
+    Displayer()
 
-    all_data = [words, bitjes, times]
 
-    all_data = np.array(all_data).T.tolist()
         
 
 
-    with open(f'{filename}.csv', 'w') as f:
-        
-        # using csv.writer method from CSV package
-        write = csv.writer(f)
-        write.writerows(all_data)
-
-    root.mainloop()
+    

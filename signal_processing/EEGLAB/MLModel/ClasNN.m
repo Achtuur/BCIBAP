@@ -29,7 +29,7 @@ for i = 1:length(datasets)
 %         featurelabels = [featurelabels; featurelabelsTemp];
 %         epochdata = [epochdata; epochsTemp];
 %     else
-    %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,99);
+    [features,components(i),coeff] = FeatSelectionPCA(featuresTemp,95);
     Y = YTemp;
     featurelabels = featurelabelsTemp;
     epochdata = epochsTemp;
@@ -113,4 +113,6 @@ end
 disp("Accuracy is "+  averageacc + "%")
 disp("Sensitivity is "+ averagesens + "%")
 model = Mdl;
+disp("accmean is "+ mean(averageacc))
+disp("sensmean is "+ mean(averagesens))
 save('MLModel/CNNmodel.mat', 'model', '-append');

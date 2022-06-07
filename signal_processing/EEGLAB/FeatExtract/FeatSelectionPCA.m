@@ -11,15 +11,19 @@
 %    features_out - best scoring features up to uplimit using PCA
 %    i - first i features taken from features_out
 %
-function [features_out, i,explained,latent] = FeatSelectionPCA(features_norm, uplimit)
+function [features_out, i, explained,latent] = FeatSelectionPCA(features_norm, uplimit)
 %% pca
     [coeff, score, latent, ~, explained, mu]= pca(features_norm);
-    s = 0;
-    for i = 1:length(explained)
-       s = s + explained(i);
-       if s > uplimit
-           break;
-       end
+    if uplimit >= 100
+        i = length(explained);
+    else
+        s = 0;
+        for i = 1:length(explained)
+           s = s + explained(i);
+           if s > uplimit
+               break;
+           end
+        end
     end
     features_out = transpose(coeff(:, 1:i)' * features_norm');
 end

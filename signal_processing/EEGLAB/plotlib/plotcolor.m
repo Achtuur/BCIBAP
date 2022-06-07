@@ -9,42 +9,65 @@
 %   brightness: [0 255] choose base brightness (adds this value to RGB)
 
 
-function plotcolor(axis, colorset, varargin)
-    if ~exist('colorset', 'var')
-        colorset = 1; %choose which colorset to use
+function color = plotcolor(axis, colorset, varargin)
+if ~exist('colorset', 'var')
+    colorset = 1; %choose which colorset to use
+end
+
+if nargin < 3
+    g.colordiff = 25; 
+    g.brightness = 25;
+else
+    g = finputcheck( varargin, { ...
+        'colordiff' 'integer' [0 255] 25;
+        'brightness' 'integer' [0 255] 25;
+        }, 'plotcolor');
+end
+
+if(~isnumeric(colorset)) %if string as input
+   colorset = str2colorset(colorset); 
+end
+
+colorsets = [
+         58 153 95;    %green
+         144 103 167;   %purple
+         211 95 96;     %red
+         39, 84, 138;   %blue
+         201, 149, 71;  %orange
+         199, 194, 103; %yellow
+         140, 79, 104;   %pink
+         70, 122, 120;  %cyan
+         110, 187, 213; %tudelft
+         0 0 0          %black
+         ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
+%clr = zeros(length(axis), 3);
+color = colorsets(colorset, :);
+for i = 1:length(axis)
+    clr = clamp(color + (i-1)*g.colordiff/255 + g.brightness/255, 0, 255);
+    clr(clr > 1) = 1; %set colors above 1 to 1
+    type = DetermineGraphType(axis(i));
+    if strcmp(type, 'bar')
+        axis(i).FaceColor = clr;
+        axis(i).EdgeColor = clamp(clr - 2.5*g.brightness/255, 0, 255);
+    elseif strcmp(type, 'line')
+        axis(i).Color = clr;
     end
-    
-    if nargin < 3
-        g.colordiff = 25; 
-        g.brightness = 25;
+end
+end
+
+%makes sure minX <= x <= maxX
+function x = clamp(x, minX, maxX)
+    x = max(minX, min(x, maxX));  
+end
+
+function type = DetermineGraphType(ax)
+    fd = fieldnames(ax);
+    if any(strcmp(fd, 'Color'))
+        type = 'line'; 
+    elseif any(strcmp(fd, 'BarWidth'))
+        type = 'bar';
     else
-        g = finputcheck( varargin, { ...
-            'colordiff' 'integer' [0 255] 25;
-            'brightness' 'integer' [0 255] 25;
-            }, 'plotcolor');
-    end
-    
-    if(~isnumeric(colorset)) %if string as input
-       colorset = str2colorset(colorset); 
-    end
-    
-    colorsets = [
-             58 153 95;    %green
-             144 103 167;   %purple
-             211 95 96;     %red
-             39, 84, 138;   %blue
-             201, 149, 71;  %orange
-             199, 194, 103; %yellow
-             140, 79, 104;   %pink
-             70, 122, 120;  %cyan
-             110, 187, 213; %tudelft
-             0 0 0          %black
-             ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
-    %clr = zeros(length(axis), 3);
-    for i = 1:length(axis)
-       clr = colorsets(colorset,  :) + (i-1)*g.colordiff/255 + g.brightness/255;
-       clr(clr > 1) = 1; %set colors above 1 to 1
-       axis(i).Color = clr;
+        error('Axis of unsupported type for coloring'); 
     end
 end
 

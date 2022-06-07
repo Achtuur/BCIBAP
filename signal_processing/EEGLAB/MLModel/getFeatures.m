@@ -15,22 +15,22 @@
 %   maybe remove features from output?
 
 %% Function start
-%function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
- %function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-function [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures()
+% function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [featuresWavelet, featurelabelsWavelet, features, featurelabels, labels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+% function [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures()
 % test vars
-    clc; clear;
-    eegpath = AddPath();
-    dataset = 'chb08';
-    path2dataset = eegpath + "sample_data\" + dataset + "\";
-    FileIndices = SeizFileIndices(dataset);
-    EpochLengthSec = 3;
+%     clc; clear;
+%     eegpath = AddPath();
+%     dataset = 'chb08';
+%     path2dataset = eegpath + "sample_data\" + dataset + "\";
+%     FileIndices = SeizFileIndices(dataset);
+%     EpochLengthSec = 3;
 %% Get labels of data
 disp('Getting labels of data');
 t = tic;
 
 fac_downsample = 2; %downsa5mpling factor
-summarypath = path2dataset + dataset + "-summary.txt";
+summarypath = path2dataset + '\' + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
 channellist = channellist.index;
 temp = [];
@@ -62,7 +62,7 @@ disp('Getting features...');
 t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
- [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 [featuresWavelet, featurelabelsWavelet] = FeatExtractWavelet(epochs,Fs,EpochLengthSec);
 
 

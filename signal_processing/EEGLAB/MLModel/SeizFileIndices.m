@@ -7,8 +7,8 @@ switch dataset
     case 'chb02'
         FileIndices = [19]; %16 and 16+ ruin code
     case 'chb03'
-        %FileIndices = [1 2 3 4]; %34 35 36 perform strangely thererofre kept out
-        FileIndices = [1 2 3 4 5 6];
+        FileIndices = [1 2 3 4]; %34 35 36 perform strangely thererofre kept out
+%         FileIndices = [1 2 3 4 5 6];
     case 'chb04'
         FileIndices = [5 8 28];
     case 'chb05'

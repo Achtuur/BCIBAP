@@ -1,24 +1,10 @@
-clear;
-close all;
-clc;
+a = rand(1, 10);
+b = rand(1, 10) * 10;
+t = 1:10;
 
-%%
-feat = [1 2 3;
-    0 0 NaN;
-    7 8 9;
-    NaN NaN 0];
-%%
-
-idx = find(isnan(feat));
-rows = rem(idx, size(feat, 1));
-rows(rows == 0) = size(feat, 1);
-rows = unique(rows);
-feat(rows, :) = NaN;
-for k = rows'
-    feat(k, :) = mean(feat, 'omitnan');
-end
-% feat(rows, :) = mean(feat, 'omitnan');
-disp(feat)
-
-%%
-[b, mu, sigma] = zscore(feat);
+hold on;
+yyaxis left;
+plot(t, a);
+yyaxis right;
+plot(t,b);
+hold on;

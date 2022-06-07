@@ -117,10 +117,10 @@ for k = 1:nChannels
     Ebeta_theta= Ebeta./Etheta;
     
     %spectral entropy
-    totalepochs=totalepochs';
+    %totalepochs=totalepochs';
     se=zeros(29,nEpochs);
     for j = 1 : nEpochs
-    se(:,j) = pentropy(totalepochs(:,j),129);
+    se(:,j) = pentropy(CurChannelEpoch(:,j),129);
     end
     
     % stdentropy=zeros(1,2673);

@@ -31,26 +31,6 @@ EpochLengthSec = 3;
 rowsEpoch= floor(length(EarData)/L);
 epochs = epochs{1};
 
-% epochs= zeros(rowsEpoch,L);
-% x=0;
-% for i=1:rowsEpoch
-%     epochs(i,:)= EarData(1,(x*L+1):L*(x+1));
-%     x=x+1;
-% end
-% epoch1= epochs(2,:);
-% 
-% epoch2= decimate(epoch1,2);
-% 
-% epochsDec=zeros(2406,384);
-% for i=1:2406
-%     epochsDec(i,:)=decimate(epochs(i,:),2);
-% end
-% 
-% epoch1= decimate(epoch1,2);
-
-
-%% TIME DOMAIN SIGNAL
-t = (0:L-1)*T;        % Time vector
 
 
 %% POWER SPECTRAL DENSITY

@@ -30,7 +30,7 @@ ax(6) = plot(t,y6);
 hold off;
 
 plotline(ax, 1.5);
-plotcolor(ax(1), 'green');
+plotcolor(ax(1), 'green', 'colordiff', 0);
 plotcolor(ax(2), 'purple');
 plotcolor(ax(3), 'red');
 plotcolor(ax(4), 'orange');

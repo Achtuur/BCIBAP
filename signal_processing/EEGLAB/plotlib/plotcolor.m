@@ -5,7 +5,8 @@
 %           'green', 'purple', 'red', 'blue', 'orange', 'yellow', 'magenta', 'cyan', 'tudelft' and 'black'
 %           can also use '0' to '10'
 %% optional
-%   colordiff: difference in RGB value to the next color (includes first color)
+%   colordiff: [0 255] difference in RGB value to the next color (includes first color)
+%   brightness: [0 255] choose base brightness (adds this value to RGB)
 
 
 function plotcolor(axis, colorset, varargin)

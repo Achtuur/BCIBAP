@@ -12,10 +12,11 @@ i = 1;
 numFolds = 10;
 % "01" "03" "04" "05" "06" "07" "08" "09" "10"
 
-datasets = ["06"];
+datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
 temp = 0;
 save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
 clear temp;
+components = zeros(length(datasets),1);
 for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
@@ -28,7 +29,7 @@ for i = 1:length(datasets)
 %         featurelabels = [featurelabels; featurelabelsTemp];
 %         epochdata = [epochdata; epochsTemp];
 %     else
-    features = FeatSelectionPCA(featuresTemp,95);
+    %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,99);
     Y = YTemp;
     featurelabels = featurelabelsTemp;
     epochdata = epochsTemp;

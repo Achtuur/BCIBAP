@@ -5,14 +5,14 @@ clc;
 
 % function TestFileSeizures(dataset, path2dataset, FileIndices, path2model)
 %% test vars
-    dataset = 'chb10';
+    dataset = 'chb01';
     eegpath = AddPath();
     path2dataset = eegpath + "\sample_data\" + dataset + "\";
-    FileIndices = SeizFileIndices(dataset);
+    FileIndices = 26;
     path2model = eegpath + "\MLModel\CNNmodel.mat";
 
 %% get labels
-EpochLengthSec = load(path2model, 'EpochLengthSec').EpochLengthSec;
+EpochLengthSec = 3; %load(path2model, 'EpochLengthSec').EpochLengthSec;
 summarypath = path2dataset + dataset + "-summary.txt";
 downsampling = 2;
 [Fs, labels, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, downsampling); %get labels of where there are seizures
@@ -40,7 +40,7 @@ epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
 %     epochs(k,1) = {temp(SeizureEpochs,:)};
 % end
 % epochs = epochs(SeizureEpochs, :);
-[feat, ~] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+[feat, ~] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
 
 feat = cell2mat(feat);
 feat = NormalizeFeat(feat);

@@ -1,6 +1,5 @@
 clc; clear;
 
-
 [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures();
 
  %% normalise features
@@ -15,7 +14,7 @@ nexttile;
 % % Plot in tiles
 ax(1)= bar(explainedFourier./100);
 title('PCA on fourier','interpreter' ,'latex','fontsize', 18,'FontWeight','bold');
-xlim([0 40])
+xlim([0 28])
 ylim([0 1])
 legend('Individual explained variance', 'interpreter', 'latex', 'fontsize', 8)
 hold on

@@ -39,6 +39,10 @@ class FeaturePipeline():
         stats_dwt = self.perform_statistics(dwt_data)
         return stats_dwt
 
+    def perform_fft(self, eeg_data):
+        eeg_fft = np.fft(eeg-data)
+        return eeg_fft
+
 
 
 if __name__ == "__main__":

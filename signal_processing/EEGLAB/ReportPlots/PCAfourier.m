@@ -7,7 +7,7 @@ EpochLengthSec = 3;
 % %% Get labels of data
 % disp('Getting labels of data');
 % t = tic;
-% 
+
 fac_downsample = 2; %downsa5mpling factor
 summarypath = path2dataset + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
@@ -186,12 +186,17 @@ end
 
 stdentropy=zeros(1,2673);
 for j = 1 : 2673
-stdentropy(j) = std(totalepochs(:,j));
+stdentropy(j) = std(se(:,j));
 end
 
 minentropy=zeros(1,2673);
 for j = 1 : 2673
-minentropy(j) = min(totalepochs(:,j));
+minentropy(j) = min(se(:,j));
+end
+
+stdepoch=zeros(1,2673);
+for j = 1 : 2673
+stdepoch(j) = std(totalepochs(:,j));
 end
 
 % min=zeros(1,2673);
@@ -211,7 +216,7 @@ disp('labelling features');
     Ealpha_theta, 'Ealpha_theta', Ealpha_delta, 'Ealpha_delta', Ealpha_beta, 'Ealpha_beta', ...
     Ebeta_theta, 'Ebeta_theta', Ebeta_delta, 'Ebeta_delta', Ebeta_alpha, 'Ebeta_alpha', ...
     Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta', Etheta_delta, 'Etheta_delta',...
-    MNF,'MNF');%, ...
+    MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy',stdepoch,'stdepoch');%, ...
 %    epochs, 'epochs');
        
 disp('Done extracting features');
@@ -239,3 +244,27 @@ senonseizure=pentropy(totalepochs(:,2000),129);
 figure(5)
 pentropy(totalepochs(:,5),129)
 seseizure=pentropy(totalepochs(:,5),129);
+
+
+% figure(6)
+% % 
+% scatter(stdepoch(1,1:148*9),stdentropy(1,1:148*9));
+% %
+% hold on
+% scatter(stdepoch(1,148*9:2673),stdentropy(1,148*9:2673));
+figure(5)
+t = tiledlayout('flow');
+% % Plot in tiles
+nexttile, ax(1)= bar(explained), title('Welch Power Spectral Density Estimate','interpreter' ,'latex','fontsize', 18,'FontWeight','bold'),xlim([0 128]) 
+%nexttile, ax(2)=  plot(fPerio,10*log10(psdPerio)),title('Periodogram Power Spectral Density Estimate','interpreter', 'latex','fontsize', 18,'fontweight','bold'), xlim([0 128])
+plotcolor(ax,'green', 'colordiff',0);
+% % Specify common title, X and Y labels
+% title(t, 'Decomposition of epoch signal','interpreter', 'latex','fontsize', 18)
+xlabel(t, '$Frequency [Hz]$','interpreter', 'latex', 'fontsize',17)
+ylabel(t, '$Power/frequency [dB/Hz]$','interpreter', 'latex','fontsize',17)
+%saveas(gcf,'Pwelch_PerioPsd','epsc')
+
+%% Save image
+location = GetPath2Images() + mfilename;
+extension = "eps";
+SaveImage(fig, location, extension);

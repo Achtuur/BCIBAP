@@ -10,9 +10,9 @@ epochs = 3;
 final_results = cell(size(epochs, 2), 2);
 i = 1;
 numFolds = 10;
-% "04" "05" "06" "07" "08" "09" "10"
+% "01" "03" "04" "05" "06" "07" "08" "09" "10"
 
-datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
+datasets = ["06"];
 temp = 0;
 save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
 clear temp;

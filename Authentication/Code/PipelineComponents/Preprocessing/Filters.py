@@ -96,13 +96,17 @@ class Filter():
 if __name__ == '__main__':
     data_path = Path('../../Data/ExperimentResults/recorded_data/_unused/OpenBCI-RAW-2022-05-06_15-40-45.npy')
     data = np.load(data_path)[1000:3000]
-    DataPlot.eeg_channels_plot(data)
+    _,_, plt = DataPlot.eeg_channels_plot(data)
+    plt.show(block=True)
     data = Filter.high_pass_filter(data, 4, 1, 250)
-    DataPlot.eeg_channels_plot(data)
+    _,_, plt = DataPlot.eeg_channels_plot(data)
+    plt.show(block=True)
     data = Filter.notch_filter(data, 50, 30, 250)
-    DataPlot.eeg_channels_plot(data)
+    _,_, plt = DataPlot.eeg_channels_plot(data)
+    plt.show(block=True)
     data = Filter.remove_bad_channels(data)
-    DataPlot.eeg_channels_plot(data)
+    _,_, plt = DataPlot.eeg_channels_plot(data)
+    plt.show(block=True)
     # data = Filter.band_pass_filter(data, 4, (10,30), 250)
     # DataPlot.eeg_channels_plot(data)
         

@@ -20,10 +20,22 @@ class Filter():
         return high_pas_filtered_data
 
     @staticmethod
+    def low_pass_filter(data: np.ndarray, order: int, crit_freq: float, fs: float):
+        b, a = signal.butter(order, crit_freq, 'low', fs=fs)
+        low_pass_filtered_data = signal.filtfilt(b, a, data, axis=0)
+        return low_pass_filtered_data
+
+    @staticmethod
     def band_pass_filter(data: np.ndarray, order: int, crit_range: tuple, fs: float):
         b, a = signal.butter(order, crit_range, 'bandpass', fs=fs)
         band_pass_filtered = signal.filtfilt(b, a, data, axis=0)
         return band_pass_filtered
+
+    @staticmethod
+    def band_stop_filter(data: np.ndarray, order: int, crit_range: tuple, fs: float):
+        b, a = signal.butter(order, crit_range, btype = 'bandstop', fs=fs)
+        band_stop_filtered = signal.filtfilt(b, a, data, axis=0)
+        return band_stop_filtered
 
     @staticmethod
     def remove_bad_channels(data: np.ndarray, threshold_val=False):

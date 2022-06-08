@@ -1,17 +1,33 @@
 import numpy as np
 from math import ceil
 
-def crop(data: np.ndarray, t_window: int, f_sampling: int, mask: tuple = False):
+def crop(data: np.ndarray, t_window: int, f_sampling: int, mask: tuple = False, v: bool = False):
     array_length = data.shape[0]
     n_sub_samples = ceil(t_window * f_sampling)
     groups = array_length // n_sub_samples
 
-    cropped_data = np.array_split(data, groups)
+    if v:
+        print(f'array_length: {array_length}\nnumber of sub samples:{n_sub_samples}\ngroups: {groups}\n')
+
+    cropped_data = []
+    for index in range(groups):
+        cropped_data.append(data[index*n_sub_samples:(index+1)*n_sub_samples])
+        # cropped_data = np.array_split(data, groups)
 
     if mask:
         cropped_data = list(map(lambda x: x[mask[0]:mask[1]], cropped_data))
 
     return cropped_data
+
+def cut(data: np.ndarray, t_window: int, f_sampling: int = 250, offset = 0):
+    if offset != 0:
+        offset_inverse = t_window * f_sampling - offset
+        data = data[offset_inverse: (data.size - offset)]
+    parts = data[0].size
+    parts = int(parts / (t_window * f_sampling))
+    data_split = np.hsplit(data, parts)
+    print(len(data_split[1]))
+    return data_split
 
 if __name__ == '__main__':
     data = np.arange(0,2000)

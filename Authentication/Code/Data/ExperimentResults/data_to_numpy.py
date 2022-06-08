@@ -221,8 +221,6 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path(".\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo_random_take4.npy"),
                 'crop' : (542, 542 + 40*250)
         }
-
-
 }
 
 def txt_to_numpy(recording_txt_path, filename, subject_name):

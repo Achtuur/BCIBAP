@@ -18,7 +18,7 @@ import argparse
 # Create parser
 
 
-def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True):
+def Displayer(length = 40, display_time = 1, filename = 'error', orderd = True, pseudo = False):
     root = tk.Tk()
     root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
     root.configure(bg='')
@@ -127,6 +127,3 @@ if __name__ == '__main__':
 
 
         
-
-
-    

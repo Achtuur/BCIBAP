@@ -7,6 +7,7 @@ class ExperimentWrapper():
         self.experiment_type = experiment_type
         self.experiment_data = None
         self.experiment_description_file = None
+        self.experiment_labels = None
         
 
     def get_subject(self):
@@ -24,4 +25,11 @@ class ExperimentWrapper():
         return self
 
     def get_experiment_description_file(self):
-        return self.experiment_description_file
+        return self.experiment_description_file    
+        
+    def set_experiment_labels(self, labels: list):
+        self.experiment_labels = labels
+        return self
+
+    def get_experiment_labels(self):
+        return self.experiment_labels

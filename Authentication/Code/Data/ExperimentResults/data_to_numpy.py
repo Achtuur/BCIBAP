@@ -153,47 +153,6 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_exp_cyril_6hz_10.npy'),
                 'crop' : (3*250, 13*250)
         },
-        'Sam_exp_ft2_12hz_2' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_2.npy'),
-                'crop' : (2*250, 65*250)
-        },
-        'Sam_exp_ft2_12hz_4' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_4.npy'),
-                'crop' : (5*250, 70*250)
-        },
-        'Sam_exp_ft2_12hz_6' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_6.npy'),
-                'crop' : (2*250, 69*250)
-        },
-        'Sam_exp_ft2_12hz_8' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_8.npy'),
-                'crop' : (3*250, 71*250)
-        },
-        'Sam_exp_ft2_12hz_10' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_12hz_10.npy'),
-                'crop' : (3*250, 73*250)
-        },
-        'Sam_exp_ft2_6hz_2' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_2.npy'),
-                'crop' : (4*250, 66*250)
-        },
-        'Sam_exp_ft2_6hz_4' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_4.npy'),
-                'crop' : (1*250, 67*250)
-        },
-        'Sam_exp_ft2_6hz_6' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_6.npy'),
-                'crop' : (1*250, 67*250)
-        },
-        'Sam_exp_ft2_6hz_8' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_8.npy'),
-                'crop' : (3*250, 71*250)
-        },
-        'Sam_exp_ft2_6hz_10' : {
-                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_exp_ft2_6hz_10.npy'),
-                'crop' : (4*250, 74*250)
-        },
-
         'Joos_exp_pseudo2_take1' : {
                 'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take1.npy'),
                 'crop' : (367, 367 + 40*250)
@@ -205,7 +164,28 @@ RECORDINGS_CROP_DICTIONARY = {
         'Joos_exp_pseudo2_take3' : {
                 'path' : Path('.\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take3.npy'),
                 'crop' : (398, 398 + 40*250)
+        },
+        'Sam_exp_pseudo2_take2' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take2.npy'),
+                'crop' : (859, 859 + 40*250)
+        },
+        'Sam_exp_pseudo2_take3' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take3.npy'),
+                'crop' : (1263, 1263 + 40*250)
+        },
+        'Sam_exp_pseudo2_take4' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take4.npy'),
+                'crop' : (403, 403 + 40*250)
+        },
+        'Sam_exp_pseudorandom_take1' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_sam-pw-random-7-juni.npy'),
+                'crop' : (462, 462 + 40*250)
+        },
+        'Sam_exp_pseudorandom_take2' : {
+                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_random_7juni_take2.npy'),
+                'crop' : (495, 495 + 40*250)
         }
+
 
 }
 

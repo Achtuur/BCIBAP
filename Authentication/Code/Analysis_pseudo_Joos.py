@@ -25,8 +25,12 @@ import matplotlib.pyplot as plt
 from statistics import mean
 from SVM import svm_classifier
 import random
+import seaborn as sns
 import sklearn
+from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import PCA
+from Kfold_CV import Models
+from Analysis_FT import plot_confusion, confusion
 
 
 def power_band(data_segment, band = 0):
@@ -54,7 +58,7 @@ def SVM_test(features, labels, pca_components = 30, iterations = 200):
     pca.fit(features) 
     features = pca.components_[:pca_components].T
     print(features.shape)
-
+    model = Models()
     for i in range(iterations):
         c = []
         features_shuffled = features
@@ -80,7 +84,8 @@ def SVM_test(features, labels, pca_components = 30, iterations = 200):
             if result == test_labels[index]:
                 accurate = accurate + 1
         accuracy_list.append(accurate/len(test_data))
-    return accuracy_list
+    grid_searches, acc = model.KFOLD_CV(training_data, training_labels, test_data, test_labels)
+    return accuracy_list, grid_searches, test_data, test_labels
 
 
 if __name__ == "__main__":
@@ -220,7 +225,7 @@ if __name__ == "__main__":
             power_50hz_per_channel + power_60hz_per_channel)
 
         
-
+        
 ####This section was used to create the heatmap 
     #     heatmap = np.zeros((2,len(power_segment_forheatmap[0]),8))
     #     for e_index, experiment in enumerate(power_segment_forheatmap):
@@ -257,7 +262,18 @@ if __name__ == "__main__":
     # print(len(features[0]))   
 
 
-    accuracy_list = SVM_test(features, labels)
+    accuracy_list, gridsearch, X_test, Y_test = SVM_test(features, labels)
+    print(gridsearch[0])
+    for i in range(len(gridsearch)):
+        best_model = gridsearch[i].best_estimator_
+        Y_predict = best_model.predict(X_test)
+        tn, fp, fn, tp = confusion_matrix(Y_test, Y_predict).ravel()
+        TPR = tn/(tn+fp)
+        FAR = fp/(fp+tn)
+        acc = (tp+tn)/(tp+tn+fp+fn)
+        print(f"For algorithm {gridsearch[i].best_estimator_}: TPR = {TPR}, FAR = {FAR}, acc = {acc}.\n")
+    cf_matrix1 = confusion(gridsearch, X_test, Y_test)
+    plot_confusion(cf_matrix1, gridsearch)
     print(mean(accuracy_list))
     
 

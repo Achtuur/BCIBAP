@@ -2,26 +2,31 @@
 R = 0.06;
 A = pi*R.^2;
 T = 0.008;
-e0 = 8.85*10.^(-12);
+e0 = 8.85*10.^(-12); % matlab constant
 
-F = data3g1000mg(:,2); %Frequency
+F = dataa3gn750mgd2w12g(:,2); %Frequency
 
 %Real impedance
-ZR1 = data3g500mg(:,3); 
-ZR2 = data3g750mg(:,3); 
-ZR3 = data3g1000mg(:,3); 
-ZR4 = data3g1250mg(:,3); 
-ZR5 = data3g1500mg(:,3); 
-ZR6 = data3g1750mg(:,3); 
+ZR0 = dataa3gn1500mgd2(:,3); 
+ZR1 = dataa3gn750mgd2w12g(:,3); 
+ZR2 = dataa3gn750mgd2w60g(:,3); 
+ZR3 = dataa3gn750mgd2w120g(:,3); 
+ZR4 = dataa3gn1500mgd2w12g(:,3); 
+ZR5 = dataa3gn1500mgd2w60g(:,3); 
+ZR6 = dataa3gn1500mgd2w120g(:,3); 
 
-ZI1 = data3g500mg(:,4); 
-ZI2 = data3g750mg(:,4); 
-ZI3 = data3g1000mg(:,4); 
-ZI4 = data3g1250mg(:,4); 
-ZI5 = data3g1500mg(:,4); 
-ZI6 = data3g1750mg(:,4); 
+%Imaginary impedance
+ZI0 = dataa3gn1500mgd2(:,4); 
+ZI1 = dataa3gn750mgd2w12g(:,4); 
+ZI2 = dataa3gn750mgd2w60g(:,4); 
+ZI3 = dataa3gn750mgd2w120g(:,4); 
+ZI4 = dataa3gn1500mgd2w12g(:,4); 
+ZI5 = dataa3gn1500mgd2w60g(:,4); 
+ZI6 = dataa3gn1500mgd2w120g(:,4); 
 
+%conductivity
 for i = 1:61
+    conduc0(i) = T/(ZR0(i)*A);
     conduc1(i) = T/(ZR1(i)*A);
     conduc2(i) = T/(ZR2(i)*A);
     conduc3(i) = T/(ZR3(i)*A);
@@ -30,7 +35,11 @@ for i = 1:61
     conduc6(i) = T/(ZR6(i)*A);
 end
 
+%relative permittivitiy
 for i = 1:61
+    C0(i) = 1/(2*pi*F(i)*ZI0(i));
+    P0(i) = (C0(i)*T)/(A*e0);
+    
     C1(i) = 1/(2*pi*F(i)*ZI1(i));
     P1(i) = (C1(i)*T)/(A*e0);
     
@@ -52,33 +61,35 @@ end
 
 figure
 
-plot(F, conduc1,'--ob');
+plot(F, conduc0,'--xb');
 hold on
+plot(F, conduc1,'--xr');
 plot(F, conduc2,'--or');
-plot(F, conduc3,'--oy');
-plot(F, conduc4,'--om');
+plot(F, conduc3,'--.r');
+plot(F, conduc4,'--xg');
 plot(F, conduc5,'--og');
-plot(F, conduc6,'--oc');
+plot(F, conduc6,'--.g');
 
-title("Dielectric measurement");
+title("Dielectric measurement, 3g agar, day 2");
 xlabel("Frequency [Hz]");
 ylabel("Conductivity [S/m]");
 
-leg = legend('500 mg', '750 mg', '1000 mg', '1250 mg', '1500 mg', '1750 mg');
-title(leg,'Salt concentrations');
+leg = legend('0g','12g', '60g', '120g', '12g', '60g', '120g');
+title(leg,'Pressure');
 
 figure
 
-plot(F, P1,'--xr');
+plot(F, P0,'--xb');
 hold on
-plot(F, P2,'--xg');
-plot(F, P3,'--xb');
-plot(F, P4,'--xm');
-plot(F, P5,'--xy');
-plot(F, P6,'--xc');
+plot(F, P1,'--xr');
+plot(F, P2,'--or');
+plot(F, P3,'--.r');
+plot(F, P4,'--xg');
+plot(F, P5,'--og');
+plot(F, P6,'--.g');
 
-leg = legend('500 mg', '750 mg', '1000 mg', '1250 mg', '1500 mg', '1750 mg');
-title(leg, 'Salt concentrations');
+leg = legend('0g','12g', '60g', '120g', '12g', '60g', '120g');
+title(leg,'Pressure');
 
 title("Dielectric measurement, 3g agar");
 xlabel("Frequency [Hz]");

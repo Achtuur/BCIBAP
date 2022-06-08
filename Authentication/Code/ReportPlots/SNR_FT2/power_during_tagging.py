@@ -135,7 +135,7 @@ if __name__ == '__main__':
     plt.rcParams["figure.figsize"] = (10,5)
     plt.legend(bbox_to_anchor=(0.98, 1.05))
     plt.title('Frequency power around tagging frequency compared to average channel power')
-    plt.xlabel('Different experiment trials')
-    plt.ylabel('Relative Power')
+    plt.xlabel('Different experiment trials', fontsize=15)
+    plt.ylabel('Relative Power', fontsize=15)
     plt.show(block=True)
     

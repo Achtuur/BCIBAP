@@ -211,23 +211,23 @@ RECORDINGS_CROP_DICTIONARY = {
                 'crop' : (398, 398 + 40*250)
         },
         'Sam_exp_pseudo2_take2' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take2.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take2.npy'),
                 'crop' : (859, 859 + 40*250)
         },
         'Sam_exp_pseudo2_take3' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take3.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take3.npy'),
                 'crop' : (1263, 1263 + 40*250)
         },
         'Sam_exp_pseudo2_take4' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take4.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take4.npy'),
                 'crop' : (403, 403 + 40*250)
         },
         'Sam_exp_pseudorandom_take1' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_sam-pw-random-7-juni.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_sam-pw-random-7-juni.npy'),
                 'crop' : (462, 462 + 40*250)
         },
         'Sam_exp_pseudorandom_take2' : {
-                'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_random_7juni_take2.npy'),
+                'path' : Path('./recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_random_7juni_take2.npy'),
                 'crop' : (495, 495 + 40*250)
         }
 }

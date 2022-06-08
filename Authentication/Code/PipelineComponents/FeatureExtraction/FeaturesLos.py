@@ -181,6 +181,41 @@ def left_hemisphere_difference_ratio(pw_signal: np.array, word_signal_list: list
 
     return average_pw_power / baseline
 
+def right_hemisphere_difference_ratio(pw_signal: np.array, word_signal_list: list, freq_range: tuple): 
+    # left_channels = [0, 2, 4, 6]
+    right_channels = [1, 3, 5, 7]
+
+    # Baseline is the average of the word signals 
+    baseline = 0
+
+    # Iterate all words to find the average 
+    for word_signal in word_signal_list:
+        average_word_power = 0
+        word_power = get_frequency_power(word_signal, freq_range)
+
+        # Only count the channels in the left hemisphere
+        for channel in right_channels:
+            average_word_power += word_power[str(channel)]
+        
+        baseline += (average_word_power / len(right_channels))
+
+    # Find the average
+    baseline /= len(word_signal_list)
+
+    # Find frequency power of pw signal
+    average_pw_power = 0
+    pw_power = get_frequency_power(pw_signal, freq_range)
+
+    # Only count the channels in the left hemisphere
+    for channel in right_channels:
+        average_pw_power += pw_power[str(channel)]
+
+    # Get average
+    average_pw_power /= len(right_channels)
+
+    return average_pw_power / baseline
+
+
 
 if __name__ == '__main__':
     # data = np.load('../../Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_sam_6hz-60sec.npy')

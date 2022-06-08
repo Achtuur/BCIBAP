@@ -158,8 +158,8 @@ if __name__ == '__main__':
             axs[0].scatter(test[index], power_dict['6'], color=colors[index_2])
             # plt.scatter(test[index], power_dict['7'], color=colors[index_2], marker='+')
 
-    fig.text(0.04, 0.5, 'Relative Power', va='center', rotation='vertical')
-    fig.text(0.5, 0.04, 'Measure period [s]', ha='center') 
+    fig.text(0.04, 0.5, 'Relative Power', va='center', rotation='vertical', fontsize=15)
+    fig.text(0.5, 0.04, 'Measure period [s]', ha='center', fontsize=15) 
     
     y = [
         [],
@@ -183,14 +183,15 @@ if __name__ == '__main__':
 
     # pav = np.polyfit(test,)
 
-    axs[0].plot(test, np.multiply(p0[0], np.power(test,2)) + np.multiply(p0[1], test) + p0[2], color=colors[0])
-    axs[0].plot(test, np.multiply(p1[0], np.power(test,2)) + np.multiply(p1[1], test) + p1[2], color=colors[1])
-    axs[0].plot(test, np.multiply(p2[0], np.power(test,2)) + np.multiply(p2[1], test) + p2[2], color=colors[2])
-    axs[0].plot(test, np.multiply(p3[0], np.power(test,2)) + np.multiply(p3[1], test) + p3[2], color=colors[3])
-    axs[0].plot(test, np.multiply(p4[0], np.power(test,2)) + np.multiply(p4[1], test) + p4[2], color=colors[4])
-    axs[0].plot(test, np.multiply(pav[0], np.power(test,2)) + np.multiply(pav[1], test) + pav[2], color=colors[5])
+    axs[0].plot(test, np.multiply(p0[0], np.power(test,2)) + np.multiply(p0[1], test) + p0[2], color=colors[0], label='2 sec')
+    axs[0].plot(test, np.multiply(p1[0], np.power(test,2)) + np.multiply(p1[1], test) + p1[2], color=colors[1], label='4 sec')
+    axs[0].plot(test, np.multiply(p2[0], np.power(test,2)) + np.multiply(p2[1], test) + p2[2], color=colors[2], label='6 sec')
+    axs[0].plot(test, np.multiply(p3[0], np.power(test,2)) + np.multiply(p3[1], test) + p3[2], color=colors[3], label='8 sec')
+    axs[0].plot(test, np.multiply(p4[0], np.power(test,2)) + np.multiply(p4[1], test) + p4[2], color=colors[4], label='10 sec')
+    axs[0].plot(test, np.multiply(pav[0], np.power(test,2)) + np.multiply(pav[1], test) + pav[2], color=colors[5], label='average')
     
-    axs[0].legend(['2 sec', '4 sec', '6 sec', '8 sec', '10 sec', 'average'], bbox_to_anchor=(1,1))
+    axs[0].legend(bbox_to_anchor=(0.97,1), fontsize=13)
+    # axs[0].legend(['2 sec', '4 sec', '6 sec', '8 sec', '10 sec', 'average'], bbox_to_anchor=(1,1))
 
     for index, (key, interval_results) in enumerate(final_results.items()):
         for index_2, power_dict in enumerate(interval_results):
@@ -224,7 +225,10 @@ if __name__ == '__main__':
     axs[1].plot(test, np.multiply(pav[0], np.power(test,2)) + np.multiply(pav[1], test) + pav[2], color=colors[5])
     
 
-    axs[0].set_title('Relative Tagged frequency Power for different measuring intervals')
+    axs[0].set_title('Relative Tagged frequency Power for different measuring intervals', fontsize=14)
+    axs[0].set_ylabel('Channel 6')
+    axs[1].set_ylabel('Channel 7')
+    
     plt.show(block=True)
 
 

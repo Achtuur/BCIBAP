@@ -185,8 +185,11 @@ RECORDINGS_CROP_DICTIONARY = {
                 'path' : Path('.\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_random_7juni_take2.npy'),
                 'crop' : (495, 495 + 40*250)
         }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> Authentication_Branch
 }
 
 def txt_to_numpy(recording_txt_path, filename, subject_name):

@@ -5,6 +5,7 @@ import csv
 def csv_to_labels(path_describtion, path_labels):
     description_files = list(path_describtion.iterdir())
     for file in description_files:
+        print(file)
         with open(file, newline = '') as f:
             reader = csv.reader(f)
             reader = list(reader)

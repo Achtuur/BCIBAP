@@ -8,7 +8,7 @@ class svm_classifier():
         if len(self.training_data) != len(self.labels):
             raise ValueError("Length of inputs does not match the amount of labels")
 
-        self.clf = svm.SVC(kernel="linear").fit(self.training_data, self.labels)
+        self.clf = svm.SVC(kernel="rbf").fit(self.training_data, self.labels)
 
     def predict(self, input):
         return self.clf.predict(input)

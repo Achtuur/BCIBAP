@@ -204,6 +204,22 @@ RECORDINGS_CROP_DICTIONARY = {
         'Simon_exp_pseudorandom_take5' : {
                 'path' : Path('.\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take5.npy'),
                 'crop' : (480, 480 + 40*250)
+        },
+        'Joos_exp_pseudo_random_take1' : {
+                'path' : Path(".\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo_random_take1.npy"),
+                'crop' : (479, 479 + 40*250)
+        },
+        'Joos_exp_pseudo_random_take2' : {
+                'path' : Path(".\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo_random_take2.npy"),
+                'crop' : (274, 274 + 40*250)
+        },
+        'Joos_exp_pseudo_random_take3' : {
+                'path' : Path(".\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo_random_take3.npy"),
+                'crop' : (455, 455 + 40*250)
+        },
+        'Joos_exp_pseudo_random_take4' : {
+                'path' : Path(".\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo_random_take4.npy"),
+                'crop' : (542, 542 + 40*250)
         }
 
 

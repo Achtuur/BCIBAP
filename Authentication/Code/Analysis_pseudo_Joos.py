@@ -91,62 +91,111 @@ if __name__ == "__main__":
 
     EXPERIMENTS = []
 
-    EXPERIMENT_SIMON_6HZ = ExperimentWrapper("Simon", "ft")
-    EXPERIMENT_SIMON_6HZ.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\\Simon\OpenBCISession_Simon_stage1_6hz.npy"))
-    EXPERIMENT_SIMON_6HZ.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENTS.append(EXPERIMENT_SIMON_6HZ)
-
     EXPERIMENT_JOOS_TAKE_1 = ExperimentWrapper("Joos", "pseudo")
     EXPERIMENT_JOOS_TAKE_1.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take1.npy"))
     EXPERIMENT_JOOS_TAKE_1.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take1.csv"))
-    EXPERIMENT_JOOS_TAKE_1.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_JOOS_TAKE_1.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_1)
 
     EXPERIMENT_JOOS_TAKE_2 = ExperimentWrapper("Joos", "pseudo")
     EXPERIMENT_JOOS_TAKE_2.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take2.npy"))
     EXPERIMENT_JOOS_TAKE_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENT_JOOS_TAKE_2.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_JOOS_TAKE_2.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_2)
 
     EXPERIMENT_JOOS_TAKE_3 = ExperimentWrapper("Joos", "pseudo")
     EXPERIMENT_JOOS_TAKE_3.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Joos\OpenBCISession_Joos_exp_pseudo2_1s_take3.npy"))
     EXPERIMENT_JOOS_TAKE_3.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENT_JOOS_TAKE_3.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_JOOS_TAKE_3.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_3)
 
     EXPERIMENT_SAM_TAKE_2 = ExperimentWrapper("Sam", "pseudo")
     EXPERIMENT_SAM_TAKE_2.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take2.npy"))
     EXPERIMENT_SAM_TAKE_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENT_SAM_TAKE_2.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_SAM_TAKE_2.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_2)
 
     EXPERIMENT_SAM_TAKE_3 = ExperimentWrapper("Sam", "pseudo")
     EXPERIMENT_SAM_TAKE_3.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take3.npy"))
     EXPERIMENT_SAM_TAKE_3.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENT_SAM_TAKE_3.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_SAM_TAKE_3.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_3)
 
     EXPERIMENT_SAM_TAKE_4 = ExperimentWrapper("Sam", "pseudo")
     EXPERIMENT_SAM_TAKE_4.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_Sam_pw_7juni_take4.npy"))
     EXPERIMENT_SAM_TAKE_4.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
-    EXPERIMENT_SAM_TAKE_4.set_experiment_labels([0] * 20 + [1] * 20)
+    EXPERIMENT_SAM_TAKE_4.set_experiment_labels([1] * 20 + [0] * 20)
     EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_4)
 
-    EXPERIMENT_SAM_TAKE_RANDOM_1 = ExperimentWrapper("Sam", "pseudo")
+    EXPERIMENT_SAM_TAKE_RANDOM_1 = ExperimentWrapper("Sam", "pseudorandom")
     EXPERIMENT_SAM_TAKE_RANDOM_1.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_sam-pw-random-7-juni.npy"))
     EXPERIMENT_SAM_TAKE_RANDOM_1.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
     EXPERIMENT_SAM_TAKE_RANDOM_1.set_experiment_labels(['1', '0', '1', '0', '1', '0', '1', '1', '0', '0', '1', '0', '0', '0', '0', '1', '1', '1', '1', '0', '1', '0', '0', '0', '1', '1', '0', '0', '1', '1', '1', '1', '0', '1', '1', '0', '1', '0', '0', '0'])
     EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_RANDOM_1)
 
-    EXPERIMENT_SAM_TAKE_RANDOM_2 = ExperimentWrapper("Sam", "pseudo")
+    EXPERIMENT_SAM_TAKE_RANDOM_2 = ExperimentWrapper("Sam", "pseudorandom")
     EXPERIMENT_SAM_TAKE_RANDOM_2.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Sam\OpenBCISession_sam_pw_random_7juni_take2.npy"))
     EXPERIMENT_SAM_TAKE_RANDOM_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
     EXPERIMENT_SAM_TAKE_RANDOM_2.set_experiment_labels(['0', '1', '1', '0', '0', '0', '1', '1', '0', '0', '0', '1', '0', '0', '1', '1', '1', '1', '0', '1', '1', '1', '0', '1', '0', '0', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '1', '0', '1', '0'])
-    EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_RANDOM_1)
+    EXPERIMENTS.append(EXPERIMENT_SAM_TAKE_RANDOM_2)
+
+    EXPERIMENT_SIMON_TAKE_RANDOM_1 = ExperimentWrapper("Simon", "pseudorandom")
+    EXPERIMENT_SIMON_TAKE_RANDOM_1.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take1.npy"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_1.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_1.set_experiment_labels(['1', '0', '0', '0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '0', '1', '0', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1', '0', '1', '1', '1', '0', '1', '0', '0', '0', '0', '1', '0', '1', '0'])
+    EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_RANDOM_1)
+
+    EXPERIMENT_SIMON_TAKE_RANDOM_2 = ExperimentWrapper("Simon", "pseudorandom")
+    EXPERIMENT_SIMON_TAKE_RANDOM_2.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take2.npy"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_2.set_experiment_labels(['1', '0', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1', '0', '1', '0', '0', '0', '0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '1', '0', '0', '0', '1', '0', '1', '0', '0', '0', '1', '0', '0'])
+    EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_RANDOM_2)
+
+    EXPERIMENT_SIMON_TAKE_RANDOM_3 = ExperimentWrapper("Simon", "pseudorandom")
+    EXPERIMENT_SIMON_TAKE_RANDOM_3.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take3.npy"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_3.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_3.set_experiment_labels(['1', '0', '1', '0', '1', '0', '1', '0', '0', '1', '1', '1', '0', '0', '0', '0', '1', '0', '1', '0', '1', '0', '1', '0', '0', '1', '1', '0', '0', '1', '0', '1', '1', '0', '0', '1', '1', '1', '0', '1'])
+    EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_RANDOM_3)
+
+    EXPERIMENT_SIMON_TAKE_RANDOM_4 = ExperimentWrapper("Simon", "pseudorandom")
+    EXPERIMENT_SIMON_TAKE_RANDOM_4.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take4.npy"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_4.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_4.set_experiment_labels(['0', '0', '1', '1', '1', '0', '1', '0', '1', '0', '0', '1', '1', '1', '1', '1', '0', '1', '0', '0', '0', '1', '0', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', '0', '1', '0', '0', '0', '0'])
+    EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_RANDOM_4)
+
+    EXPERIMENT_SIMON_TAKE_RANDOM_5 = ExperimentWrapper("Simon", "pseudorandom")
+    EXPERIMENT_SIMON_TAKE_RANDOM_5.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take5.npy"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_5.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_SIMON_TAKE_RANDOM_5.set_experiment_labels(['0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '1', '0', '1', '0', '1', '1', '1', '1', '0', '1', '1', '0', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '0', '1', '1', '1', '1', '0'])
+    EXPERIMENTS.append(EXPERIMENT_SIMON_TAKE_RANDOM_5)
+
+    EXPERIMENT_JOOS_TAKE_RANDOM_1 = ExperimentWrapper("Joos", "pseudorandom")
+    EXPERIMENT_JOOS_TAKE_RANDOM_1.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take1.npy"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_1.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_1.set_experiment_labels(['0', '1', '0', '1', '1', '0', '1', '1', '0', '1', '1', '0', '1', '1', '0', '1', '0', '0', '0', '1', '0', '1', '1', '0', '0', '0', '1', '1', '0', '1', '0', '0', '0', '1', '0', '1', '1', '0', '0', '1'])
+    EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_RANDOM_1)
+
+    EXPERIMENT_JOOS_TAKE_RANDOM_2 = ExperimentWrapper("Joos", "pseudorandom")
+    EXPERIMENT_JOOS_TAKE_RANDOM_2.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take2.npy"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_2.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_2.set_experiment_labels(['1', '1', '1', '0', '0', '1', '1', '1', '0', '1', '1', '0', '0', '0', '0', '0', '1', '0', '1', '1', '1', '0', '1', '0', '1', '0', '0', '1', '0', '0', '1', '1', '1', '0', '1', '0', '1', '0', '0', '0'])
+    EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_RANDOM_2)
+
+    EXPERIMENT_JOOS_TAKE_RANDOM_3 = ExperimentWrapper("Joos", "pseudorandom")
+    EXPERIMENT_JOOS_TAKE_RANDOM_3.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take3.npy"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_3.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_3.set_experiment_labels(['0', '1', '1', '1', '0', '1', '1', '1', '1', '0', '0', '1', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', '1', '1', '0', '1', '0', '0', '1', '0', '1'])
+    EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_RANDOM_3)
+
+    EXPERIMENT_JOOS_TAKE_RANDOM_4 = ExperimentWrapper("Joos", "pseudorandom")
+    EXPERIMENT_JOOS_TAKE_RANDOM_4.set_experiment_data(Path(".\Data\ExperimentResults\\recorded_data\\recordings_numpy\Simon\OpenBCISession_Simon_exp_pseudo_random_take4.npy"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_4.set_experiment_description_file(Path("./Data/Experiments/Frequency_tagging/results/Step1/simon_23-05-2022_ft1_take2.csv"))
+    EXPERIMENT_JOOS_TAKE_RANDOM_4.set_experiment_labels(['1', '0', '0', '0', '0', '0', '1', '1', '0', '0', '1', '0', '1', '1', '0', '1', '0', '1', '1', '1', '1', '0', '1', '1', '0', '0', '0', '1', '0', '0', '0', '0', '1', '1', '1', '0', '1', '1', '0', '1'])
+    EXPERIMENTS.append(EXPERIMENT_JOOS_TAKE_RANDOM_4)
 
     power_segment_channel = []
     figs, axs = plt.subplots(1,3)
-    plot = 0 
+    plot = 0
     for experiment in EXPERIMENTS:
         power_segment_forheatmap = []
         experiment_data = experiment.get_experiment_data()
@@ -172,7 +221,7 @@ if __name__ == "__main__":
 
         
 
-# This section was used to create the heatmap 
+####This section was used to create the heatmap 
     #     heatmap = np.zeros((2,len(power_segment_forheatmap[0]),8))
     #     for e_index, experiment in enumerate(power_segment_forheatmap):
     #         for b_index, band in enumerate(experiment):
@@ -181,7 +230,7 @@ if __name__ == "__main__":
         
 
     #     for (j,i),label in np.ndenumerate(np.abs(heatmap[0] - heatmap[1])):
-    #         axs[plot].text(i,j,round(label, 3),ha='center',va='center')
+    #         axs[plot].text(i,j,round(label,3),ha='center',va='center')
     #     axs[plot].imshow(np.abs(heatmap[0] - heatmap[1]))
 
     #     plot = plot + 1
@@ -204,8 +253,8 @@ if __name__ == "__main__":
 
         
 
-    print(len(features))
-    print(len(features[0]))   
+    # print(len(features))
+    # print(len(features[0]))   
 
 
     accuracy_list = SVM_test(features, labels)

@@ -56,8 +56,8 @@ class FeaturePipeline():
         for i, segment in enumerate(self.input_data):
             # bands = self.perform_bands_power(segment)
             # av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
-            dwt_data = self.perform_wavelet(segment[:, 6:], plot=plot)
-            stats_dwt = self.perform_statistics_dwt(dwt_data).reshape(1, 80)
+            dwt_data = self.perform_wavelet(segment, plot=plot)
+            stats_dwt = self.perform_statistics_dwt(dwt_data).reshape(1, 320)
             # stats = self.perform_statistics_raw(segment).reshape(1, 64)
             # print(bands.shape)
             # vals, _ = do_fft(segment, self.f_sampling)

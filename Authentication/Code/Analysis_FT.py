@@ -194,17 +194,16 @@ if __name__ == "__main__":
     print(len(data), data[0].shape)
     data = np.array(data)#.reshape(200, data[0].shape[0]*data[0].shape[1])
     print(type(data), data.shape)
-
     #PCA
-    pca = PCA(n_components=40)
-    pca.fit(data.T)
+    pca = PCA()
+    data = pca.fit_transform(data)
     for i in range(len(pca.components_)):
         print(sum(pca.explained_variance_ratio_[:i]))
-    print(f"exp_variance_ratio: {pca.explained_variance_ratio_}")
-    data = pca.components_[:, 10] 
+    # print(f"exp_variance_ratio: {pca.explained_variance_ratio_}")
+    # data = pca.components_[:, 10]
     print(data.shape)
     #train test split
-    X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 42, 0.3)
+    X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 47, 0.3)
     #train val split
     # X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.3)
 

@@ -103,7 +103,7 @@ if __name__ == "__main__":
     #train test split
     X_train, X_test, Y_train, Y_test = Models.train_val_split(data, labels, 0.2)
     #train val split
-    X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.2)
+    # X_train, X_val, Y_train, Y_val = Models.train_val_split(X_train, Y_train, 0.2)
 
     #ML
     model = Models()

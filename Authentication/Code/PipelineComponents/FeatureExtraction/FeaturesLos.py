@@ -125,7 +125,7 @@ def get_par_per_channel(signal, freq_range):
     left_over_spectrum = np.concatenate((signal_fft[:start], signal_fft[end:]))
     left_over_power = freq_power(left_over_spectrum)
 
-    return left_over_power, frequency_power/left_over_power
+    return frequency_power/left_over_power
 
 
 def cross_channel_power_ratio(signal, num_set: list, denom_set: list):

@@ -10,12 +10,9 @@ import random
 # [] = optional
 # Usage: python Frequencytagging.py -pw password -freq frequency [-time] time
 
-# import rhinoscriptsytnax as rs
 
 
-
-
-def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color = '101'):
+def tagging(step, chosen_words = 'hoi doei dag', explength = 40, frequency = 15, time = 2, color = '010', full_screen = False):
     #Set up tkinter settings
     root = tk.Tk()
     root.title('password')
@@ -49,7 +46,7 @@ def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color
             flatlist.append(item)
     words = flatlist
     random.shuffle(words)
-    words = words[:40]
+    words = words[:explength]
     if step == '2':
         chosen_words = list(chosen_words.split(" "))
         words = words[:3]
@@ -113,13 +110,13 @@ def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color
                     d = d[:2]
                 rgb.append(d)
             else:
-                rgb.append('FF')
+                rgb.append('00')
         rgb_list.append(f'#{rgb[0]}{rgb[1]}{rgb[2]}')
 
     #create list of all backgrounds that are needed
     backgrounds = []
     for index, word in enumerate(words):
-        if (int(index % 2) == 1 and responserecogntion) or (int(index % 2) == 0 and responserecogntion == False):
+        if (int(index % 2) == 0 and responserecogntion) or (int(index % 2) == 0 and responserecogntion == False):
             for a in range(flash_per_word):
                 for b in rgb_list:
                     backgrounds.append(b)
@@ -130,10 +127,14 @@ def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color
 
     #add backgrounds to tkinter window
     bitjes = []
+    if full_screen:
+        size = 400
+    else:
+        size = 10
     for i, background in enumerate(backgrounds):
-                label.after(int(i * frame_period), lambda c=background: label.configure(bg = c, pady = 350, padx = 800))
+                label.after(int(i * frame_period), lambda c=background: label.configure(bg = c, pady = size, padx = size * 2))
                 root.attributes('-topmost', 1)
-    print(word_period)
+
 
     #add words to tkinter window, also creates the labels
     for j,word in enumerate(words):
@@ -158,4 +159,7 @@ def tagging(step, chosen_words = 'hoi doei dag', frequency = 15, time = 2, color
     root.mainloop()
     
     return bitjes, start_time, words
+
+if __name__ == '__main__':
+    bitjes, start_time, words = tagging(step = '1', frequency = 10, time = 60, explength=1)
 

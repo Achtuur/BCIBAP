@@ -71,6 +71,10 @@ class FeaturePipeline():
                 features = np.vstack((features, stats_dwt))
         return features
 
+    def perform_fft(self, eeg_data):
+        eeg_fft = np.fft(eeg-data)
+        return eeg_fft
+
 
 
 if __name__ == "__main__":

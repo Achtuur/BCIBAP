@@ -62,7 +62,7 @@ if __name__ == '__main__':
         print('filename already exists')
         exit()
         
-    bitjes, start_time, words = tagging(step = '3', chosen_words = args.pw, color = '000')
+    bitjes, start_time, words = tagging(step = '3', time = 1, chosen_words = args.pw, color = '000')
     print(words)
 
     

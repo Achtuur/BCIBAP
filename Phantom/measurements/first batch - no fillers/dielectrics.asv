@@ -52,38 +52,33 @@ end
 
 figure
 
-plot(F, conduc1,'--ob');
+semilogy(F, conduc1,'--ob');
 hold on
-plot(F, conduc2,'--or');
-plot(F, conduc3,'--oy');
-plot(F, conduc4,'--om');
-plot(F, conduc5,'--og');
-plot(F, conduc6,'--oc');
+semilogy(F, conduc2,'--or');
+semilogy(F, conduc3,'--oy');
+semilogy(F, conduc4,'--om');
+semilogy(F, conduc5,'--og');
+semilogy(F, conduc6,'--oc');
 
 title("Dielectric measurement");
 xlabel("Frequency [Hz]");
 ylabel("Conductivity [S/m]");
 
-leg = legend('500 mg', '750 mg', '1000 mg', '1250 mg', '1500 mg', '1750 mg');
-title(leg,'Salt concentrations');
-
 figure
 
-plot(F, P1,'--xr');
+semilogy(F, P1,'--xr');
 hold on
-plot(F, P2,'--xg');
-plot(F, P3,'--xb');
-plot(F, P4,'--xm');
-plot(F, P5,'--xy');
-plot(F, P6,'--xc');
+semilogy(F, P2,'--xg');
+semilogy(F, P3,'--xb');
+semilogy(F, P4,'--xm');
+semilogy(F, P5,'--xy');
+semilogy(F, P6,'--xc');
 
 leg = legend('500 mg', '750 mg', '1000 mg', '1250 mg', '1500 mg', '1750 mg');
-title(leg, 'Salt concentrations');
+title(leg,'Salt concentrations')
 
 title("Dielectric measurement, 3g agar");
 xlabel("Frequency [Hz]");
 ylabel("Permittivity [F/m]");
-
-%set(gca, 'YScale', 'log')
 
 

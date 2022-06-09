@@ -12,7 +12,7 @@ ZR1 = dataa1400mgn0gd1w0(:,3);
 ZR2 = dataa1800mgn0gd1w0(:,3);
 ZR3 = dataa2200mgn0gd1w0(:,3);
 ZR4 = dataa2600mgn0gd1w0(:,3);
-ZR5 = dataa3000mgn0gd1w0(:,3);
+ZR5 = data3g(:,3);
 
 %Imaginary impedance
 ZI0 = dataa1000mgn0gd1w0(:,4);
@@ -20,7 +20,7 @@ ZI1 = dataa1400mgn0gd1w0(:,4);
 ZI2 = dataa1800mgn0gd1w0(:,4);
 ZI3 = dataa2200mgn0gd1w0(:,4);
 ZI4 = dataa2600mgn0gd1w0(:,4);
-ZI5 = dataa3000mgn0gd1w0(:,4);
+ZI5 = data3g(:,4);
 
 %conductivity
 for i = 1:61

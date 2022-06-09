@@ -22,6 +22,7 @@ class FeaturePipeline():
     def __init__(self, input_data, f_sampling):
         self.input_data = input_data
         self.f_sampling = f_sampling
+
     def perform_bands_power(self, eeg_data):
         vals, freq = do_fft(eeg_data, self.f_sampling, plot=False)
         eeg_bands = get_bands(vals, freq, plot=False)
@@ -52,27 +53,27 @@ class FeaturePipeline():
     def NormalizeData(self, data):
         return (data - np.min(data)) / (np.max(data) - np.min(data))
 
-    def start(self, plot=False):
-        for i, segment in enumerate(self.input_data):
+    def start(self, segment, plot=False):
+        # for i, segment in enumerate(self.input_data):
             # bands = self.perform_bands_power(segment)
             # av_overall, av_per_channel = average_power(Filter.band_pass_filter(segment, 4, (12,  18), 250))
-            dwt_data = self.perform_wavelet(segment, plot=plot)
-            stats_dwt = self.perform_statistics_dwt(dwt_data).reshape(1, 320)
+        dwt_data = self.perform_wavelet(segment, plot=plot)
+        stats_dwt = self.perform_statistics_dwt(dwt_data).reshape(1, 320)
             # stats = self.perform_statistics_raw(segment).reshape(1, 64)
             # print(bands.shape)
             # vals, _ = do_fft(segment, self.f_sampling)
-            if i==0:
-                # features = vals.reshape(1, vals.shape[0]*vals.shape[1])
-                # features = av_per_channel.reshape(1, 8)
-                features = stats_dwt
-            else: 
-                # features = np.vstack((features, vals.reshape(1, vals.shape[0]*vals.shape[1])))
-                # features = np.vstack((features, av_per_channel.reshape(1, 8)))
-                features = np.vstack((features, stats_dwt))
-        return features
+            # if i==0:
+            # # #     # features = vals.reshape(1, vals.shape[0]*vals.shape[1])
+            # #     # features = av_per_channel.reshape(1, 8)
+            #     features = stats_dwt
+            # else: 
+            # # #     # features = np.vstack((features, vals.reshape(1, vals.shape[0]*vals.shape[1])))
+            # #     # features = np.vstack((features, av_per_channel.reshape(1, 8)))
+            #     features = np.vstack((features, stats_dwt))
+        return stats_dwt
 
     def perform_fft(self, eeg_data):
-        eeg_fft = np.fft(eeg-data)
+        eeg_fft = np.fft(eeg_data)
         return eeg_fft
 
 

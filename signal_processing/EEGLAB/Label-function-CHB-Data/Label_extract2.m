@@ -99,7 +99,7 @@ Channels = Channels(3:end); %first two entries contain irrelevant text
 % Channels now looks like this:
 % Channels{x} = "Channel x: FP7-T4" (FP7 and T4 are example values)
 EarLabels = {'FT9', 'FT7', 'T7', 'TP7', 'TP9', 'FC5', 'C5', 'CP5', ... %Left preauricular
-             'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6'}; %Right preauricular
+             'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6', 'A1', 'A2'}; %Right preauricular
 
 ChannelsOut.index = [];
 ChannelsOut.label = {};

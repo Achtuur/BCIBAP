@@ -3,7 +3,7 @@ function PCAfourier(locutoff, hicutoff, dwnsample, forder)
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
-FileIndices = SeizFileIndices(dataset);
+FileIndices = 1;
 EpochLengthSec = 3;
 path2summary = path2dataset + "/" + dataset + "-summary.txt";
 FileIndicesstr = "01";
@@ -14,9 +14,9 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
  %% normalise features
 featuresWavelet = NormalizeFeat(featuresWavelet);
 features = NormalizeFeat(features);
-
-[features_outFourier, iFourier,explainedFourier, latentFourier] = FeatSelectionPCA(features, 100);
-[features_outWavelet, iWavelet,explainedWavelet, latentWavelet] = FeatSelectionPCA(featuresWavelet, 100);
+uplim = 95;
+[features_outFourier, iFourier,explainedFourier, latentFourier] = FeatSelectionPCA(features, uplim);
+[features_outWavelet, iWavelet,explainedWavelet, latentWavelet] = FeatSelectionPCA(featuresWavelet, uplim);
 
 % trick to make it seem like they start at 0
 explainedWavelet = [-99; explainedWavelet];
@@ -36,7 +36,7 @@ nexttile;
 hold on;
 yyaxis left;
 ax(1) = bar(explainedFourier./100);
-ylabel('Explained individual variance ratio [ ]','interpreter', 'latex', 'fontsize',17)
+ylabel('individual explained variance ratio','interpreter', 'latex', 'fontsize',17)
 ylim(leftylim)
 yyaxis right;
 ax(2) = stairs(cumsum(latentFourier)/sum(latentFourier));
@@ -64,7 +64,7 @@ yyaxis left;
 ax(1) = bar(explainedWavelet./100);
 ylim(leftylim)
 yyaxis right;
-ylabel('Explained cumulative variance ratio [ ]','interpreter', 'latex', 'fontsize', 17)
+ylabel('Cumulative explained variance ratio','interpreter', 'latex', 'fontsize', 17)
 ylim(rightylim)
 ax(2) = stairs(cumsum(latentWavelet)/sum(latentWavelet));
 hold off;
@@ -86,7 +86,7 @@ plotline(ax(2), 2);
 
 % % Specify common title, X and Y labels
 title(t, 'Explained variance of principal components with two feature extraction methods','interpreter', 'latex','fontsize', 18)
-xlabel(t, 'Principal component index [ ]', 'interpreter',  'latex','fontsize',17)
+xlabel(t, 'Principal component index', 'interpreter',  'latex','fontsize',17)
 
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image

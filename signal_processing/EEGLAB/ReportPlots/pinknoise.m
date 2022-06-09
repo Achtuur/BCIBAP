@@ -77,7 +77,7 @@ end
 
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
     {'Unfiltered data', fildata_legend, sprintf("Pink noise ($%d/f$)", c)}, ...
-    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
+    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'northeast');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 
 

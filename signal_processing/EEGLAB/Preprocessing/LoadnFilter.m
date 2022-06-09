@@ -44,7 +44,7 @@ path2edf = strrep(path2edf, '\', filesep);
     end
 %% varargin
     if nargin < 3
-       g.locutoff = 0.5; %default values for locutoff and hicutoff
+       g.locutoff = 0; %default values for locutoff and hicutoff
        g.hicutoff = 30;
        g.showplots = 0;
        g.channellist = 0;
@@ -56,7 +56,7 @@ path2edf = strrep(path2edf, '\', filesep);
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
             'locutoff' 'integer' [0 Inf] 0;
-            'hicutoff' 'integer' [0 Inf] 40; %take lo/hi cutoff from function argument input
+            'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
             'forder' 'integer' [0 inf] 100;
             'showplots' 'integer' [0 inf] 0;
             'ASR' 'integer' [0 inf] 0

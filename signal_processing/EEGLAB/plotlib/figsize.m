@@ -3,7 +3,13 @@
 %   fig: figure to be resized
 %   size:
 %       either a position matrix (looks like [x y width height])
-%       or one of these strings ('/' means option between both strings): s/small, m/medium, b/big, f/full/fullscreen or overleaf/o/report/r
+%       or one of these strings ('/' means option between both strings):
+%           u/micro,
+%           s/small,
+%           m/medium, 
+%           b/big, 
+%           f/full/fullscreen,
+%           overleaf/o/report/r
 
 function figsize(fig, size)
     if (~isnumeric(size))
@@ -26,16 +32,18 @@ function sz = str2size(str)
 
     pixperinch = Pix_SS(3) / Inch_SS(3); %get pixels per inch
 
-    if (strcmp(str, 'small') || strcmp(str, 's'))
+    if strcmp(str, 'small') || strcmp(str, 's')
         sz = [0 0 8 6] * pixperinch;
-    elseif(strcmp(str, 'medium') || strcmp(str, 'm'))
+    elseif strcmp(str, 'medium') || strcmp(str, 'm')
         sz = [0 0 12 9] * pixperinch;
-    elseif(strcmp(str, 'big') || strcmp(str, 'b'))
+    elseif strcmp(str, 'big') || strcmp(str, 'b')
         sz = [0 0 16 12] * pixperinch;
-    elseif(strcmp(str, 'overleaf') || strcmp(str, 'report') || strcmp(str, 'r') || strcmp(str, 'o'))
+    elseif strcmp(str, 'overleaf') || strcmp(str, 'report') || strcmp(str, 'r') || strcmp(str, 'o')
         sz = [0 0 10 6] * pixperinch; %figure this one out later
-    elseif(strcmp(str, 'fullscreen') || strcmp(str, 'full') || strcmp(str, 'f'))
+    elseif strcmp(str, 'fullscreen') || strcmp(str, 'full') || strcmp(str, 'f')
         sz = [0 0 Pix_SS(3) Pix_SS(4)];
+    elseif strcmp(str, 'u') || strcmp(str, 'micro')
+        sz = [0 0 3 2] * pixperinch;
     else
         sz = [0 0 8 6] * pixperinch;
     end

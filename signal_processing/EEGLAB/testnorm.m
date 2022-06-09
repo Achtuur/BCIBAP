@@ -1,10 +1,6 @@
-a = rand(1, 10);
-b = rand(1, 10) * 10;
-t = 1:10;
+clc; clear all; close all;
+a = {'a', 'b', 'ab', 'c', 'd'};
+b = 'a';
 
-hold on;
-yyaxis left;
-plot(t, a);
-yyaxis right;
-plot(t,b);
-hold on;
+c = strcmp(a, b)
+d = contains(a, b)

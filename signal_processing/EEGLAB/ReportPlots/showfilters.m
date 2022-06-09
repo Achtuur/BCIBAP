@@ -4,7 +4,7 @@
 function showfilters(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
-    hicutoff = 40;
+    hicutoff = 30;
     dwnsample = 2;
     forder = 30;
 end
@@ -23,7 +23,7 @@ dwnsample = 1;
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
 ChannelsOut = ChannelsOut.index;
 % forder = 30;
-% hicutoff = 40;
+% hicutoff = 30;
 [filtered_data, unfiltered_data, lowpassfilt_coeff] = LoadnFilter(path2edf, 'channellist', ...
     ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
     'locutoff', 0, 'hicutoff', hicutoff, 'forder', forder);
@@ -78,7 +78,7 @@ axis = gca;
 axis.TickLabelInterpreter = 'latex';
 axis.FontSize = 14;
 
-ylim([-90 50]);
+ylim([-90 40]);
 xlim([0 75]);
 %% Save image
 location = GetPath2Images() + mfilename;

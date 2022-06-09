@@ -1,4 +1,5 @@
-clc; clear;
+
+function PCAfourier(locutoff, hicutoff, dwnsample, forder)
 eegpath = AddPath();
 dataset = 'chb03';
 path2dataset = eegpath + "sample_data/" + dataset;
@@ -23,8 +24,9 @@ latentWavelet = [0; latentWavelet];
 
 explainedFourier = [-99; explainedFourier];
 latentFourier = [0; latentFourier];
-leftylim = [0 0.55];
+leftylim = [0 0.35];
 rightylim = [0 1];
+xlimm = [0 120];
 
 fig = figure();
 t = tiledlayout(1,2);
@@ -88,7 +90,8 @@ xlabel(t, 'Principal component index [ ]', 'interpreter',  'latex','fontsize',17
 
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image
-location = GetPath2Images() + mfilename;
+% location = GetPath2Images() + mfilename + "allchannel";
+location = GetPath2Images() + "PCAfourier";
 extension = "eps";
 SaveImage(fig, location, extension);
 

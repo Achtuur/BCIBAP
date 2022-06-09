@@ -53,7 +53,7 @@ t = tic;
 disp("Loading data...");
 
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1,...
-    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', fac_downsample);
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1, 'downsample', fac_downsample);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features

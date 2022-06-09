@@ -11,7 +11,7 @@
 
 %Note that in most of the extraction paths 'epochs' is transposed because then the return value is per epoch instead of per sample of epoch
 
-function [features, labels] = FeatExtractFunc(EarDataEpochs, Fs, EpochLengthSec)
+function [TotalFeatures, TotalFeatureLabels] = FeatExtractFunc(EarDataEpochs, Fs, EpochLengthSec)
 
 disp('Extracting features...');
 T = 1/Fs;             % Sampling period 
@@ -29,7 +29,7 @@ TotalFeatureLabels = '';
 
 % For testing purposes only !!!!
 warning('For testing, only take first channel');
-nChannels = 1;
+% nChannels = 1;
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
     t = tic;

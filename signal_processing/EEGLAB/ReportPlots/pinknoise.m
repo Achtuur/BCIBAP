@@ -4,8 +4,8 @@
 
 function pinknoise(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
-    locutoff = 0.5;
-    hicutoff = 40;
+    locutoff = 0;
+    hicutoff = 30;
     dwnsample = 2;
     forder = 30;
 end
@@ -22,11 +22,11 @@ path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 %% get data
 % dwnsample = 1;
 [Fs, LabelsOut, ChannelsOut, rounding_err] = Label_extract2(path2summary, EpochDurationSeconds, FileIndices, dwnsample);
-ChannelsOut = ChannelsOut.index;
+% ChannelsOut = ChannelsOut.index;
 % locutoff = 0.5;
-% hicutoff = 40;
+% hicutoff = 30;
 [filtered_data, unfiltered_data] = LoadnFilter(path2edf, 'channellist', ...
-    ChannelsOut, 'ASR', 0, 'downsample', dwnsample, ...
+    ChannelsOut.index, 'ASR', 0, 'downsample', dwnsample, ...
     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', forder);
 ch = 6;
 filtered_data = filtered_data(ch,:); % take one channel

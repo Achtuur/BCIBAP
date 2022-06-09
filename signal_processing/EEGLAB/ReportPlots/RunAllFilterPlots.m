@@ -3,10 +3,10 @@ clear;
 close all;
 clc;
 
-%% use common filter constants
+% use common filter constants
 locutoff = 0;
 hicutoff = 30;
-dwnsample = 2;
+dwnsample = 1;
 forder = 30;
 
 %% pinknoise
@@ -23,6 +23,9 @@ UsedChannelsEpochs(locutoff, hicutoff, dwnsample, forder);
 
 %% PSD
 PSD(locutoff, hicutoff, dwnsample, forder);
+
+%% PCA
+PCAfourier(locutoff, hicutoff, dwnsample, forder);
 
 %% close
 close all;

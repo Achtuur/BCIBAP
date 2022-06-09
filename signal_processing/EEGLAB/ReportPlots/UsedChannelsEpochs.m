@@ -4,7 +4,7 @@ function UsedChannelsEpochs(locutoff, hicutoff, dwnsample, forder)
 % clc; clear; close all;
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
-    hicutoff = 40;
+    hicutoff = 30;
     dwnsample = 2;
     forder = 30;
 end

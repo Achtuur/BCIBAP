@@ -51,7 +51,7 @@ for i = 1:61
 end
 
 figure
-subplot(2,1,1)
+subplot(1,2,1)
 plot(F, conduc1,'-');
 hold on
 plot(F, conduc2,'-');
@@ -65,10 +65,10 @@ xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17)
 %xlabel("Frequency [Hz]");
 ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',17);
 
-leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',17);
-title(leg,'Solution', 'interpreter',  'latex','fontsize',17);
+leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',12);
+title(leg,'Solution', 'interpreter',  'latex','fontsize',12);
 
-subplot(2,1,2)
+subplot(1,2,2)
 plot(F, P1,'-');
 hold on
 plot(F, P2,'-');
@@ -77,8 +77,8 @@ plot(F, P4,'-');
 plot(F, P5,'-');
 plot(F, P6,'-');
 
-leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',17);
-title(leg, 'Solution', 'interpreter',  'latex','fontsize',17);
+leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',12);
+title(leg, 'Solution', 'interpreter',  'latex','fontsize',12);
 
 title("Parallel plate capacitor measurement", 'interpreter',  'latex','fontsize',17);
 xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17);

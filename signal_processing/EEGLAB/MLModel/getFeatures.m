@@ -61,8 +61,8 @@ disp('Getting features...');
 t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
-%[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+%[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
 
 t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);

@@ -1,9 +1,15 @@
+%% Train Support Vector Machine
+
+%% Important variables
+%  epochs: decides epoch length
+%  numFolds: decides amount of folds in cross validation
+%  datasets: hold array of the datasets to be trained on
+%  
+
+
+
 close all;
 eegpath = AddPath();
-% dataset = 'chb03';
-% path2dataset = eegpath + "sample_data\" + dataset + "\";
-% FileIndices = SeizFileIndices(dataset);
-Plot_CFNMatrix = 1;
 
 epochs = 0.5 : 0.25 : 4;
 epochs = 3;
@@ -14,58 +20,45 @@ numFolds = 10;
 
 datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
 temp = 0;
-save(eegpath + "\MLModel\SVM.mat", 'temp');
+save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
 clear temp;
 components = zeros(length(datasets),1);
-for i = 1:length(datasets)
+for i = 1:length(datasets) 
+    % Loop gathering all patient data. Form decides whether collective data or per patient data will be used
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
     [featuresTemp,YTemp,featurelabelsTemp, epochsTemp] = getFeatures(dataset, path2dataset, FileIndices, epochs);
     featuresTemp = NormalizeFeat(featuresTemp);
-    if i ~= 1
-        features = [features; featuresTemp];
-        Y = [Y; YTemp];
-        featurelabels = [featurelabels; featurelabelsTemp];
-        epochdata = [epochdata; epochsTemp];
-    else
+%     if i ~= 1
+%         features = [features; featuresTemp];
+%         Y = [Y; YTemp];
+%         featurelabels = [featurelabels; featurelabelsTemp];
+%         epochdata = [epochdata; epochsTemp];
+%     else
     %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,95);
-    features = featuresTemp;
     Y = YTemp;
     featurelabels = featurelabelsTemp;
     epochdata = epochsTemp;
-    end
-end
+%     end
+% end
 
-X = features;
+X = featuresTemp;
 
-HyperTune = 1;
+HyperTune = 0;
 HyperEvalNum = 50;
 %matfile('MLModel/CNNmodel.mat', 'Writable', true);
 %for k = epochs
 
-    % [X,features,Y,featurelabels, mu_train, sigma_train] = getFeatures(dataset, path2dataset, FileIndices, k);
     
     %% train model
-    %X = cell2mat(X);
-    %Y = cell2mat(Y);
     % Train CNN here
-    rng("default") % For reproducibility of the partition
-    idx = find(Y == 2);
-%     rows = randperm(length(X),length(idx)*4);
-%     rows = sort(unique([idx;rows']));
-%     Xfifty = X(rows,:);
-%     Yfifty = Y(rows,:);
-%     cvp = cvpartition(Yfifty,"Holdout",0.1);
-%     XTrain = Xfifty(training(cvp),:);
-%     YTrain = Yfifty(training(cvp));
-%     XTest = Xfifty(test(cvp),:);
-%     YTest = Yfifty(test(cvp));
-    cvp = cvpartition(Y,"Holdout",0.1);
-    XTrain = X(training(cvp),:);
-    YTrain = Y(training(cvp));
-    XTest = X(test(cvp),:);
-    YTest = Y(test(cvp));
+    rng("default") % For reproducibility of the partition and other random decisions such as training
+    cvp = cvpartition(Y,"KFold",numFolds);
+%     XTrain = X(training(cvp),:);
+%     YTrain = Y(training(cvp));
+%     XTest = X(test(cvp),:);
+%     YTest = Y(test(cvp));
 acclist = zeros(numFolds,1);
 senslist = zeros(numFolds,1);
 TPlist = zeros(numFolds,1);
@@ -73,18 +66,16 @@ TNlist = zeros(numFolds,1);
 FPlist = zeros(numFolds,1);
 FNlist = zeros(numFolds,1);
     if HyperTune
-        Mdl = fitcnet(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
+        Mdl = fitcsvm(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
         "HyperparameterOptimizationOptions", ...
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))
     else
         for j = 1:numFolds
-        Mdl = fitcnet(X(cvp.training(j),:),Y(cvp.training(j)),"Layersizes",300,"Activations","none",...
-            "Standardize",true,"Lambda",9.7118e-05);
-%           Mdl = fitcsvm(XTrain,YTrain,"KernelFunction","rbf","KernelScale",3.4575,...
-%             "Standardize",true,"BoxConstraint",211.68);
+          Mdl = fitcsvm(X(cvp.training(j),:),Y(cvp.training(j)),"KernelFunction","rbf","KernelScale",0.0177,...
+            "Standardize",true,"BoxConstraint",0.001);
             figure()
-            predictions = predict(Mdl,X(cvp.test(j),:));
+                            predictions = predict(Mdl,X(cvp.test(j),:));
             cm = confusionchart(Y(cvp.test(j)),predictions,'RowSummary','row-normalized');
             TPlist(j) = cm.NormalizedValues(2,2);
             TNlist(j) = cm.NormalizedValues(1,1);
@@ -101,19 +92,12 @@ FNlist = zeros(numFolds,1);
     %senslist = senslist(:,1);
     averagesens(i) = sum(senslist)/numFolds;
      %final_results(i, :) = {features featurelabels};
-%end    
-     if Plot_CFNMatrix
-         figure()
-         confusionchart(YTest,predict(Mdl,XTest),'RowSummary','row-normalized')
-     end
-     models{i} = Mdl;
-     i = i + 1;
-%     fig = plotconfusion(lab, predicted);
-%     fig.CurrentAxes.Title.String = sprintf("epochlengthsec = %0.1f", k);
+end
+
 
 disp("Accuracy is "+  averageacc + "%")
 disp("Sensitivity is "+ averagesens + "%")
 model = Mdl;
 disp("accmean is "+ mean(averageacc))
 disp("sensmean is "+ mean(averagesens))
-save('MLModel/SVM.mat', 'model', '-append');
+save('MLModel/CNNmodel.mat', 'model', '-append');

@@ -358,3 +358,5 @@ signal_processing/EEGLAB/MLModel/CNNmodel.mat
 signal_processing/EEGLAB/MLModel/SVMLarge.mat
 
 signal_processing/EEGLAB/MLModel/RF.mat
+
+signal_processing/EEGLAB/MLModel/SVM.mat

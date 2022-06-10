@@ -1,13 +1,11 @@
 close all;
-eegpath = AddPath();
-% dataset = 'chb03';
-% path2dataset = eegpath + "sample_data\" + dataset + "\";
-% FileIndices = SeizFileIndices(dataset);
-Plot_CFNMatrix = 1;
 
-epochs = 0.5 : 0.25 : 4;
-epochs = 3;
-final_results = cell(size(epochs, 2), 2);
+eegpath = AddPath();
+
+Plot_CFNMatrix = 0;
+Waveleton = 1;
+epochlength = 3;
+final_results = cell(size(epochlength, 2), 2);
 i = 1;
 numFolds = 1;
 % "01" "03" "04" "05" "06" "07" "08" "09" "10"
@@ -22,7 +20,7 @@ for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
-    [featuresTemp,YTemp,featurelabelsTemp, epochsTemp] = getFeatures(dataset, path2dataset, FileIndices, epochs);
+    [featuresTemp,featurelabelsTemp,YTemp] = getFeatures(dataset, path2dataset, FileIndices, epochlength, Waveleton);
     featuresTemp = NormalizeFeat(featuresTemp);
 %     if i ~= 1
 %         features = [features; featuresTemp];
@@ -31,9 +29,9 @@ for i = 1:length(datasets)
 %         epochdata = [epochdata; epochsTemp];
 %     else
     %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,99);
+    features = featuresTemp;
     Y = YTemp;
     featurelabels = featurelabelsTemp;
-    epochdata = epochsTemp;
 %     end
 % end
 
@@ -62,10 +60,10 @@ HyperEvalNum = 50;
 %     XTest = Xfifty(test(cvp),:);
 %     YTest = Yfifty(test(cvp));
     cvp = cvpartition(Y,"HoldOut",0.1);
-%     XTrain = X(training(cvp),:);
-%     YTrain = Y(training(cvp));
-%     XTest = X(test(cvp),:);
-%     YTest = Y(test(cvp));
+    XTrain = X(training(cvp),:);
+    YTrain = Y(training(cvp));
+    XTest = X(test(cvp),:);
+    YTest = Y(test(cvp));
 acclist = zeros(numFolds,1);
 senslist = zeros(numFolds,1);
 TPlist = zeros(numFolds,1);
@@ -80,12 +78,12 @@ FNlist = zeros(numFolds,1);
     else
         for j = 1:numFolds
             % Train the TreeBagger (Random Forest).
-            Mdl = TreeBagger(nTrees,X(cvp.training(j),:),Y(cvp.training(j)), 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',30);
+            Mdl = TreeBagger(nTrees,XTrain,YTrain, 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',30);
 %           Mdl = fitcsvm(XTrain,YTrain,"KernelFunction","rbf","KernelScale",3.4575,...
 %             "Standardize",true,"BoxConstraint",211.68);
             figure()
-            predictions = str2double(predict(Mdl,X(cvp.test(j),:)));
-            cm = confusionchart(Y(cvp.test(j)),predictions,'RowSummary','row-normalized');
+            predictions = str2double(predict(Mdl,XTest));
+            cm = confusionchart(YTest,predictions,'RowSummary','row-normalized');
             TPlist(j) = cm.NormalizedValues(2,2);
             TNlist(j) = cm.NormalizedValues(1,1);
             FPlist(j) = cm.NormalizedValues(1,2);

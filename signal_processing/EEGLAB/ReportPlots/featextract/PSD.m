@@ -1,7 +1,7 @@
 function PSD(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
     locutoff = 0.5;
-    hicutoff = 40;
+    hicutoff = 30;
     dwnsample = 2;
     forder = 30;
 end
@@ -31,26 +31,6 @@ EpochLengthSec = 3;
 rowsEpoch= floor(length(EarData)/L);
 epochs = epochs{1};
 
-% epochs= zeros(rowsEpoch,L);
-% x=0;
-% for i=1:rowsEpoch
-%     epochs(i,:)= EarData(1,(x*L+1):L*(x+1));
-%     x=x+1;
-% end
-% epoch1= epochs(2,:);
-% 
-% epoch2= decimate(epoch1,2);
-% 
-% epochsDec=zeros(2406,384);
-% for i=1:2406
-%     epochsDec(i,:)=decimate(epochs(i,:),2);
-% end
-% 
-% epoch1= decimate(epoch1,2);
-
-
-%% TIME DOMAIN SIGNAL
-t = (0:L-1)*T;        % Time vector
 
 
 %% POWER SPECTRAL DENSITY
@@ -103,7 +83,7 @@ plotcolor(ax(2), 'green', 'colordiff', 30);
 plotline(ax, 2);
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "eps";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

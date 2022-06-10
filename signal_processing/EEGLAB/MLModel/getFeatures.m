@@ -15,12 +15,13 @@
 %   maybe remove features from output?
 
 %% Function start
-function [features,labels,featurelabels, epochs] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-% function [features_norm,features,labels,featurelabels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-%% test vars
+% function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [featuresWavelet, featurelabelsWavelet, features, featurelabels, labels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+% function [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures()
+% test vars
 %     clc; clear;
 %     eegpath = AddPath();
-%     dataset = 'chb03';
+%     dataset = 'chb08';
 %     path2dataset = eegpath + "sample_data\" + dataset + "\";
 %     FileIndices = SeizFileIndices(dataset);
 %     EpochLengthSec = 3;
@@ -29,7 +30,7 @@ disp('Getting labels of data');
 t = tic;
 
 fac_downsample = 2; %downsa5mpling factor
-summarypath = path2dataset + dataset + "-summary.txt";
+summarypath = path2dataset + '\' + dataset + "-summary.txt";
 [Fs, labels1, channellist, rounding_err] = Label_extract2(summarypath, EpochLengthSec, FileIndices, fac_downsample); %get labels of where there are seizures
 channellist = channellist.index;
 temp = [];
@@ -52,7 +53,7 @@ t = tic;
 disp("Loading data...");
 
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1,...
-    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', fac_downsample);
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1, 'downsample', fac_downsample);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
@@ -61,41 +62,18 @@ disp('Getting features...');
 t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-%[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractWavelet(epochs, Fs, EpochLengthSec);
+[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+[featuresWavelet, featurelabelsWavelet] = FeatExtractWavelet(epochs,Fs,EpochLengthSec);
+
 
 t = toc(t);
 fprintf("Got features, took %.3f seconds\n", t);
 
-%% Normalize features
-% disp('Normalising features...');
-% t = tic;
-% 
-% matfeat = cell2mat(features);
-% idx = isnan(matfeat);
-% NaNrows = unique(rem(find(idx==1),length(features)));
-% NaNrows(NaNrows == 0) = length(features); %fix bottom column
-% matfeat(NaNrows,:) = NaN;
-% for k = NaNrows'
-%     matfeat(k, :) = mean(matfeat,'omitnan');
-% end
-% 
-% % makes wrong measurements means
-% for k = 1:size(matfeat, 2)
-%     i = isnan(matfeat(:,k));
-%     j = ~i;
-%     matfeat(i, k) = mean(matfeat(j,k), 'omitnan');
-% end
-% 
-% [temp, mus, stds] = zscore(matfeat);
-% features_norm = num2cell(temp);
-% 
-% t = toc(t);
-% fprintf("Normalised features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
 
 features = cell2mat(features);
+featuresWavelet=cell2mat(featuresWavelet);
 %features_norm = cell2mat(features_norm);
 %end
 

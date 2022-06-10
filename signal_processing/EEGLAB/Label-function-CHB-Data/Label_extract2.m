@@ -99,7 +99,7 @@ Channels = Channels(3:end); %first two entries contain irrelevant text
 % Channels now looks like this:
 % Channels{x} = "Channel x: FP7-T4" (FP7 and T4 are example values)
 EarLabels = {'FT9', 'FT7', 'T7', 'TP7', 'TP9', 'FC5', 'C5', 'CP5', ... %Left preauricular
-             'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6'}; %Right preauricular
+             'FT10', 'FT8', 'T8', 'TP8', 'TP10', 'FC6', 'C6', 'CP6', 'A1', 'A2'}; %Right preauricular
 
 ChannelsOut.index = [];
 ChannelsOut.label = {};
@@ -108,7 +108,7 @@ for k = 1:length(Channels)
     % matches is struct containing:
     %   matches.Electrode: name of electrode (label left of the ':')
     %   matches.Reference: name of the reference electrode (label right of the ':')
-    if ~isempty(matches) && any(contains(EarLabels, matches.Electrode, 'IgnoreCase', ispc)) %electrode is around ear
+    if ~isempty(matches) && any(strcmp(EarLabels, matches.Electrode)) %electrode is around ear
        ChannelsOut.index = [ChannelsOut.index k]; %append to channels
        ChannelsOut.label = {ChannelsOut.label{:}, matches.Electrode};
     end

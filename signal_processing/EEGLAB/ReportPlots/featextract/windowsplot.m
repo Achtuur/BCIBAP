@@ -86,7 +86,7 @@ xticklabels(xt + " $f_s$");
 ylim([-125 50]);
 xlim([-2.5 2.5]);
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "eps";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

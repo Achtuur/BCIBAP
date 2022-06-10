@@ -1,3 +1,4 @@
-function path2images = GetPath2Images()
-    path2images = strrep(mfilename('fullpath'), mfilename, '') + "Images\"; %get path to /Images/ folder
+%% returns path to script + '/Images/'
+function path2images = GetPath2Images(filename)
+    path2images = fileparts(which(filename)) + "\Images\"; %get path to /Images/ folder
 end

@@ -44,7 +44,7 @@ path2edf = strrep(path2edf, '\', filesep);
     end
 %% varargin
     if nargin < 3
-       g.locutoff = 0.5; %default values for locutoff and hicutoff
+       g.locutoff = 0; %default values for locutoff and hicutoff
        g.hicutoff = 30;
        g.showplots = 0;
        g.channellist = 0;
@@ -55,9 +55,9 @@ path2edf = strrep(path2edf, '\', filesep);
     else
         g = finputcheck( varargin, { ...
             'channellist' 'integer' [0 inf] [];
-            'locutoff' 'integer' [0 Inf] 0.5;
+            'locutoff' 'integer' [0 Inf] 0;
             'hicutoff' 'integer' [0 Inf] 30; %take lo/hi cutoff from function argument input
-            'forder' 'integer' [0 inf] 30;
+            'forder' 'integer' [0 inf] 100;
             'showplots' 'integer' [0 inf] 0;
             'ASR' 'integer' [0 inf] 0
             'TestSinWave' 'integer' [0 inf] [];
@@ -103,7 +103,8 @@ end
 
 %% ASR
 if g.ASR
-    [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+    [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 0.3, 'ChannelCriterion', 'off',...
+        'LineNoiseCriterion', 'off', 'BurstCriterion', 'off');
 end
 
 %% Plot filtered EEG data

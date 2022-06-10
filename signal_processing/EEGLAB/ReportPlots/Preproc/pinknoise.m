@@ -58,6 +58,9 @@ Yfil = mag2db(abs(Yfil));
 Yunfil = mag2db(abs(Yunfil));
 
 fig = figure();
+axis = gca;
+axis.TickLabelInterpreter = 'latex';
+axis.FontSize = 14;
 hold on;
 ax(1) = semilogx(f, Yunfil);
 ax(2) = semilogx(f, Yfil);
@@ -65,9 +68,10 @@ ax(3) = semilogx(f, ypink);
 hold off;
 set(gca, 'XScale', 'log')
 plotline(ax, [1 1 2]);
-plotcolor(ax(1), 'red');
-plotcolor(ax(2), 'green');
-plotcolor(ax(3), 'purple');
+br = 25;
+plotcolor(ax(1), 'red', 'brightness', br);
+plotcolor(ax(2), 'green', 'brightness', br);
+plotcolor(ax(3), 'purple', 'brightness', br);
 
 if locutoff == 0 %lowpass
     fildata_legend = sprintf("Lowpass filtered data (cutoff at %.1f Hz)", hicutoff);

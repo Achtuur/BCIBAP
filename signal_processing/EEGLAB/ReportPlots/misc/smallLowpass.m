@@ -64,7 +64,7 @@ yticks([]);
 ylim([-90 40]);
 xlim([0 fshift(end)*1.05]);
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "png";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

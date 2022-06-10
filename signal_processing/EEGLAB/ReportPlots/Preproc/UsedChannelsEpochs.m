@@ -106,7 +106,7 @@ ylabel(tiles, 'Voltage [$\mu V$]', 'interpreter', 'latex', 'fontsize', 18); %add
 fig.Position = fig.Position + [0 0 0 100]; %stretch figure in height
 
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "eps";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

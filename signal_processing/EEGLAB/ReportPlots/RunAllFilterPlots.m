@@ -6,7 +6,7 @@ clc;
 % use common filter constants
 locutoff = 0;
 hicutoff = 30;
-dwnsample = 1;
+dwnsample = 2;
 forder = 30;
 
 %% pinknoise

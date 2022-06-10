@@ -97,11 +97,12 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
 
     %% Save image
     if ASR
-        location = GetPath2Images() + mfilename + "ASR";
+        fname = mfilename + "ASR";
     else
-        location = GetPath2Images() + mfilename + "noASR";
+        fname = mfilename + "noASR";
     end
+    location = GetPath2Images(mfilename);
     extension = "eps";
-    SaveImage(fig, location, extension);
+    SaveImage(fig, location, fname, extension);
 %     close all;
 end

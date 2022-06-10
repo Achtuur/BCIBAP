@@ -103,7 +103,8 @@ end
 
 %% ASR
 if g.ASR
-    [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 'off', 'ChannelCriterion','off', 'LineNoiseCriterion', 'off');
+    [EEG, ~, ~] = clean_artifacts(EEG, 'WindowCriterion', 0.3, 'ChannelCriterion', 'off',...
+        'LineNoiseCriterion', 'off', 'BurstCriterion', 'off');
 end
 
 %% Plot filtered EEG data

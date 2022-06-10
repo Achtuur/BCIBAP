@@ -90,8 +90,8 @@ xlabel(t, 'Principal component index', 'interpreter',  'latex','fontsize',17)
 
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image
-% location = GetPath2Images() + mfilename + "allchannel";
-location = GetPath2Images() + "PCAfourier";
+% location = GetPath2Images(mfilename) + mfilename + "allchannel";
+location = GetPath2Images(mfilename) ;
 extension = "eps";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, "PCAfourier", extension);
 

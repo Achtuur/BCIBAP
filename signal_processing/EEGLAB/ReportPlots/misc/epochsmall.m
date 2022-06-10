@@ -25,7 +25,7 @@ xticks([]);
 yticks([]);
 figsize(fig, 'u');
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "png";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

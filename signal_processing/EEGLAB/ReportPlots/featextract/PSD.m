@@ -83,7 +83,7 @@ plotcolor(ax(2), 'green', 'colordiff', 30);
 plotline(ax, 2);
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image
-location = GetPath2Images() + mfilename;
+location = GetPath2Images(mfilename);
 extension = "eps";
-SaveImage(fig, location, extension);
+SaveImage(fig, location, mfilename, extension);
 % close all;

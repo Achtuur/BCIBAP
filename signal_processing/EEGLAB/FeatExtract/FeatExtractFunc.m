@@ -29,7 +29,7 @@ TotalFeatureLabels = '';
 
 % For testing purposes only !!!!
 warning('For testing, only take first channel');
-%nChannels = 1;
+nChannels = 1;
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
     t = tic;

@@ -3,11 +3,11 @@ eegpath = AddPath();
 % dataset = 'chb03';
 % path2dataset = eegpath + "sample_data\" + dataset + "\";
 % FileIndices = SeizFileIndices(dataset);
-Plot_CFNMatrix = 1;
+Plot_CFNMatrix = 0;
 
-epochs = 0.5 : 0.25 : 4;
-epochs = 3;
-final_results = cell(size(epochs, 2), 2);
+Waveleton = 0;
+epochlength = 3;
+final_results = cell(size(epochlength, 2), 2);
 i = 1;
 numFolds = 10;
 % "01" "03" "04" "05" "06" "07" "08" "09" "10"
@@ -21,25 +21,23 @@ for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
-    [featuresTemp,YTemp,featurelabelsTemp, epochsTemp] = getFeatures(dataset, path2dataset, FileIndices, epochs);
+    [featuresTemp,featurelabelsTemp,YTemp] = getFeatures(dataset, path2dataset, FileIndices, epochlength, Waveleton);
     featuresTemp = NormalizeFeat(featuresTemp);
-    if i ~= 1
-        features = [features; featuresTemp];
-        Y = [Y; YTemp];
-        featurelabels = [featurelabels; featurelabelsTemp];
-        epochdata = [epochdata; epochsTemp];
-    else
+%     if i ~= 1
+%         features = [features; featuresTemp];
+%         Y = [Y; YTemp];
+%         featurelabels = [featurelabels; featurelabelsTemp];
+%     else
     %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,95);
     features = featuresTemp;
     Y = YTemp;
     featurelabels = featurelabelsTemp;
-    epochdata = epochsTemp;
-    end
-end
+%     end
+% end
 
 X = features;
 
-HyperTune = 1;
+HyperTune = 0;
 HyperEvalNum = 50;
 %matfile('MLModel/CNNmodel.mat', 'Writable', true);
 %for k = epochs
@@ -61,11 +59,11 @@ HyperEvalNum = 50;
 %     YTrain = Yfifty(training(cvp));
 %     XTest = Xfifty(test(cvp),:);
 %     YTest = Yfifty(test(cvp));
-    cvp = cvpartition(Y,"Holdout",0.1);
-    XTrain = X(training(cvp),:);
-    YTrain = Y(training(cvp));
-    XTest = X(test(cvp),:);
-    YTest = Y(test(cvp));
+    cvp = cvpartition(Y,"KFold",10);
+%     XTrain = X(training(cvp),:);
+%     YTrain = Y(training(cvp));
+%     XTest = X(test(cvp),:);
+%     YTest = Y(test(cvp));
 acclist = zeros(numFolds,1);
 senslist = zeros(numFolds,1);
 TPlist = zeros(numFolds,1);
@@ -101,7 +99,7 @@ FNlist = zeros(numFolds,1);
     %senslist = senslist(:,1);
     averagesens(i) = sum(senslist)/numFolds;
      %final_results(i, :) = {features featurelabels};
-%end    
+end    
      if Plot_CFNMatrix
          figure()
          confusionchart(YTest,predict(Mdl,XTest),'RowSummary','row-normalized')

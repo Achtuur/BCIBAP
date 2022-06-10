@@ -5,6 +5,7 @@
 %   path: path to folder containing dataset .edf files and summary.txt
 %   FileIndices: indices of files in summary.txt to be labeled, starts at 1
 %   EpochLengthSec: length of each epoch in seconds
+%   Wavelet: If true then wavelet features are used otherwise fourier
 
 %% Outputs
 %   features_norm: normalised features from input dataset(s)
@@ -16,7 +17,7 @@
 
 %% Function start
 % function [features,labels,featurelabels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
-function [featuresWavelet, featurelabelsWavelet, features, featurelabels, labels, mus, stds] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec)
+function [features, featurelabels, labels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec, Wavelet)
 % function [featuresWavelet,features,labels,featurelabels,featurelabelsWavelet] = getFeatures()
 % test vars
 %     clc; clear;
@@ -53,7 +54,7 @@ t = tic;
 disp("Loading data...");
 
 filtered_data = LoadData(path2dataset, FileIndices, 'overwrite', 1,...
-    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 1, 'downsample', fac_downsample);
+    'channellist', channellist, 'rounding_err', rounding_err, 'ASR', 0, 'downsample', fac_downsample);
 t = toc(t);
 fprintf("Data loaded, took %.3f seconds\n", t);
 %% Get features
@@ -62,8 +63,13 @@ disp('Getting features...');
 t = tic;
 
 epochs = DivideInEpochs(filtered_data, Fs, EpochLengthSec);
-[features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
-[featuresWavelet, featurelabelsWavelet] = FeatExtractWavelet(epochs,Fs,EpochLengthSec);
+if Wavelet
+    [featuresWavelet, featurelabels] = FeatExtractWavelet(epochs,Fs,EpochLengthSec);
+    features=cell2mat(featuresWavelet);
+else
+    [features, featurelabels] = FeatExtractFunc(epochs, Fs, EpochLengthSec);
+    features = cell2mat(features);
+end
 
 
 t = toc(t);
@@ -72,8 +78,7 @@ fprintf("Got features, took %.3f seconds\n", t);
 
 %% Normalizes EEG data and adds it to features, TODO
 
-features = cell2mat(features);
-featuresWavelet=cell2mat(featuresWavelet);
+
 %features_norm = cell2mat(features_norm);
 %end
 

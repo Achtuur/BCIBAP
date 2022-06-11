@@ -60,10 +60,10 @@ plot(F, conduc4,'-');
 plot(F, conduc5,'-');
 plot(F, conduc6,'-');
 
-title("Parallel plate capacitor measurement", 'interpreter',  'latex','fontsize',17);
-xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17)
+title("Parallel plate capacitor measurement", 'interpreter',  'latex','fontsize',18);
+xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',18)
 %xlabel("Frequency [Hz]");
-ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',17);
+ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',18);
 
 leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',17);
 title(leg,'Solution', 'interpreter',  'latex','fontsize',17);
@@ -80,9 +80,9 @@ plot(F, P6,'-');
 leg = legend('7', '8', '9', '10', '11', '12', 'interpreter',  'latex','fontsize',17);
 title(leg, 'Solution', 'interpreter',  'latex','fontsize',17);
 
-title("Parallel plate capacitor measurement", 'interpreter',  'latex','fontsize',17);
-xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17);
-ylabel("Permittivity [F/m]", 'interpreter',  'latex','fontsize',17);
+title("Parallel plate capacitor measurement", 'interpreter',  'latex','fontsize',18);
+xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',18);
+ylabel("Permittivity [F/m]", 'interpreter',  'latex','fontsize',18);
 
 %set(gca, 'YScale', 'log')
 

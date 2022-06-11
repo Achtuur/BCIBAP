@@ -12,15 +12,15 @@ RF1_wav = [99.5, 80.0; %random forest wavelet 1 channel
     99.9, 93.8];
 x0 = ones(9, 1) * 0;
 
-RF1_FT = [99.9, 93.3; %random forest fourier 1 channel (NUMBERS NOT CORRECT YET)
-    99.7, 77.8;
-    99.6, 61.5;
-    99.7, 94.7;
-    99.8, 0.0;
-    100, 100;
-    97.3, 48.4;
-    99.8, 88.9;
-    99.8, 87.5];
+RF1_FT = [99.5, 73.3; %random forest fourier 1 channel
+    99.6, 77.8;
+    99.5, 53.8;
+    99.3, 78.9;
+    99.8, 0;
+    99.0, 9.1;
+    97.7, 64.5;
+    99.7, 66.7;
+    99.9, 87.5];
 x1 = ones(9, 1) * 1;
 
 SVM1_wav = [99.9, 93.3; %SVM wavelet 1 channel (NUMBERS NOT CORRECT YET)
@@ -45,26 +45,26 @@ SVM1_FT = [99.9, 93.3; %SVM fourier 1 channel (NUMBERS NOT CORRECT YET)
     99.8, 87.5];
 x3 = ones(9, 1) * 3;
 
-NN1_wav = [99.9, 93.3; %NN wavelet 1 channel (NUMBERS NOT CORRECT YET)
-    99.7, 77.8;
-    99.6, 61.5;
-    99.7, 94.7;
+NN1_wav = [99.2, 67.6; %NN wavelet 1 channel 99% PCA
+    99.6, 73.1;
+    99.0, 6.9;
+    99.1, 77.4;
     99.8, 0.0;
-    100, 100;
-    97.3, 48.4;
-    99.8, 88.9;
-    99.8, 87.5];
+    99.1, 35.1;
+    96.1, 33.1;
+    99.3, 42.3;
+    99.9, 90.3];
 x4 = ones(9, 1) * 4;
 
-NN1_FT = [99.9, 93.3; %NN fourier 1 channel (NUMBERS NOT CORRECT YET)
-    99.7, 77.8;
-    99.6, 61.5;
-    99.7, 94.7;
+NN1_FT = [99.3, 74.2; %NN fourier 1 channel 99% PCA
+    99.7, 29.4;
+    99.6, 19.2;
+    99.7, 78.4;
     99.8, 0.0;
-    100, 100;
-    97.3, 48.4;
-    99.8, 88.9;
-    99.8, 87.5];
+    100, 21.6;
+    97.3, 53.4;
+    99.8, 57.7;
+    99.8, 89];
 x5 = ones(9, 1) * 5;
 
 AorS = 2; %Set this var to 1 to plot accuracy, 2 to plot sensitivity

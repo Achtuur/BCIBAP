@@ -53,6 +53,9 @@ Z_band = Z_band(n);
 locut = fshift(find(Z_band > -6, 1));
 %% plot
 fig = figure();
+axis = gca;
+axis.TickLabelInterpreter = 'latex';
+axis.FontSize = 14;
 linestyle = '-.';
 hold on;
 ax(1) = plot(fshift, Z_low);
@@ -74,9 +77,7 @@ plotcolor(ax(3:5), 'purple', 'colordiff', 0, 'brightness', 25);
 plottext(ax, sprintf("Magnitude reponses of filters (order = $%d$)", forder),...
     { 'Lowpass filter', 'Bandpass filter', '$-6$ dB cutoffs'}, 'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 12, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
-axis = gca;
-axis.TickLabelInterpreter = 'latex';
-axis.FontSize = 14;
+
 
 ylim([-90 40]);
 xlim([0 75]);

@@ -9,37 +9,37 @@
 
 
 close all;
+
 eegpath = AddPath();
 
-epochs = 0.5 : 0.25 : 4;
-epochs = 3;
-final_results = cell(size(epochs, 2), 2);
+Plot_CFNMatrix = 0;
+Waveleton = 1;
+epochlength = 3;
+final_results = cell(size(epochlength, 2), 2);
 i = 1;
 numFolds = 10;
 % "01" "03" "04" "05" "06" "07" "08" "09" "10"
 
 datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
 temp = 0;
-save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
+save(eegpath + "\MLModel\SVMmodel.mat", 'temp');
 clear temp;
 components = zeros(length(datasets),1);
-for i = 1:length(datasets) 
-    % Loop gathering all patient data. Form decides whether collective data or per patient data will be used
+for i = 1:length(datasets)
     dataset = append("chb",datasets(i));
     path2dataset = eegpath + "sample_data\" + dataset + "\";
     FileIndices = SeizFileIndices(dataset);
-    [featuresTemp,YTemp,featurelabelsTemp, epochsTemp] = getFeatures(dataset, path2dataset, FileIndices, epochs);
+    [featuresTemp,featurelabelsTemp,YTemp] = getFeatures(dataset, path2dataset, FileIndices, epochlength, Waveleton);
     featuresTemp = NormalizeFeat(featuresTemp);
 %     if i ~= 1
 %         features = [features; featuresTemp];
 %         Y = [Y; YTemp];
 %         featurelabels = [featurelabels; featurelabelsTemp];
-%         epochdata = [epochdata; epochsTemp];
 %     else
-    %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,95);
+    %[features,components(i),coeff,latent] = FeatSelectionPCA(featuresTemp,99);
+    features = featuresTemp;
     Y = YTemp;
     featurelabels = featurelabelsTemp;
-    epochdata = epochsTemp;
 %     end
 % end
 

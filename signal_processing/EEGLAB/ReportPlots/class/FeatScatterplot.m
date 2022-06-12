@@ -30,5 +30,5 @@ axis.YAxisLocation = 'left';
 
 %% save image
 location = GetPath2Images(mfilename);
-extension = "eps";
+extension = "png"; % saved as png since eps is too large?
 SaveImage(fig, location, mfilename, extension);

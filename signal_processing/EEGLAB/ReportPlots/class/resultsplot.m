@@ -5,15 +5,22 @@ NN = load(s + "\data\NN.mat");
 SVM = load(s + "\data\SVM.mat");
 RF = load(s + "\data\RF.mat");
 
+PCAlvl = [5 6];
+
 RF9_FT = RF.RF9_FT;
 RF9_wav = RF.RF9_wav;
-RF9_both =RF.RF9_both;
-SVM9_wav = SVM.SVM9_wav(:, 5:6);
-SVM9_FT = SVM.SVM9_FT(:, 3:4);
-NN9_wav = NN.NN9_wav(:, 5:6);
-NN9_FT = NN.NN9_FT(:, 5:6);
+% RF9_both =RF.RF9_both;
+SVM9_wav = SVM.SVM9_wav(:, PCAlvl);
+SVM9_FT = SVM.SVM9_FT(:, PCAlvl);
+NN9_wav = NN.NN9_wav(:, PCAlvl);
+NN9_FT = NN.NN9_FT(:, PCAlvl);
 
-x = ones(9, 7) .* (0:7-1);
+nRF = 2;
+nSVM = 2;
+nNN = 2;
+N = nRF + nSVM + nNN;
+
+x = ones(9, N) .* (0:N-1);
 
 AorS = 2; %Set this var to 1 to plot accuracy, 2 to plot sensitivity
 
@@ -29,7 +36,7 @@ end
 n = 1:9;
 n(5) = []; %exclude patient 6
 
-avg = [mean(RF9_wav(n, :)); mean(RF9_FT(n, :)); mean(RF9_both(n, :)); ...
+avg = [mean(RF9_wav(n, :)); mean(RF9_FT(n, :)); ...
     mean(SVM9_wav(n, :)); mean(SVM9_FT(n, :)); ...
     mean(NN9_wav(n, :)); mean(NN9_FT(n, :))];
 avg = avg(:, AorS); %take accuracy or sensitivity
@@ -37,13 +44,10 @@ avg = avg(:, AorS); %take accuracy or sensitivity
 
 margin = 0.25;
 
-nRf = 3;
-nSVM = 2;
-nNN = 2;
 
-RFx = [0, nRf-1] + [-margin margin];
-SVMx = [nRf, nRf + nSVM - 1] + [-margin margin];
-NNx = [nRf + nSVM, nRf + nSVM + nNN - 1] + [-margin margin];
+RFx = [0, nRF-1] + [-margin margin];
+SVMx = [nRF, nRF + nSVM - 1] + [-margin margin];
+NNx = [nRF + nSVM, nRF + nSVM + nNN - 1] + [-margin margin];
 
 fig = figure();
 hold on;
@@ -59,18 +63,18 @@ plotcolor(p(3), 'purple', 'brightness', br);
 
 plax(1) = plot(-100, -100, 'x'); %plotting invisible o and x for legend hack
 plax(2) = plot(-100, -100, 'o');
-plax(3) = plot(-100, -100, 's');
-plax(4) = plot(x(1,:), avg, '-o');
+% plax(3) = plot(-100, -100, 's');
+plax(3) = plot(x(1,:), avg, '-o');
 
 ax(1) = plot(x(:, 1), RF9_wav(:, AorS), 'x');
 ax(2) = plot(x(:, 2), RF9_FT(:, AorS), 'o');
-ax(3) = plot(x(:, 3), RF9_both(:, AorS), 's');
+% ax(3) = plot(x(:, 3), RF9_both(:, AorS), 's');
 
-ax(4) = plot(x(:, 4), SVM9_wav(:, AorS), 'x');
-ax(5) = plot(x(:, 5), SVM9_FT(:, AorS), 'o');
+ax(3) = plot(x(:, 3), SVM9_wav(:, AorS), 'x');
+ax(4) = plot(x(:, 4), SVM9_FT(:, AorS), 'o');
 
-ax(6) = plot(x(:, 6), NN9_wav(:, AorS), 'x');
-ax(7) = plot(x(:, 7), NN9_FT(:, AorS), 'o');
+ax(5) = plot(x(:, 5), NN9_wav(:, AorS), 'x');
+ax(6) = plot(x(:, 6), NN9_FT(:, AorS), 'o');
 
 hold off;
 
@@ -78,22 +82,23 @@ axis = gca;
 axis.TickLabelInterpreter = 'latex';
 axis.FontSize = 14;
 
-plotline(plax(4), 2);
+plotline(plax(3), 2);
 br = 50;
-plotcolor(plax(1:3), 'black', 'brightness', br);
-plotcolor(plax(4), 'orange', 'brightness', 0);
+plotcolor(plax(1:2), 'black', 'brightness', br);
+plotcolor(plax(3), 'orange', 'brightness', 0);
 
-plotcolor(ax(1:3), 'green', 'brightness', -br);
-plotcolor(ax(4:5), 'red', 'brightness', -br);
-plotcolor(ax(6:7), 'purple', 'brightness', -br);
+plotcolor(ax(1:2), 'green', 'brightness', -br);
+plotcolor(ax(3:4), 'red', 'brightness', -br);
+plotcolor(ax(5:6), 'purple', 'brightness', -br);
 plottext(plax, tit, {'Patient analysed with wavelet features', 'Patient analysed with FT features', 'Wavelet \& FT features combined', 'Mean of all patients (patient 6 excluded)'}, ...
     'Model', ylab, 'fontsize', 8, 'legendloc', 'northeastoutside');
 
-xlim([0 - margin, nRf + nNN + nSVM - 1 + margin]);
+xlim([0 - margin, nRF + nNN + nSVM - 1 + margin]);
 ylim([0 102]);
+set(gca, 'Layer', 'top')
 figsize(fig, 'o');
 
-
+yticks([0:10:100]);
 
 xticks([mean(RFx), mean(SVMx), mean(NNx)]);
 xticklabels(["Random Forest", "SVM", "Neural Network"]);

@@ -31,7 +31,7 @@ br = 25;
 ax(1) = plot(t, x);
 ax(2) = line([1000 1000], [1000 1000], 'LineStyle', '--'); %hidden line for legend
 plotcolor(ax(2), 'black', 'brightness', br);
-drawArrow = @(x,y, varargin) quiver( x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin{:});
+% drawArrow = @(x,y, varargin) quiver( x(1),y(1),x(2)-x(1),y(2)-y(1),0, varargin{:});
 clr = {'purple', 'red', 'orange', 'cyan'};
 for n = 0:nWindows-1
     if overlaps(o) ~= 1
@@ -43,12 +43,13 @@ for n = 0:nWindows-1
     xshift = n*(N*overlaps(o));
     ax(3+4*n : 6 + 4*n) = line(windowX + xshift, windowY + ypl, 'LineStyle', '--');
     text(xshift + N/2 - 0.15*N, A*1.2 * (-1)^n, sprintf("Window %d", n+1));
-
-    cl = plotcolor(ax(3+4*n : 6 + 4*n), clr{n+1}, 'colordiff', 0, 'brightness', br);
-    drawArrow([xshift+0.125*N, 0.02*N + xshift], ...
-        [1 1]*A*1.2 * (-1)^n, 'Color', cl, 'LineWidth', 2); % arrow pointing left
-    drawArrow([xshift+N-0.125*N, -0.02*N + N + xshift], ...
-        [1 1]*A*1.2 * (-1)^n, 'Color', cl, 'LineWidth', 2); % arrow pointing right
+    plotcolor(ax(3+4*n : 6 + 4*n), clr{n+1}, 'colordiff', 0, 'brightness', br);
+    % arrows
+    arrY = [1, 1]*A*1.2 * (-1)^n;
+    arr(1) = drawArrow(fig, [xshift+0.125*N, 0.02*N + xshift], arrY); % arrow pointing left
+    arr(2) = drawArrow(fig, [xshift+N-0.125*N, -0.02*N + N + xshift], arrY); % arrow pointing right
+    plotline(arr, 1, 'HeadSize', 7);
+    plotcolor(arr, clr{n+1}, 'colordiff', 0, 'brightness', br);
 end
 
 hold off;
@@ -72,6 +73,6 @@ legend({'Arbitrary signal', 'Windows'}, 'location', 'none', 'Position', [0.7324,
 figsize(fig, 'o');
 %% Save image
 location = GetPath2Images(mfilename);
-extension = "png";
+extension = "eps";
 SaveImage(fig, location, mfilename, extension);
 % close all;

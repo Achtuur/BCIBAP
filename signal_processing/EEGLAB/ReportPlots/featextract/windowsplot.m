@@ -9,7 +9,7 @@ Fs = 75;
 L = Fs;
 fac = 100;
 %% x axis
-fshift = linspace(-Fs*3, Fs*3, L*fac) / Fs;
+fshift = linspace(-Fs/2, Fs/2, L*fac) / Fs;
 %Rectangular
 rect = fftshift(fft(rectwin(L), L*fac))';
 rect = mag2db(abs(rect));
@@ -36,7 +36,7 @@ blk = mag2db(abs(blk));
 trunc_blk = -100;
 blk(blk < trunc_blk) = trunc_blk;
 % f = -0.3, 0.3
-i = find(fshift > -0.3 & fshift < 0.3);
+i = find(fshift > -0.05 & fshift < 0.05);
 i2 = find(blk(i) < -50);
 i2 = i(i2); %fix indices
 blk(i2) = -40;
@@ -74,17 +74,20 @@ plottext(ax, 'Magnitude Spectrum for different types of Window functions', { ...
     sprintf('Hamming (truncated at %.1f dB)', trunc_ham), ...
     sprintf('Blackman (truncated at %.1f dB)', trunc_blk), ...
     sprintf('Kaiser (truncated at %.1f dB)', trunc_kai)...
-    }, 'frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
+    }, 'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
-xt = [-2.5 : 0.5 : 2.5];
+
+xt = [-1 : 0.125 : 1];
 axis = gca;
 axis.TickLabelInterpreter = 'latex';
 axis.FontSize = 14;
 xticks(xt);
-xticklabels(xt + " $f_s$");
+ticklab = xt + " $f_s$";
+ticklab(ceil(length(xt)/2)) = "0"; %set middle element to not have 'fs'
+xticklabels(ticklab);
 
 ylim([-125 50]);
-xlim([-2.5 2.5]);
+xlim([-0.5 0.5]);
 %% Save image
 location = GetPath2Images(mfilename);
 extension = "eps";

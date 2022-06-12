@@ -9,6 +9,7 @@ path2summary = path2dataset + "/" + dataset + "-summary.txt";
 FileIndicesstr = "01";
 path2edf = path2dataset + "/" + dataset + "_" + FileIndicesstr + ".edf";
 
+
 [featuresWavelet, featurelabelsWavelet, features, featurelabels, labels] = getFeatures(dataset, path2dataset, FileIndices, EpochLengthSec);
 
  %% normalise features
@@ -36,7 +37,7 @@ nexttile;
 hold on;
 yyaxis left;
 ax(1) = bar(explainedFourier./100);
-ylabel('individual explained variance ratio','interpreter', 'latex', 'fontsize',17)
+ylabel('Individual explained variance ratio','interpreter', 'latex', 'fontsize',17)
 ylim(leftylim)
 yyaxis right;
 ax(2) = stairs(cumsum(latentFourier)/sum(latentFourier));
@@ -86,7 +87,7 @@ plotline(ax(2), 2);
 
 % % Specify common title, X and Y labels
 title(t, 'Explained variance of principal components with two feature extraction methods','interpreter', 'latex','fontsize', 18)
-xlabel(t, 'Principal component index', 'interpreter',  'latex','fontsize',17)
+xlabel(t, 'Principal component index', 'interpreter', 'latex','fontsize',17)
 
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 %% Save image

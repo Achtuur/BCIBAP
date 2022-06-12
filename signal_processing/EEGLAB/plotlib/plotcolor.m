@@ -14,6 +14,7 @@ if ~exist('colorset', 'var')
     colorset = 1; %choose which colorset to use
 end
 
+
 if nargin < 3
     g.colordiff = 25; 
     g.brightness = 25;
@@ -42,15 +43,23 @@ colorsets = [
          ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
 %clr = zeros(length(axis), 3);
 color = colorsets(colorset, :);
-for i = 1:length(axis)
-    clr = clamp(color + (i-1)*g.colordiff/255 + g.brightness/255, 0, 255);
-    clr(clr > 1) = 1; %set colors above 1 to 1
-    type = DetermineGraphType(axis(i));
-    if strcmp(type, 'bar')
-        axis(i).FaceColor = clr;
-        axis(i).EdgeColor = clamp(clr - 2.5*g.brightness/255, 0, 255);
-    elseif strcmp(type, 'line')
-        axis(i).Color = clr;
+
+if isempty(axis) %no axis input => just return color
+    color = clamp(color + g.brightness/255, 0, 1);
+else %axis input => recolor axis
+    for i = 1:length(axis)
+        clr = clamp(color + (i-1)*g.colordiff/255 + g.brightness/255, 0, 1);
+        clr(clr > 1) = 1; %set colors above 1 to 1
+        type = DetermineGraphType(axis(i));
+        if strcmp(type, 'bar') || strcmp(type, 'patch')
+            axis(i).FaceColor = clr;
+            axis(i).EdgeColor = clamp(clr - min(clr/2, 2*g.brightness/255), 0, 1);
+        elseif strcmp(type, 'line')
+            axis(i).Color = clr;
+        elseif strcmp(type, 'arrow')
+           axis(i).Color = clr;
+           axis(i).TextColor = clamp(clr - 4*g.brightness/255, 0, 1);
+        end
     end
 end
 end
@@ -60,16 +69,7 @@ function x = clamp(x, minX, maxX)
     x = max(minX, min(x, maxX));  
 end
 
-function type = DetermineGraphType(ax)
-    fd = fieldnames(ax);
-    if any(strcmp(fd, 'Color'))
-        type = 'line'; 
-    elseif any(strcmp(fd, 'BarWidth'))
-        type = 'bar';
-    else
-        error('Axis of unsupported type for coloring'); 
-    end
-end
+
 
 function n = str2colorset(str)
     n = 10; %default to black

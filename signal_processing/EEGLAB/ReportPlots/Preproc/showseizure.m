@@ -69,6 +69,9 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
     %% plot
 
     fig = figure();
+    axis = gca;
+    axis.TickLabelInterpreter = 'latex';
+    axis.FontSize = 14;
     hold on;
     ax(1) = plot(t, yunfil);
     ax(2) = plot(t, yfil);

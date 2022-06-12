@@ -13,7 +13,7 @@ close all;
 eegpath = AddPath();
 
 Plot_CFNMatrix = 0;
-Waveleton = 1;
+Waveleton = 0;
 epochlength = 3;
 final_results = cell(size(epochlength, 2), 2);
 i = 1;
@@ -42,7 +42,8 @@ for i = 1:length(datasets)
     featurelabels = featurelabelsTemp;
 %     end
 % end
-
+Y(Y == 1) = -1;
+Y(Y == 2) = 1;
 X = featuresTemp;
 
 HyperTune = 0;
@@ -54,11 +55,6 @@ HyperEvalNum = 50;
     %% train model
     % Train CNN here
     rng("default") % For reproducibility of the partition and other random decisions such as training
-    cvp = cvpartition(Y,"KFold",numFolds);
-%     XTrain = X(training(cvp),:);
-%     YTrain = Y(training(cvp));
-%     XTest = X(test(cvp),:);
-%     YTest = Y(test(cvp));
 acclist = zeros(numFolds,1);
 senslist = zeros(numFolds,1);
 TPlist = zeros(numFolds,1);
@@ -66,14 +62,21 @@ TNlist = zeros(numFolds,1);
 FPlist = zeros(numFolds,1);
 FNlist = zeros(numFolds,1);
     if HyperTune
+        cvp = cvpartition(Y,"Holdout",0.1);
+        XTrain = X(training(cvp),:);
+        YTrain = Y(training(cvp));
+        XTest = X(test(cvp),:);
+        YTest = Y(test(cvp));
         Mdl = fitcsvm(XTrain,YTrain,"OptimizeHyperparameters","auto", ...
         "HyperparameterOptimizationOptions", ...
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))
     else
+        cvp = cvpartition(Y,"KFold",numFolds);
         for j = 1:numFolds
-          Mdl = fitcsvm(X(cvp.training(j),:),Y(cvp.training(j)),"KernelFunction","rbf","KernelScale",0.0177,...
-            "Standardize",true,"BoxConstraint",0.001);
+          Mdl = fitcsvm(X(cvp.training(j),:),Y(cvp.training(j)));
+%           Mdl = fitcsvm(X(cvp.training(j),:),Y(cvp.training(j)),"KernelFunction","rbf","KernelScale",0.0177,...
+%             "Standardize",true,"BoxConstraint",0.001);
             figure()
                             predictions = predict(Mdl,X(cvp.test(j),:));
             cm = confusionchart(Y(cvp.test(j)),predictions,'RowSummary','row-normalized');
@@ -93,7 +96,8 @@ FNlist = zeros(numFolds,1);
     averagesens(i) = sum(senslist)/numFolds;
      %final_results(i, :) = {features featurelabels};
 end
-
+averagesens = averagesens';
+averageacc = averageacc';
 
 disp("Accuracy is "+  averageacc + "%")
 disp("Sensitivity is "+ averagesens + "%")

@@ -5,7 +5,7 @@ eegpath = AddPath();
 % FileIndices = SeizFileIndices(dataset);
 Plot_CFNMatrix = 0;
 
-Waveleton = 0;
+Waveleton = 1;
 epochlength = 3;
 final_results = cell(size(epochlength, 2), 2);
 i = 1;
@@ -14,7 +14,7 @@ numFolds = 10;
 
 datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
 temp = 0;
-save(eegpath + "\MLModel\SVM.mat", 'temp');
+save(eegpath + "\MLModel\CNNmodel.mat", 'temp');
 clear temp;
 components = zeros(length(datasets),1);
 for i = 1:length(datasets)
@@ -23,17 +23,17 @@ for i = 1:length(datasets)
     FileIndices = SeizFileIndices(dataset);
     [featuresTemp,featurelabelsTemp,YTemp] = getFeatures(dataset, path2dataset, FileIndices, epochlength, Waveleton);
     featuresTemp = NormalizeFeat(featuresTemp);
-%     if i ~= 1
-%         features = [features; featuresTemp];
-%         Y = [Y; YTemp];
-%         featurelabels = [featurelabels; featurelabelsTemp];
-%     else
-    %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,95);
+    if i ~= 1
+        features = [features; featuresTemp];
+        Y = [Y; YTemp];
+        featurelabels = [featurelabels; featurelabelsTemp];
+    else
+    %[features,components(i),coeff,latent] = FeatSelectionPCA(featuresTemp,99);
     features = featuresTemp;
     Y = YTemp;
     featurelabels = featurelabelsTemp;
-%     end
-% end
+    end
+end
 
 X = features;
 
@@ -59,11 +59,11 @@ HyperEvalNum = 50;
 %     YTrain = Yfifty(training(cvp));
 %     XTest = Xfifty(test(cvp),:);
 %     YTest = Yfifty(test(cvp));
-    cvp = cvpartition(Y,"KFold",10);
-%     XTrain = X(training(cvp),:);
-%     YTrain = Y(training(cvp));
-%     XTest = X(test(cvp),:);
-%     YTest = Y(test(cvp));
+    cvp = cvpartition(Y,"HoldOut",0.1);
+    XTrain = X(training(cvp),:);
+    YTrain = Y(training(cvp));
+    XTest = X(test(cvp),:);
+    YTest = Y(test(cvp));
 acclist = zeros(numFolds,1);
 senslist = zeros(numFolds,1);
 TPlist = zeros(numFolds,1);
@@ -76,9 +76,10 @@ FNlist = zeros(numFolds,1);
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))
     else
+        cvp = cvpartition(Y,"KFold",10);
         for j = 1:numFolds
-        Mdl = fitcnet(X(cvp.training(j),:),Y(cvp.training(j)),"Layersizes",300,"Activations","none",...
-            "Standardize",true,"Lambda",9.7118e-05);
+        Mdl = fitcnet(X(cvp.training(j),:),Y(cvp.training(j)),"Layersizes",[289 2],"Activations","tanh",...
+            "Standardize",true,"Lambda",2.4284e-06);
 %           Mdl = fitcsvm(XTrain,YTrain,"KernelFunction","rbf","KernelScale",3.4575,...
 %             "Standardize",true,"BoxConstraint",211.68);
             figure()
@@ -99,7 +100,7 @@ FNlist = zeros(numFolds,1);
     %senslist = senslist(:,1);
     averagesens(i) = sum(senslist)/numFolds;
      %final_results(i, :) = {features featurelabels};
-end    
+% end    
      if Plot_CFNMatrix
          figure()
          confusionchart(YTest,predict(Mdl,XTest),'RowSummary','row-normalized')
@@ -109,9 +110,12 @@ end
 %     fig = plotconfusion(lab, predicted);
 %     fig.CurrentAxes.Title.String = sprintf("epochlengthsec = %0.1f", k);
 
+averageacc = averageacc';
+averagesens = averagesens';
+
 disp("Accuracy is "+  averageacc + "%")
 disp("Sensitivity is "+ averagesens + "%")
 model = Mdl;
 disp("accmean is "+ mean(averageacc))
 disp("sensmean is "+ mean(averagesens))
-save('MLModel/SVM.mat', 'model', '-append');
+save('MLModel/CNNmodel.mat', 'model', '-append');

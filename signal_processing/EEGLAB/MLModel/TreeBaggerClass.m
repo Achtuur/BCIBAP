@@ -7,9 +7,9 @@ Waveleton = 1;
 epochlength = 3;
 final_results = cell(size(epochlength, 2), 2);
 i = 1;
-numFolds = 1;
+numFolds = 10;
 % "01" "03" "04" "05" "06" "07" "08" "09" "10"
-nTrees = 100;
+nTrees = 1000;
 
 datasets = ["01" "03" "04" "05" "06" "07" "08" "09" "10"];
 temp = 0;
@@ -26,7 +26,6 @@ for i = 1:length(datasets)
 %         features = [features; featuresTemp];
 %         Y = [Y; YTemp];
 %         featurelabels = [featurelabels; featurelabelsTemp];
-%         epochdata = [epochdata; epochsTemp];
 %     else
     %[features,components(i),coeff] = FeatSelectionPCA(featuresTemp,99);
     features = featuresTemp;
@@ -35,7 +34,7 @@ for i = 1:length(datasets)
 %     end
 % end
 
-X = featuresTemp;
+X = features;
 
 HyperTune = 0;
 HyperEvalNum = 50;
@@ -49,11 +48,11 @@ HyperEvalNum = 50;
     %Y = cell2mat(Y);
     % Train CNN here
     rng("default") % For reproducibility of the partition
-    idx = find(Y == 2);
-    rows = randperm(length(X),length(idx)*4);
-    rows = sort(unique([idx;rows']));
-    Xfifty = X(rows,:);
-    Yfifty = Y(rows,:);
+%     idx = find(Y == 2);
+%     rows = randperm(length(X),length(idx)*4);
+%     rows = sort(unique([idx;rows']));
+%     Xfifty = X(rows,:);
+%     Yfifty = Y(rows,:);
 %     cvp = cvpartition(Yfifty,"Holdout",0.1);
 %     XTrain = Xfifty(training(cvp),:);
 %     YTrain = Yfifty(training(cvp));
@@ -76,14 +75,18 @@ FNlist = zeros(numFolds,1);
         struct("AcquisitionFunctionName","expected-improvement-plus", ...
         "MaxObjectiveEvaluations",HyperEvalNum))
     else
+        cvp = cvpartition(Y,"KFold",10);
         for j = 1:numFolds
             % Train the TreeBagger (Random Forest).
-            Mdl = TreeBagger(nTrees,XTrain,YTrain, 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',30);
+            Mdl = TreeBagger(nTrees,X(cvp.training(j),:),Y(cvp.training(j)), 'Method', 'classification', 'InBagFraction', 0.5, 'MaxNumSplits',30);
 %           Mdl = fitcsvm(XTrain,YTrain,"KernelFunction","rbf","KernelScale",3.4575,...
 %             "Standardize",true,"BoxConstraint",211.68);
             figure()
-            predictions = str2double(predict(Mdl,XTest));
-            cm = confusionchart(YTest,predictions,'RowSummary','row-normalized');
+            t = tic;
+            fprintf("Starting predicting")
+            predictions = str2double(predict(Mdl,X(cvp.test(j),:)));
+            fprintf("Done predicting it took %.3f seconds\n", toc(t));
+            cm = confusionchart(Y(cvp.test(j)),predictions,'RowSummary','row-normalized');
             TPlist(j) = cm.NormalizedValues(2,2);
             TNlist(j) = cm.NormalizedValues(1,1);
             FPlist(j) = cm.NormalizedValues(1,2);

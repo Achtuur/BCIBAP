@@ -5,7 +5,7 @@ T = 0.008;
 e0 = 8.85*10.^(-12); % matlab constant
 
 F = dataa3000mgn1000mg(:,2); %Frequency
-colors = ["magenta", "red", "green", "yellow", "blue", "cyan"];
+colorshex = ["#84f0e1","#0300a6","#fa7029","#a700cf","#00d999","#75ffad","#0300a6","#ebed5c"];
 
 %-----conductivity
 Reals = [dataa3000mgn500mg(:,3) dataa3000mgn750mg(:,3) dataa3000mgn1000mg(:,3) dataa3000mgn1250mg(:,3) dataa3000mgn1500mg(:,3) dataa3000mgn1750mg(:,3)];
@@ -24,19 +24,20 @@ for i = 1:size(conductivity_d1,2)
        p1 = semilogy(F, conductivity_d1(:,i), '-', 'LineWidth', 1.5);   
        p2 = semilogy(F, conductivity_d2(:,i), '--', 'LineWidth', 1.5);  
        p3 = semilogy(F, conductivity_d3(:,i), ':', 'LineWidth', 1.5);  
-       p1.Color = colors(i);
-       p2.Color = colors(i);
-       p3.Color = colors(i);
+       p1.Color = colorshex(i);
+       p2.Color = colorshex(i);
+       p3.Color = colorshex(i);
     end   
 end
 hold off
+box on
 
-title("Multi day measurement", 'interpreter',  'latex','fontsize',17);
-xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17)
-ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',17);
+title("Multi day measurement", 'interpreter',  'latex','fontsize',18);
+xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',18)
+ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',18);
 
-leg = legend('8','','', '9','','', '11','interpreter',  'latex','fontsize',13,'Location','northwest');
-title(leg,'Solution', 'interpreter',  'latex','fontsize',13);
+leg = legend('8','','', '9','','', '11','interpreter',  'latex','fontsize',14,'Location','northwest');
+title(leg,'Solution', 'interpreter',  'latex','fontsize',14);
 
 %-----relative permittivitiy
 
@@ -64,16 +65,17 @@ for k = 1:size(permittivity1,2)
        f1 = semilogy(F, permittivity1(:,k), '-', 'LineWidth', 1.5);
        f2 = semilogy(F, permittivity2(:,k), '--', 'LineWidth', 1.5);
        f3 = semilogy(F, permittivity3(:,k), ':', 'LineWidth', 1.5);
-       f1.Color = colors(k);
-       f2.Color = colors(k);
-       f3.Color = colors(k);
+       f1.Color = colorshex(k);
+       f2.Color = colorshex(k);
+       f3.Color = colorshex(k);
     end       
 end
 hold off
+box on
 
-leg = legend('8','','', '9','','', '11', 'interpreter',  'latex','fontsize',13);
-title(leg, 'Solution', 'interpreter',  'latex','fontsize',13);
+leg = legend('8','','', '9','','', '11', 'interpreter',  'latex','fontsize',14);
+title(leg, 'Solution', 'interpreter',  'latex','fontsize',14);
 
-title("Multi day measurement", 'interpreter',  'latex','fontsize',17);
-xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',17);
-ylabel("Permittivity [F/m]", 'interpreter',  'latex','fontsize',17);
+title("Multi day measurement", 'interpreter',  'latex','fontsize',18);
+xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',18);
+ylabel("Permittivity [F/m]", 'interpreter',  'latex','fontsize',18);

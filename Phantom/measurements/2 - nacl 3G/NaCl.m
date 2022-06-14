@@ -5,7 +5,7 @@ T = 0.008;
 e0 =  8.854187817*10.^(-12); % matlab constant
 C0 = (A*e0)/T;
 
-F = dataa1000mgn0gd1w0(:,2); %Frequency
+F = dataa3000mgn1000mg(:,2); %Frequency
 colorshex = ["#0300a6","#fa7029","#00d999","#84f0e1","#c8c942","#a700cf","#fa7029","#ebed5c","#75ffad","#0300a6","#00d999"];
 
 % tudelft-sea-green = (117, 255, 173)
@@ -19,7 +19,7 @@ colorshex = ["#0300a6","#fa7029","#00d999","#84f0e1","#c8c942","#a700cf","#fa702
 % tudelft-fuchsia = (167, 0, 207)
 
 %-----conductivity
-Reals = [dataa1000mgn0gd1w0(:,3) dataa1400mgn0gd1w0(:,3) dataa1800mgn0gd1w0(:,3) dataa2200mgn0gd1w0(:,3) dataa2600mgn0gd1w0(:,3) dataa3000mgn0gd1w0(:,3)];
+Reals = [dataa3000mgn500mg(:,3) dataa3000mgn750mg(:,3) dataa3000mgn1000mg(:,3) dataa3000mgn1250mg(:,3) dataa3000mgn1500mg(:,3) dataa3000mgn1750mg(:,3)];
 
 conductivity_d1 = (Reals .^(-1)) * (T/A);
 
@@ -37,12 +37,12 @@ title("Parallel plate capacitor measurements", 'interpreter',  'latex','fontsize
 xlabel("Frequency [Hz]", 'interpreter',  'latex','fontsize',18)
 ylabel("Conductivity [S/m]", 'interpreter',  'latex','fontsize',18);
 
-leg = legend('1','2','3','4','5','6','interpreter',  'latex','fontsize',14);
+leg = legend('7','8','9', '10','11','12','interpreter',  'latex','fontsize',14,'Location','northwest');
 title(leg,'Solution', 'interpreter',  'latex','fontsize',14);
 
 %-----relative permittivitiy
 
-Imags = [dataa1000mgn0gd1w0(:,4) dataa1400mgn0gd1w0(:,4) dataa1800mgn0gd1w0(:,4) dataa2200mgn0gd1w0(:,4) dataa2600mgn0gd1w0(:,4) dataa3000mgn0gd1w0(:,4)];
+Imags = [dataa3000mgn500mg(:,4) dataa3000mgn750mg(:,4) dataa3000mgn1000mg(:,4) dataa3000mgn1250mg(:,4) dataa3000mgn1500mg(:,4) dataa3000mgn1750mg(:,4)];
 
 F_part = (F .^-1) * (1/(2*pi));
 
@@ -69,7 +69,7 @@ end
 hold off
 box on
 
-leg = legend('1','2','3','4','5','6', 'interpreter',  'latex','fontsize',14);
+leg = legend('7','8','9', '10','11','12', 'interpreter',  'latex','fontsize',14);
 title(leg, 'Solution', 'interpreter',  'latex','fontsize',14);
 
 title("Parallel plate capacitor measurements", 'interpreter',  'latex','fontsize',18);

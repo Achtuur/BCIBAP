@@ -5,7 +5,7 @@ def combine_data_and_labels(data_intervals: list, labels: list):
     if len(data_intervals) != len(labels):
         raise ValueError('Amount of labels does not match amount of data intervals')
     
-    return tuple(zip(data_intervals, labels))
+    return list(zip(data_intervals, labels))
 
 if __name__ == '__main__':
     data = [i for i in range(10)]

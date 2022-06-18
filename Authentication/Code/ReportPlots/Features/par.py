@@ -62,18 +62,20 @@ if __name__ == '__main__':
         left += 1
         right += 1
         indexes.append(left+1)
-        _, par = get_par_per_channel(data_to_analyse, (left, right))
+        par = get_par_per_channel(data_to_analyse, (left, right))
         pars.append(par)
 
 
     fig, ax = plt.subplots()
 
     line, = ax.plot(f, y_fft, label="FFT of EEG signal")
-    ax.set_xlabel('Frequency [Hz]')
-    ax.set_ylabel('Amplitude [μV]')
+    ax.set_xlabel('Frequency [Hz]', fontsize=12)
+    ax.set_ylabel('Amplitude [$\mu V$]', fontsize=12)
     ax2 = ax.twinx()
     line2, = ax2.plot(indexes, pars, color='orange', label="PAR of EEG signal")
-    ax2.set_ylabel('Peak-Average-Ratio')
+    ax2.set_ylabel('Peak-Average-Ratio', fontsize=12)
+    
     ax.legend(handles=[line, line2])
-    plt.title('PAR compared to FFT plot of EEG signal')
-    plt.show(block=True)
+    plt.title('PAR compared to FFT plot of EEG signal', fontsize=12)
+    # plt.show(block=True)
+    plt.savefig('par_to_eeg_ratio.png', dpi=400)

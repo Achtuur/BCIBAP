@@ -48,10 +48,13 @@ if __name__ == '__main__':
     data_cropped = [x for x in data_cropped if x is not None]
     data_to_analyse = np.concatenate(data_cropped)
 
+    # data_pw_words = data_to_analyse[:20*250,:]
+    # data_words = data_to_analyse[20*250:,:]
+
     data_pw_words = np.append(data_pw_words, data_to_analyse[:20*250,:], axis=0)
     data_words = np.append(data_words, data_to_analyse[20*250:,:], axis=0)
 
-    # Initialise exp 3 
+    # # Initialise exp 3 
     data = np.load(Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo2_1s_take3.npy'))
     data_filtered = PreprocessingPipeline(data).start()
     data_cropped = crop(data_filtered, 1, 250)
@@ -59,78 +62,116 @@ if __name__ == '__main__':
     data_cropped = [x for x in data_cropped if x is not None]
     data_to_analyse = np.concatenate(data_cropped)
 
+    # data_pw_words = data_to_analyse[:20*250,:]
+    # data_words = data_to_analyse[20*250:,:]
 
     data_pw_words = np.append(data_pw_words, data_to_analyse[:20*250,:], axis=0)
     data_words = np.append(data_words, data_to_analyse[20*250:,:], axis=0)
 
+    # # Initialise exp 4
+    # data = np.load(Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take2.npy'))
+    # data_filtered = PreprocessingPipeline(data).start()
+    # data_cropped = crop(data_filtered, 1, 250)
+    # data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
+    # data_cropped = [x for x in data_cropped if x is not None]
+    # data_to_analyse = np.concatenate(data_cropped)
+
+    # data_pw_words = np.append(data_pw_words, data_to_analyse[:20*250,:], axis=0)
+    # data_words = np.append(data_words, data_to_analyse[20*250:,:], axis=0)
+
+    # # Initialise exp 5
+    # data = np.load(Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take3.npy'))
+    # data_filtered = PreprocessingPipeline(data).start()
+    # data_cropped = crop(data_filtered, 1, 250)
+    # data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
+    # data_cropped = [x for x in data_cropped if x is not None]
+    # data_to_analyse = np.concatenate(data_cropped)
+
+    # data_pw_words = np.append(data_pw_words, data_to_analyse[:20*250,:], axis=0)
+    # data_words = np.append(data_words, data_to_analyse[20*250:,:], axis=0)
+
+    # # Initialise exp 6
+    # data = np.load(Path('../../Data/ExperimentResults/recorded_data/recordings_numpy/Sam/OpenBCISession_Sam_pw_7juni_take4.npy'))
+    # data_filtered = PreprocessingPipeline(data).start()
+    # data_cropped = crop(data_filtered, 1, 250)
+    # data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
+    # data_cropped = [x for x in data_cropped if x is not None]
+    # data_to_analyse = np.concatenate(data_cropped)
+
+    # data_pw_words = np.append(data_pw_words, data_to_analyse[:20*250,:], axis=0)
+    # data_words = np.append(data_words, data_to_analyse[20*250:,:], axis=0)
+
     # These intervals can be devided by 60
-    intervals = [x for x in range(1,61) if 60 % x == 0]
+    intervals = [x for x in range(1,6)]
 
     results = {
         '1' : 0,
         '2' : 0,
         '3' : 0,
         '4' : 0,
-        '5' : 0,
-        '6' : 0,
-        '10' : 0,
-        '12' : 0,
-        '15' : 0,
-        '20' : 0,
-        '30' : 0,
-        '60' : 0
+        '5' : 0
     }
     for interval in intervals:
         ratios = []
 
         data_words_list = crop(data_words, interval, 250)
-        
-        temp_words_list = []
-        for word_data_point in data_words_list:
-            word_data = np.array([])
-            for i in range(interval):
-                try:
-                    word_data = np.append(word_data, word_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:], axis=0)
-                except:
-                    word_data = word_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:]
-            temp_words_list.append(word_data)
-        data_words_list = temp_words_list
+        random.shuffle(data_words_list)
+        # temp_words_list = []
+        # for word_data_point in data_words_list:
+        #     word_data = np.array([])
+        #     for i in range(interval):
+        #         try:
+        #             word_data = np.append(word_data, word_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:], axis=0)
+        #         except:
+        #             word_data = word_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:]
+        #     temp_words_list.append(word_data)
+        # data_words_list = temp_words_list
         
         data_pw_list = crop(data_pw_words, interval, 250)
         random.shuffle(data_pw_list) 
 
         # This loop accounts for the specific time period
         for pw_data_point in data_pw_list:
-            data = np.array([])
-            for i in range(interval):
-                try:
-                    data = np.append(data, pw_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:], axis=0)
-                except:
-                    data = pw_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:]
-            ratios.append(left_hemisphere_difference_ratio(data, data_words_list, (25,35)))
-            # ratios.append(left_hemisphere_difference_ratio(pw_data_point, data_words_list, (25,35)))
+            # data = np.array([])
+            # for i in range(interval):
+            #     try:
+            #         data = np.append(data, pw_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:], axis=0)
+            #     except:
+            #         data = pw_data_point[i*250 + int(0.2*250):i*250 + int(0.65 * 250) ,:]
+            # ratios.append(left_hemisphere_difference_ratio(data, data_words_list, (25,35)))
+            ratios.append(left_hemisphere_difference_ratio(pw_data_point, data_words_list, (25,35)))
 
         total = len(ratios)
         score = 0
         for ratio in ratios:
             if ratio <= 1:
                 score += 1
+
+        ratios_low = []
+        for data_word_point in data_words_list:
+            ratios_low.append(left_hemisphere_difference_ratio(data_word_point, data_pw_list, (25,35)))
+
+        total += len(ratios_low)
+        for ratio_low in ratios_low:
+            if ratio_low >= 1:
+                score += 1
+
         results[str(interval)] = score/total
 
-    values = [100*x for x in results.values()]
-    X = [x for x in range(0, 12)]
-    p = np.polyfit(X, values, 2)
+    # values = [100*x for x in results.values()]
+    # X = [x for x in range(0, 12)]
+    # p = np.polyfit(X, values, 2)
+    print(f'1: {results["1"]}, 2: {results["2"]},3: {results["3"]}, 4: {results["4"]}, 5: {results["5"]}')
 
-
-    plt.bar(results.keys() ,[100*x for x in results.values()], label="Feature prediction score")
-    plt.title('Prediction score for different measurement intervals', fontsize=16)
-    plt.xlabel('Measurement Interval [s]', fontsize=16)
-    plt.ylabel('Score [%]', fontsize=16)
-    plt.plot(X, np.multiply(p[0], np.power(X, 2)) + np.multiply(p[1], X) + p[2], color="orange", label="Fit  of the score values")
-    plt.legend(fontsize=16)
-    # plt.show(block=True)
-    # plt.figure(figsize=(40,20))
-    plt.savefig('left_hemisphere_difference_cropped.jpg', dpi=200)
+    # plt.bar(results.keys() ,[100*x for x in results.values()], label="Feature prediction score")
+    # plt.title('Prediction score for different measurement intervals', fontsize=16)
+    # plt.xlabel('Measurement Interval [s]', fontsize=16)
+    # plt.ylabel('Score [%]', fontsize=16)
+    # # plt.plot(X, np.multiply(p[0], np.power(X, 2)) + np.multiply(p[1], X) + p[2], color="orange", label="Fit  of the score values")
+    # plt.legend(fontsize=16)
+    # # plt.show(block=True)
+    # # plt.figure(figsize=(40,20))
+    # plt.savefig('left_hemisphere_difference_cropped.jpg', dpi=200)
 
 
 # data_words = data_to_analyse[:20*250,:]

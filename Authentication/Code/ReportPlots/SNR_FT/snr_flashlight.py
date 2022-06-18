@@ -51,24 +51,34 @@ if __name__ == "__main__":
         # f = rfftfreq(data_to_analyse.shape[0], 1/250)
 
         power = get_frequency_power_per_channel(data_to_analyse[:,6], (5,7), 250)
-        db = 20*np.log10(power)
-        powers_db.append(db)
+        # db = 20*np.log10(power)
+        powers_db.append(power)
 
         par = get_par_per_channel(data_to_analyse[:,6], (5,7))
-        pars.append(20*np.log10(par))
+        pars.append(2*np.log10(par))
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(14,7.5))
 
-    line = ax.scatter(list(range(2,50)), powers_db, label="Frequency Power")
-    ax.set_xlabel('Duration [s]')
-    ax.set_ylabel('Frequency power [dB]')
+    X = list(range(2,50))
+    p = np.polyfit(list(range(2,50)), powers_db,2)
+    p1 = np.polyfit(list(range(2,50)), pars,2)
+
+
+    ax.scatter(list(range(2,50)), powers_db, label="Frequency Power", s=30)
+    # plt.tick_params(labelsize=10)
+    ax.plot(X, np.multiply(p[0], np.power(X,2)) + np.multiply(p[1], X) + p[2], label="Fit of Frequency Power")
+    ax.set_xlabel('Tagging Duration [s]', fontsize = 16)
+    ax.set_ylabel('Frequency power [$\mu V^2$]', fontsize=16)
     ax2 = ax.twinx()
-    line2, = ax2.plot(list(range(2,50)), pars, color='orange', label="PAR of EEG signal")
-    ax2.set_ylabel('Peak-Average-Ratio')
-    ax.legend(handles=[line, line2])
-    plt.xticks(durations)
-    plt.title('PAR compared to Frequency power of EEG signal')
-    plt.show(block=True)
+    line2 = ax2.scatter(list(range(2,50)), pars, color='orange', label="PAR of EEG signal", s=20)
+    ax2.plot(X, np.multiply(p1[0], np.power(X,2)) + np.multiply(p1[1], X) + p1[2], color="orange")
+    ax2.set_ylabel('Peak-Average-Ratio [dB]', fontsize=16)
+    ax.legend(fontsize=15, bbox_to_anchor=(1.1,1.13))
+    plt.xticks([1,5,10,15,20,25,30,35,40,45,50], ['50', '45', '40', '35', '30', '25', '20', '15', '10', '5', '1'])
+    plt.title('PAR compared to Frequency power between [14-16 Hz]', fontsize=15)
+    
+    # plt.show(block=True)
+    plt.savefig('par_vs_freq_power.png', dpi=400)
 
     # print(pars)
 

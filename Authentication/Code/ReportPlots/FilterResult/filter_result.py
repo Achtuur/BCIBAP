@@ -20,7 +20,7 @@ else:
 from PreprocessingPipeline import PreprocessingPipeline
 from Filters import Filter
 from Visualize import DataPlot
-from prepare_data import crop
+from crop import crop
 
 def get_fft(data: np.ndarray, title: str):
     fig, axs = plt.subplots(data.shape[1])

@@ -1,5 +1,6 @@
 import sys
 import platform
+from matplotlib import style
 import numpy as np
 import csv
 import matplotlib.pyplot as plt
@@ -37,7 +38,7 @@ def get_boundary_indexes(frequencies):
     return start, end
 
 if __name__ == "__main__":
-    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_cyril_15hz-60sec.npy')
+    data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_sam_6hz-60sec.npy')
     data_filtered = PreprocessingPipeline(data).start()
     data_cropped = crop(data_filtered, 1, 250)
     data_cropped = list(map(lambda x: Filter.remove_bad_channels(x), data_cropped))
@@ -48,12 +49,16 @@ if __name__ == "__main__":
     f = rfftfreq(data_artifacts_removed.shape[0], 1/250)
 
     start, end = get_boundary_indexes(f)
-    plt.plot(f, y_fft)
+    plt.plot(f, y_fft, label="Fourier Transform of EEG signal")
     plt.xlim([0,40])
-    plt.title('Frequency spectrum of EEG data during frequency tagging experiment.')
-    plt.xlabel('Frequency [Hz]')
-    plt.ylabel('Amplitude [μV]')
-    plt.show(block=True)
+    plt.title('Frequency spectrum of EEG data tagged at 6 Hz', fontsize=11)
+    plt.xlabel('Frequency [Hz]', fontsize=12)
+    plt.ylabel('Amplitude [μV]', fontsize=12)
+    plt.axvline(x=5, color='orange', linestyle="--")
+    plt.axvline(x=7, color='orange', linestyle='--')
+    plt.legend(fontsize=11)
+    # plt.show(block=True)
+    plt.savefig('ReportPlots/flashlight_6hz.png', dpi=400)
     
     # data = np.load('Data/ExperimentResults/recorded_data/recordings_numpy/sample/cyril_mind.npy')
     # data = np.load('./Data/ExperimentResults/recorded_data/recordings_numpy/Mirthe/OpenBCISession_Mirthe_exp_cyril_15hz-60sec.npy')

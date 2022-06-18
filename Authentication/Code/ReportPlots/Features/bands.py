@@ -82,28 +82,36 @@ if __name__ == '__main__':
 
     # task 1
     plt.bar(['Theta', 'Alpha', 'Beta', 'Gamma'], list(power_task_1.values())[1:], color=('#1f77b4', 'green', '#1f77b4', '#1f77b4'))
-    plt.xlabel('Frequency bands')
-    plt.ylabel('Power [μV^2]')
-    plt.title('Band powers during 1st task period')
-    plt.show(block=True)
+    plt.ylim([0, 1.3e7])
+    plt.xlabel('Frequency bands', fontsize=13)
+    plt.ylabel('Power [$\mu V^2$]', fontsize=13)
+    plt.title('Band powers during 1st task period', fontsize=12)
+    plt.savefig('bp1.png', dpi=400)
+    # plt.show(block=True)
     
-    # rest 1
+    # # rest 1
     plt.bar(['Theta', 'Alpha', 'Beta', 'Gamma'], list(power_rest_1.values())[1:], color=('#1f77b4', 'green', '#1f77b4', '#1f77b4'))
-    plt.xlabel('Frequency bands')
-    plt.ylabel('Power [μV^2]')
-    plt.title('Band powers during 1st rest period')
-    plt.show(block=True)
+    plt.ylim([0, 1.3e7])
+    plt.xlabel('Frequency bands', fontsize=12)
+    plt.ylabel('Power [$\mu V^2$]', fontsize=12)
+    plt.title('Band powers during 1st rest period', fontsize=12)
+    plt.savefig('bp2.png', dpi=400)
+    # plt.show(block=True)
 
-    # task 2 
+    # # task 2 
     plt.bar(['Theta', 'Alpha', 'Beta', 'Gamma'], list(power_task_2.values())[1:], color=('#1f77b4', 'green', '#1f77b4', '#1f77b4'))
-    plt.xlabel('Frequency bands')
-    plt.ylabel('Power [μV^2]')
-    plt.title('Band powers during 2nd task period')
-    plt.show(block=True)
+    plt.ylim([0, 1.3e7])
+    plt.xlabel('Frequency bands', fontsize=12)
+    plt.ylabel('Power [$\mu V^2$]', fontsize=12)
+    plt.title('Band powers during 2nd task period', fontsize=12)
+    # plt.show(block=True)
+    plt.savefig('bp3.png', dpi=400)
 
-    # rest 2 
+    # # rest 2 
     plt.bar(['Theta', 'Alpha', 'Beta', 'Gamma'], list(power_rest_2.values())[1:], color=('#1f77b4', 'green', '#1f77b4', '#1f77b4'))
-    plt.xlabel('Frequency bands')
-    plt.ylabel('Power [μV^2]')
-    plt.title('Band powers during 2nd rest period')
-    plt.show(block=True)
+    plt.ylim([0, 1.3e7])
+    plt.xlabel('Frequency bands', fontsize=12)
+    plt.ylabel('Power [$\mu V^2$]', fontsize=12)
+    plt.title('Band powers during 2st rest period', fontsize=12)
+    # plt.show(block=True)
+    plt.savefig('bp4.png', dpi=400)

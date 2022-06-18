@@ -1,0 +1,14 @@
+Introduce yourself
+Introduce the subject in general
+Introduce your subgroup
+Are we supposed to expect they have read the report? Don't make huge assumptions.
+Did we see the rubric? Look at the rubric! Tailor well to that
+How to implement PoR in presentation? Sketch ideal goal/situation. In order to do that, we need to have this and this metric, break into different things. To make the end product: phantom, we need to make it measurable: develop a capacitor, we need specs to make it precisely measurable: such and such permittivity. 
+E.g. stim: we want to stimulate, we need this and this current.
+E.g. Authentication: we want to authenticate, we need to do this in 5 seconds max, because otherwise it's impractical, so no gain.
+At results go back to PoR. (Ideally al green ticks next to it, if red, EXPLAIN WHY, this and this was the problem. It is about the process!
+
+Deionized water has been stolen from phantom group. 
+
+If you read the thesis, can you give us some focal points for the presentation. Dante will put on slack a few notes. 
+Give example of artifact in presentation: show an artifact and its characteristics(lasts for ... seconds, higher amplitude, etc.), we replace with average of other channels, that is a proxy for what signal should be, proposed in this paper, and here's end result.

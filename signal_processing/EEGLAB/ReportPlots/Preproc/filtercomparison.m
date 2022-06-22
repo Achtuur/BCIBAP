@@ -18,7 +18,7 @@ locutoff = 0;
 hicutoff = 30;
 [lowpass_filtered_data, lowpass_unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
                                                     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
-locutoff = 0.25;
+locutoff = 0.5;
 [bandpass_filtered_data, bandpass_unfiltered_data] = LoadnFilter(path2edf, 'channellist', ChannelsOut, 'ASR', 0, ...
                                                     'locutoff', locutoff, 'hicutoff', hicutoff, 'forder', 30);
 

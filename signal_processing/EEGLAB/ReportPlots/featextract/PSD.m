@@ -1,6 +1,6 @@
 function PSD(locutoff, hicutoff, dwnsample, forder)
 if ~exist('locutoff', 'var') %snippet in order to run this file separately
-    locutoff = 0.5;
+    locutoff = 0;
     hicutoff = 30;
     dwnsample = 2;
     forder = 30;
@@ -57,7 +57,7 @@ ax(1) = plot(fWelch,10*log10(psdWelch));
 title('Welch PSD','interpreter' ,'latex','fontsize', 18,'FontWeight','bold')
 legend('PSD estimate', 'interpreter', 'latex', 'fontsize', 8);
 xlim([0 Fs/dwnsample]) 
-ylim([-80 20]);
+ylim([-80 25]);
 axis = gca;
 axis.TickLabelInterpreter = 'latex';
 axis.FontSize = 14;
@@ -68,7 +68,7 @@ ax(2) = plot(fPerio,10*log10(psdPerio));
 title('Periodogram PSD','interpreter', 'latex','fontsize', 18,'fontweight','bold')
 legend('PSD estimate', 'interpreter', 'latex', 'fontsize', 8);
 xlim([0 Fs/dwnsample])
-ylim([-80 20]);
+ylim([-80 25]);
 axis = gca;
 axis.TickLabelInterpreter = 'latex';
 axis.FontSize = 14;

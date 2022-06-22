@@ -69,6 +69,9 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
     %% plot
 
     fig = figure();
+    axis = gca;
+    axis.TickLabelInterpreter = 'latex';
+    axis.FontSize = 14;
     hold on;
     ax(1) = plot(t, yunfil);
     ax(2) = plot(t, yfil);
@@ -77,9 +80,9 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
     hold off;
     
     if ASR
-       leg = {'Unfiltered data', 'filtered data and performed ASR', 'No seizure', 'Seizure'};
+       leg = {'Unfiltered data', 'Filtered data and performed ASR', 'No seizure', 'Seizure'};
     else
-       leg = {'Unfiltered data', "filtered data", 'No seizure', 'Seizure'};
+       leg = {'Unfiltered data', "Filtered data", 'No seizure', 'Seizure'};
     end
     
     plotline(ax, [1 1 3 3]);

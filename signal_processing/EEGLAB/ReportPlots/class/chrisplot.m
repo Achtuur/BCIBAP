@@ -19,6 +19,8 @@ plottext(ax, 'Min objective vs Number of function evaluations',...
 figsize(fig, 'o');
 axis = gca;
 axis.YAxisLocation = 'left';
+
+%% save image
 location = GetPath2Images(mfilename);
 extension = "eps";
 SaveImage(fig, location, 'loss1', extension);

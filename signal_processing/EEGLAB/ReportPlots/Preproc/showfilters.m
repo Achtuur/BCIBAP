@@ -74,7 +74,7 @@ br = 25;
 plotcolor(ax(1), 'green', 'brightness', br);
 plotcolor(ax(2), 'red', 'brightness', br);
 plotcolor(ax(3:5), 'purple', 'colordiff', 0, 'brightness', 25);
-plottext(ax, sprintf("Magnitude reponses of filters (order = $%d$)", forder),...
+plottext(ax, sprintf("Magnitude responses of filters (order = $%d$)", forder),...
     { 'Lowpass filter', 'Bandpass filter', '$-6$ dB cutoffs'}, 'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 12, 'legendloc', 'best');
 figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
 

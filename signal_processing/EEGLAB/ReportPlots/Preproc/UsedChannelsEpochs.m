@@ -53,13 +53,21 @@ t_epoch = EpochDurationSeconds : EpochDurationSeconds : t(end)-1;
 
 %% plot
 fig = figure();
+axis = gca;
+axis.TickLabelInterpreter = 'latex';
+axis.FontSize = 14;
 figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
 
 plotnChannels = 4;
 plotnChannels = min(max(plotnChannels, 1), 9); %force 0 < nChannels < 10
+n = [1 2 4 5];
+noseiz_filepoch = noseiz_filepoch(n, :);
+seiz_filepoch = seiz_filepoch(n, :);
+seiz_unfilepoch = seiz_unfilepoch(n, :);
+noseiz_unfilepoch = noseiz_unfilepoch(n, :);
 
 tiles = tiledlayout(plotnChannels, 2);
-ChannelString = ChannelsOut.label;
+ChannelString = ChannelsOut.label(n);
 
 colororder({'black','black'}) %make both y labels black
 for k = 1:2*plotnChannels

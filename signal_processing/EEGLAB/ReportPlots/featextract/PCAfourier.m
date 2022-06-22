@@ -18,6 +18,13 @@ features = NormalizeFeat(features);
 uplim = 95;
 [features_outFourier, iFourier,explainedFourier, latentFourier] = FeatSelectionPCA(features, uplim);
 [features_outWavelet, iWavelet,explainedWavelet, latentWavelet] = FeatSelectionPCA(featuresWavelet, uplim);
+iFourier
+iWavelet
+uplim = 99;
+[features_outFourier, iFourier,explainedFourier, latentFourier] = FeatSelectionPCA(features, uplim);
+[features_outWavelet, iWavelet,explainedWavelet, latentWavelet] = FeatSelectionPCA(featuresWavelet, uplim);
+iFourier
+iWavelet
 
 % trick to make it seem like they start at 0
 explainedWavelet = [-99; explainedWavelet];

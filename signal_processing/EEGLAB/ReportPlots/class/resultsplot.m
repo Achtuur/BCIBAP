@@ -1,19 +1,25 @@
-%% 1 channel with 99% PCA where applicable
-clc; clear; close all;
+function resultsplot(AorS, PCAlvl)
+if ~exist('AorS', 'var')
+    AorS = 1;
+    PCAlvl = 3;
+end
+% clc; clear; close all;
 s = strrep(mfilename('fullpath'), mfilename, ''); %get path to file this script is run in
 NN = load(s + "\data\NN.mat");
 SVM = load(s + "\data\SVM.mat");
 RF = load(s + "\data\RF.mat");
 
-PCAlvl = [5 6];
+PCAc = [1 2; 3 4; 5 6];
 
-RF9_FT = RF.RF9_FT;
-RF9_wav = RF.RF9_wav;
+% PCAlvl = 3;
+
+RF9_FT = RF.RF9_FT(:, PCAc(PCAlvl, :));
+RF9_wav = RF.RF9_wav(:, PCAc(PCAlvl, :));
 % RF9_both =RF.RF9_both;
-SVM9_wav = SVM.SVM9_wav(:, PCAlvl);
-SVM9_FT = SVM.SVM9_FT(:, PCAlvl);
-NN9_wav = NN.NN9_wav(:, PCAlvl);
-NN9_FT = NN.NN9_FT(:, PCAlvl);
+SVM9_wav = SVM.SVM9_wav(:, PCAc(PCAlvl, :));
+SVM9_FT = SVM.SVM9_FT(:, PCAc(PCAlvl, :));
+NN9_wav = NN.NN9_wav(:, PCAc(PCAlvl, :));
+NN9_FT = NN.NN9_FT(:, PCAc(PCAlvl, :));
 
 nRF = 2;
 nSVM = 2;
@@ -22,16 +28,30 @@ N = nRF + nSVM + nNN;
 
 x = ones(9, N) .* (0:N-1);
 
-AorS = 2; %Set this var to 1 to plot accuracy, 2 to plot sensitivity
+% AorS = 2; %Set this var to 1 to plot accuracy, 2 to plot sensitivity
 
 if AorS == 1
-    tit = ["Comparison of best accuracy results for", "different ML models and features"];
+    tit = ["Comparison of accuracy results for", "different ML models and features"];
     ylab = "Accuracy in \%";
+    fname = "accuracy";
 else
     AorS = 2; %ensure it is 2
-    tit = ["Comparison of best sensitivity results for", "different ML models and features"];
+    tit = ["Comparison of sensitivity results for", "different ML models and features"];
     ylab = "Sensitivity in \%";
+    fname = "sensitivity";
 end
+
+if PCAlvl == 1 % no pca
+    tit(2) = tit(2) + " using no PCA";
+    fname = fname + mfilename + "0pca";
+elseif PCAlvl == 2 % 95 pca
+    tit(2) = tit(2) + " using PCA with a 95\% threshold";
+    fname = fname + mfilename + "95pca";
+elseif PCAlvl == 3 % 99 pca
+    tit(2) = tit(2) + " using PCA with a 99\% threshold";
+    fname = fname + mfilename + "99pca";
+end
+
 
 n = 1:9;
 n(5) = []; %exclude patient 6
@@ -107,4 +127,5 @@ xticklabels(["Random Forest", "SVM", "Neural Network"]);
 %% Save image
 location = GetPath2Images(mfilename);
 extension = "eps";
-SaveImage(fig, location, mfilename, extension);
+SaveImage(fig, location, fname, extension);
+end

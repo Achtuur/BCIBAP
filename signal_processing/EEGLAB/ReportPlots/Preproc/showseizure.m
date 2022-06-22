@@ -91,8 +91,8 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
     plotcolor(ax(3), 'purple');
     plotcolor(ax(4), 'orange');
     plottext(ax, 'EEG data including an epileptic seizure', leg, ...
-        'Time [$s$]', 'Voltage [$\mu V$]', 'fontsize', 10, 'legendloc', 'northeast');
-    figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
+        'Time [$s$]', 'Voltage [$\mu V$]', 'fontsize', 12, 'legendloc', 'northeast');
+    figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
 
     perclim = 0.05; %percentage of limit that is taken extra/reduced
     ylim([-abs(seizline) abs(seizline)] * (1 + perclim))
@@ -105,7 +105,7 @@ function showSeizure2(ASR, forder, locutoff, hicutoff, dwnsample)
         fname = mfilename + "noASR";
     end
     location = GetPath2Images(mfilename);
-    extension = "eps";
+    extension = "png";
     SaveImage(fig, location, fname, extension);
 %     close all;
 end

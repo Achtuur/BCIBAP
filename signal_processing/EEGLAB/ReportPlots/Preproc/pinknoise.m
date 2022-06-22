@@ -75,7 +75,7 @@ arr = drawArrow(fig, arrowX, arrowY, 'String', 'Powerline noise');
 hold off;
 arr.HorizontalAlignment = 'center';
 set(gca, 'XScale', 'log')
-xlim([10^-3, 105]);
+xlim([5*10^-3, 105]);
 plotline(ax(1:3), [1 1 2]);
 plotline(arr, 1, 'HeadSize', 100);
 br = 25;
@@ -93,12 +93,12 @@ fildata_legend = "Pre-processed data";
 
 plottext(ax, 'PSD of piece of (relatively clean) EEG data',...
     {'Unfiltered data', fildata_legend, sprintf("Pink noise ($%d/f$)", c)}, ...
-    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 10, 'legendloc', 'northeast');
-figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
+    'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 12, 'legendloc', 'northeast');
+figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
 
 
 %% Save image
 location = GetPath2Images(mfilename);
-extension = "eps";
+extension = "png";
 SaveImage(fig, location, mfilename, extension);
 % close all;

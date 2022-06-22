@@ -25,24 +25,32 @@ else
         }, 'plotcolor');
 end
 
+colorsets = [
+             58 153 95;    %green
+             144 103 167;   %purple
+             211 95 96;     %red
+             39, 84, 138;   %blue
+             201, 149, 71;  %orange
+             199, 194, 103; %yellow
+             140, 79, 104;   %pink
+             70, 122, 120;  %cyan
+             110, 187, 213; %tudelft
+             0 0 0;          %black
+             255, 255, 255  %white
+             ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
+    %clr = zeros(length(axis), 3);
+
 if(~isnumeric(colorset)) %if string as input
-   colorset = str2colorset(colorset); 
+   colorset = str2colorset(colorset);
 end
 
-colorsets = [
-         58 153 95;    %green
-         144 103 167;   %purple
-         211 95 96;     %red
-         39, 84, 138;   %blue
-         201, 149, 71;  %orange
-         199, 194, 103; %yellow
-         140, 79, 104;   %pink
-         70, 122, 120;  %cyan
-         110, 187, 213; %tudelft
-         0 0 0          %black
-         ]/255; %every row is a color, with the for loop below adding up to 7 lighter shades
-%clr = zeros(length(axis), 3);
-color = colorsets(colorset, :);
+if length(colorset) == 3 && inumeric(colorset)
+    color = colorset;
+else
+    color = colorsets(colorset, :);
+end
+
+
 
 if isempty(axis) %no axis input => just return color
     color = clamp(color + g.brightness/255, 0, 1);
@@ -93,6 +101,8 @@ function n = str2colorset(str)
         n = 9;
     elseif(strcmp(str, 'black'))
         n = 10;
+    elseif(strcmp(str, 'white'))
+        n = 11;
     end
 end
 

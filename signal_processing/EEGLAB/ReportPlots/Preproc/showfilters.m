@@ -76,13 +76,13 @@ plotcolor(ax(2), 'red', 'brightness', br);
 plotcolor(ax(3:5), 'purple', 'colordiff', 0, 'brightness', 25);
 plottext(ax, sprintf("Magnitude responses of filters (order = $%d$)", forder),...
     { 'Lowpass filter', 'Bandpass filter', '$-6$ dB cutoffs'}, 'Frequency [Hz]', 'Amplitude [dB]', 'fontsize', 12, 'legendloc', 'best');
-figsize(fig, 'o'); %try 's', 'm', 'b', 'o'/'r'
+figsize(fig, 's'); %try 's', 'm', 'b', 'o'/'r'
 
 
 ylim([-90 40]);
 xlim([0 75]);
 %% Save image
 location = GetPath2Images(mfilename);
-extension = "eps";
+extension = "png";
 SaveImage(fig, location, mfilename, extension);
 % close all;

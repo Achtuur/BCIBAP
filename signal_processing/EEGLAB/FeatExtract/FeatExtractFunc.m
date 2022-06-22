@@ -28,8 +28,8 @@ TotalFeatureLabels = '';
 %% extracting efatures
 
 % For testing purposes only !!!!
-warning('For testing, only take first channel');
-nChannels = 1;
+% warning('For testing, only take first channel');
+% nChannels = 1;
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
     t = tic;
@@ -151,7 +151,7 @@ fprintf('Labelling features from channel %d...\n', k);
       alpha_beta, 'alpha_beta', theta_alpha, 'theta_alpha', theta_beta, 'theta_beta', ...
     Edelta_theta, 'Edelta_theta', Edelta_alpha, 'Edelta_alpha', Edelta_beta, 'Edelta_beta', ...
      Ealpha_beta, 'Ealpha_beta', Etheta_alpha, 'Etheta_alpha', Etheta_beta, 'Etheta_beta',  ...
-    MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy',stdepoch,'stdepoch');%, ...
+    MNF,'MNF',stdentropy,'stdentropy',minentropy,'minentropy');%,stdepoch,'stdepoch');%, ...
 %    epochs, 'epochs');
 [TotalFeatures, TotalFeatureLabels] = CombineFeatureLabels(TotalFeatures, TotalFeatureLabels, features, labels);
      fprintf("Done extracting features from channel %d, took %.3f seconds\n", k, toc(t));

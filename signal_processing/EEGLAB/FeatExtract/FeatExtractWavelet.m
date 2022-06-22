@@ -21,33 +21,6 @@ L = Fs*EpochLengthSec;
 nEpochs = size(EarDataEpochs{1,1}, 1); % get amount of epochs (assume all entries in eardataepochs have same number of epochs)
 nChannels = size(EarDataEpochs, 1);
                  
-%epochsDec=zeros(2406,384);
-
-
-%% Discrete Wavelet Transform (DWT)
-% figure(1)
-% [c,l]=wavedec(epoch1,5,'db4'); %second argument is level of decomposition and 3rd is vanishing level
-% a4= appcoef(c,l,'db4');
-% [d1,d2,d2,d4,d4]=detcoef(c,l,[1 2 3 4 5]);
-% subplot(6, 1, 1)
-% plot(a4);
-% title('Approximation at Level 5') %0-4Hz
-% subplot(6, 1, 2)
-% plot(d1)
-% title('Detail Coefficients at Level 1');%64-128Hz
-% subplot(6, 1, 3)
-% plot(d2)
-% title('Detail Coefficients at Level 2');%32-64Hz
-% subplot(6, 1, 4)
-% plot(d2)
-% title('Detail Coefficients at Level 3');%16-32Hz
-% subplot(6, 1, 5)
-% plot(d4)
-% title('Detail Coefficients at Level 4');%8-16Hz
-% subplot(6, 1, 6)
-% plot(d4)
-% title('Detail Coefficients at Level 5'); %4-8Hz
-% 
 
 
 %% Discrete Wavelet Packet Transform
@@ -58,8 +31,8 @@ TotalFeatures = {};
 TotalFeatureLabels = '';
 
 % For testing purposes only !!!!
-warning('For testing, only take first channel');
-nChannels = 1;
+% warning('For testing, only take first channel');
+% nChannels = 1;
 
 for k = 1:nChannels
     fprintf('Extracting from channel %d...\n', k);
@@ -191,10 +164,10 @@ for i = 1:nEpochs
     energyAlphaEpochs(i,1)= sum(d3.^2);
     energyBetaEpochs(i,1)= sum(d2.^2);
     
-    entropyDeltaEpochs(i,1)= approximateEntropy(a4);
-    entropyThetaEpochs(i,1) =approximateEntropy(d4);
-    entropyAlphaEpochs(i,1)= approximateEntropy(d3);
-    entropyBetaEpochs(i,1)= approximateEntropy(d2);
+%     entropyDeltaEpochs(i,1)= approximateEntropy(a4);
+%     entropyThetaEpochs(i,1) =approximateEntropy(d4);
+%     entropyAlphaEpochs(i,1)= approximateEntropy(d3);
+%     entropyBetaEpochs(i,1)= approximateEntropy(d2);
     
     powerDeltaEpochs(i,1)= sum(a4.^2)/length(a4);
     powerThetaEpochs(i,1) = sum(d4.^2)/length(d4);
@@ -225,7 +198,7 @@ end
         kurtosisDeltaEpochs, 'kurtosisDelta', kurtosisThetaEpochs, 'kurtosisTheta', kurtosisAlphaEpochs, 'kurtosisAlpha', kurtosisBetaEpochs, 'kurtosisBeta', ...
         skewnessDeltaEpochs, 'skewnessDelta', skewnessThetaEpochs, 'skewnessTheta', skewnessAlphaEpochs, 'skewnessAlpha', skewnessBetaEpochs, 'skewnessBeta', ...
          powerDeltaEpochs, 'powerDelta',  powerThetaEpochs, 'powerTheta', powerAlphaEpochs, 'powerAlpha',  powerBetaEpochs, 'powerBeta',  ...
-       entropyDeltaEpochs, 'entropyDelta', entropyThetaEpochs, 'entropyTheta', entropyAlphaEpochs, 'entropyAlpha',entropyBetaEpochs, 'entropyBeta', ...
+       ...entropyDeltaEpochs, 'entropyDelta', entropyThetaEpochs, 'entropyTheta', entropyAlphaEpochs, 'entropyAlpha',entropyBetaEpochs, 'entropyBeta', ...
         energyDeltaEpochs, 'energyDelta', energyThetaEpochs, 'energyTheta', energyAlphaEpochs, 'energyAlpha',energyBetaEpochs,'energyBeta', ...
         stdDeltaEpochs, 'stdDelta',stdThetaEpochs, 'stdTheta', stdAlphaEpochs, 'stdAlpha',stdBetaEpochs,'stdBeta',...
         meanDeltaEpochs, 'meanDelta',meanThetaEpochs, 'meanTheta', meanAlphaEpochs, 'meanAlpha',meanBetaEpochs,'meanBeta', ...

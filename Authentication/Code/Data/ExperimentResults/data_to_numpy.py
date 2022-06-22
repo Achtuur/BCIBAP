@@ -265,6 +265,38 @@ RECORDINGS_CROP_DICTIONARY = {
         'Joos_exp_pseudo_random_take4' : {
                 'path' : Path("./recorded_data/recordings_numpy/Joos/OpenBCISession_Joos_exp_pseudo_random_take4.npy"),
                 'crop' : (542, 542 + 40*250)
+        },
+        'Simon_long_pseudo_take1' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_Simon_long_pseudo_take1.npy'),
+                'crop' : (1*250, 5*41*250)
+        },
+        'Simon_long_pseudo_take2' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take2.npy'),
+                'crop' : (2*250, 5*42*250)
+        },
+        'Simon_long_pseudo_take3' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take3.npy'),
+                'crop' : (125, 5*40*250 + 125)
+        },
+        'Simon_long_pseudo_take4' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take4.npy'),
+                'crop' : (4*250, 5*44*250)
+        },
+        'Simon_long_pseudo_take5' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take5.npy'),
+                'crop' : (1*250, 5*41*250)
+        },
+        'Simon_long_pseudo_take6' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take6.npy'),
+                'crop' : (1*250, 5*41*250)
+        },
+        'Simon_long_pseudo_take7' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take7.npy'),
+                'crop' : (1*250, 5*41*250)
+        },
+        'Simon_long_pseudo_take8' : {
+                'path' : Path('./recorded_data/recordings_numpy/Simon/OpenBCISession_simon_long_pseudo_take8.npy'),
+                'crop' : (1*250, 5*41*250)
         }
 
 
